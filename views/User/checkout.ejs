@@ -398,39 +398,43 @@
 
                         <div class="col-lg-6">
 
-                           <% userAddress.Address.forEach((element, index) => { %> 
-                                    <div class="card mb-3 mb-lg-0" style="margin-top: 20px;">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">
-                                                <%= element.type %> ADDRESS
-                                            </h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <input type="radio" name="delivery_address" value="<%= index %>" <%= console.log(index) %> data-address-type="<%= element.type %>" <%= console.log(element.type) %> style="width: 13px;" <%= index === 0 ? 'checked'  : '' %>>
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <address>
-                                                    <%= element.name %><br>
-                                                     <%= element.phone %>,<br>
-                                                    <%= element.pincode %>. <br>
-                                                    <%= element.address %> <br>
-                                                    <p>
-                                                        <%= element.state %>
-                                                    </p>
-                                                </address>
-                                                
-                                            </div>   
-                                            <div>
-                                                <a href="/addressEdit/<%= element._id %>" class="btn btn-sm btn-outline-secondary float-right">Edit</a>
-                                            </div>
-                                        </div>
+                            <% userAddress.Address.forEach((element, index)=> { %>
+                                <div class="card mb-3 mb-lg-0" style="margin-top: 20px;">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                            <%= element.type %> ADDRESS
+                                        </h5>
                                     </div>
+                                    <div class="card-body">
+                                        <input type="radio" name="delivery_address" value="<%= index %>"
+                                            <%=console.log(index) %> data-address-type="<%= element.type %>" <%=
+                                                console.log(element.type) %> style="width: 13px;" <%= index===0
+                                                    ? 'checked' : '' %>>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <address>
+                                                            <%= element.name %><br>
+                                                                <%= element.phone %>,<br>
+                                                                    <%= element.pincode %>. <br>
+                                                                        <%= element.address %> <br>
+                                                                            <p>
+                                                                                <%= element.state %>
+                                                                            </p>
+                                                        </address>
+
+                                                    </div>
+                                                    <div>
+                                                        <a href="/addressEdit/<%= element._id %>"
+                                                            class="btn btn-sm btn-outline-secondary float-right">Edit</a>
+                                                    </div>
+                                    </div>
+                                </div>
                                 <% }) %>
-                                
+
                                     <div class="card mb-3 mb-lg-0" style="margin-top: 20px;">
-                                        <a href="/addAddress"><button type="submit"
+                                       <button 
                                                 class="btn btn-sm btn-outline-secondary float-right"
-                                                style="width: 100%;">Add New
-                                                Address</button></a>
+                                                style="width: 100%;"   data-bs-toggle="modal" data-bs-target="#exampleModal">Add New
+                                                Address</button>
 
 
 
@@ -516,14 +520,14 @@
                                                         <th colspan="2">Product</th>
                                                         <th>Total</th>
                                                     </tr>
-                                                </thead>  
+                                                </thead>
                                                 <tbody>
                                                     <% products.forEach(product=> { %>
                                                         <tr>
                                                             <td class="image product-thumbnail"><img
                                                                     src="/images/<%= product.image %>"
                                                                     alt="<%= product.productId %>"></td>
-                                                                    
+
                                                             <td>
                                                                 <h5><a href="shop-product-full.html">
                                                                         <%= product.title %>
@@ -574,24 +578,106 @@
                                                     <div class="form-group collapse in" id="cashOnDelivery">
 
                                                     </div>
-                                                </div>   
+                                                </div>
                                             </div>
                                         </div>
                                         <a onclick="payment()" class="btn btn-fill-out btn-block mt-30">Place Order</a>
                                     </div>
                                 </div>
-                </div>  
+                </div>
 
-          </div>
+            </div>
             </div>
         </section>
     </main>
+
+     <!-- modal add address -->
+
+     <div class="modal"  id="exampleModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container  align-center">
+                
+                    <div class="row">
+                            <div class="col"  >
+                                <div class="mb-25">
+                                    <h4>Add address</h4>
+                                </div> 
+                                <form action="/addressSave" method="post" onsubmit="return validateForm()">
+                                    <div class="form-group">
+                                        <input type="text" name="name" id="name" placeholder="First name *" >
+                                        <span id="nameError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="phone" id="phone" placeholder="10 digit mobile number *">
+                                        <span id="phoneError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="pincode" id="pincode" placeholder="Pincode">
+                                        <span id="pincodeError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="addressType" id="addressType" class="form-control">
+                                            <option value="">Select Address Type</option>
+                                            <option value="work">work</option>
+                                            <option value="home">home</option>
+                                            <option value="temp">temp</option>
+                                        </select>
+                                        <span id="addressTypeError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="address" id="address" placeholder="Address (Area and Street) *">
+                                        <span id="addressError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="state" id="state" placeholder="State">
+                                        <span id="stateError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="city" id="city" placeholder="City / District / Town *" >
+                                        <span id="cityError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="landmark" id="landmark" placeholder="Landmark*">
+                                        <span id="landmarkError" class="error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="tel" name="alternatePhone" id="alternatePhone" placeholder="Alternate phone option*">
+                                        <span id="alternatePhoneError" class="error"></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button   type="submit" class="btn btn-primary">Save Address</button>
+                                      </div>
+                                    <!-- <button class="button" id="button" >Save Address</button> -->
+                                </form>
+                                
+                                <style>
+                                    .error {
+                                        color: #dc3545; 
+                                        font-size: 0.875rem; 
+                                    }
+                                </style>
+                          </div>
+                    </div>
+                </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
-           
+
         </section>
         <section class="section-padding footer-mid " style="margin-right: 50px;">
-            <div class="container pt-15 pb-20" >
+            <div class="container pt-15 pb-20">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
@@ -602,7 +688,7 @@
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
-                                <strong>Address: </strong> MG  Road, Street 32, Ernakulam
+                                <strong>Address: </strong> MG Road, Street 32, Ernakulam
                             </p>
                             <p class="wow fadeIn animated">
                                 <strong>Phone: </strong>(+91) 8086136588
@@ -612,10 +698,13 @@
                             </p>
                             <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
                             <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                              
-                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
-                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
-                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+
+                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img
+                                        src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img
+                                        src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img
+                                        src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -641,11 +730,11 @@
                             <li><a href="/profile?tab=orders">Order</a></li>
                         </ul>
                     </div>
-                    
+
                 </div>
             </div>
         </section>
-       
+
     </footer>
     <!-- Preloader Start -->
     <div id="preloader-active">
@@ -728,7 +817,7 @@
                         products.push(product);
                     }
                 });
-               
+
 
                 fetch(`/orderCOD/`, {
                     method: 'POST',
@@ -737,25 +826,25 @@
                     },
                     body: JSON.stringify({
                         totalAmount,
-                        index: selectedAddressIndex||0,
+                        index: selectedAddressIndex || 0,
                         products: products,
-                        selectedAddressType : selectedAddressType||"work",
+                        selectedAddressType: selectedAddressType || "work",
                     }),
                 })
-                .then(async (response) => {
-                    try {
-                        if (response.status == 200) {
-                            window.location.href = '/successPage'; // Replace '/successPage' with the URL of your success page
-                        } else {
-                            const data = await response.json();
-                            console.error(data.message);
+                    .then(async (response) => {
+                        try {
+                            if (response.status == 200) {
+                                window.location.href = '/successPage'; // Replace '/successPage' with the URL of your success page
+                            } else {
+                                const data = await response.json();
+                                console.error(data.message);
+                            }
+                        } catch (error) {
+                            console.error('Fetch Error:', error);
                         }
-                    } catch (error) {
+                    }).catch(error => {
                         console.error('Fetch Error:', error);
-                    }
-                }).catch(error => {
-                    console.error('Fetch Error:', error);
-                });
+                    });
             }
         });
     }
@@ -848,6 +937,72 @@
 
 
 
+    
+
+
+
+</script>
+
+
+
+<script>
+
+    //  save address validation
+
+    function validateForm() {
+    const phoneRegex = /^\d{10}$/;
+    const pincodeRegex = /^\d{6}$/;
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const pincode = document.getElementById('pincode').value.trim();
+    const addressType = document.getElementById('addressType').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const state = document.getElementById('state').value.trim();
+    const city = document.getElementById('city').value.trim();
+    const landmark = document.getElementById('landmark').value.trim();
+    const alternatePhone = document.getElementById('alternatePhone').value.trim();
+    const stateCityRegex = /^[a-zA-Z\s]+$/; // Regular expression to validate only letters and spaces
+
+    let isValid = true;
+
+    if (!name || !phone || !addressType || !address || !city || !state || !landmark) {
+        // At least one required field is empty
+        document.getElementById('nameError').innerHTML = name ? (name.match(stateCityRegex) ? "" : "Name must contain only letters") : "Please enter your first name";
+        document.getElementById('phoneError').innerHTML = phoneRegex.test(phone) ? "" : "Please enter a valid 10 digit mobile number";
+        document.getElementById('addressTypeError').innerHTML = addressType ? "" : "Please select an address type";
+        document.getElementById('addressError').innerHTML = address ? "" : "Please enter your address";
+        document.getElementById('cityError').innerHTML = city ? (city.match(stateCityRegex) ? "" : "City must contain only letters") : "Please enter your city/district/town";
+        document.getElementById('stateError').innerHTML = state ? (state.match(stateCityRegex) ? "" : "State must contain only letters") : "Please enter your state"; // Show error message if state is empty or not containing only letters
+        document.getElementById('landmarkError').innerHTML = landmark ? (landmark.match(stateCityRegex) ? "" : "Landmark must contain only letters") : "Please enter a landmark";
+        isValid = false;
+    } else {
+        // All required fields are filled
+        document.getElementById('nameError').innerHTML = "";
+        document.getElementById('phoneError').innerHTML = "";
+        document.getElementById('addressTypeError').innerHTML = "";
+        document.getElementById('addressError').innerHTML = "";
+        document.getElementById('cityError').innerHTML = "";
+        document.getElementById('stateError').innerHTML = "";
+        document.getElementById('landmarkError').innerHTML = "";
+    }
+
+    // Validate other fields
+    if (pincode && !pincodeRegex.test(pincode)) {
+        document.getElementById('pincodeError').innerHTML = "Please enter a valid 6 digit pincode";
+        isValid = false;
+    } else {
+        document.getElementById('pincodeError').innerHTML = "";
+    }
+
+    if (alternatePhone && !phoneRegex.test(alternatePhone)) {
+        document.getElementById('alternatePhoneError').innerHTML = "Please enter a valid 10 digit alternate phone number";
+        isValid = false;
+    } else {
+        document.getElementById('alternatePhoneError').innerHTML = "";
+    }
+
+    return isValid;
+}
 </script>
 
 </html>

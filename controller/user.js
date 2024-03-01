@@ -324,7 +324,7 @@ const profileGet = async (req, res) => {
     const totalDocuments = await Order.countDocuments({ userId: req.session.userId });
     const totalPages = Math.ceil(totalDocuments / limit);
     const openTab = req.query.tab || 'profile'
-    const orderData = await Order.find({ userId: req.session.userId })
+    const orderData = await Order.find({ userId: req.session.userId }).sort({createdAt:-1})
       .skip(startIndex)
       .limit(limit);
 
@@ -361,7 +361,7 @@ const addressSave = async (req, res) => {
     } = req.body;
     console.log(req.body);
     const existingAddresses = await addressModel.findOne({ userId: userId });
-    if (userId && existingAddresses && existingAddresses.Address.length < 3) {
+    if (userId && existingAddresses ) {
       const newAddress = {
         name: name,
         pincode: pincode,
