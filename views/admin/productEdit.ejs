@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Product Edit</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Edit Product</h2>
+
+        <form action="/admin/product/productEdit/<%= product._id %>" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" class="form-control" id="productName" name="title" value="<%= product.title %>"
+                    placeholder="Enter product name" required>
+                <small class="text-danger" id="productNameError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription">Product Description:</label>
+                <textarea class="form-control" name="description" id="productDescription"
+                    placeholder="Enter product description" required><%= product.description %></textarea>
+                <small class="text-danger" id="productDescriptionError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="productPrice">Product Price:</label>
+                <input type="number" class="form-control" name="Price" id="productPrice" value="<%= product.Price %>"
+                    placeholder="Enter product price" required>
+                <small class="text-danger" id="productPriceError"></small>
+            </div>
+
+
+            <div class="form-group">
+                <label for="productStock">Product Stock:</label>
+                <input type="text" class="form-control" id="productStock" name="stock" value="<%= product.stock %>"
+                    placeholder="Enter product stock" required>
+                <small class="text-danger" id="productStockError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="productImage">Product Brand:</label>
+                <input type="text" class="form-control" id="productImage" name="brand" value="<%= product.brand %>"
+                    placeholder="Enter product Brand" required>
+                <small class="text-danger" id="productBrandError"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="productCategory">Product Category:</label>
+                <select class="form-control" id="productCategory" name="category" value="<%= product.category %>"
+                    required>
+                    <option value="clothing">Formal</option>
+                    <option value="electronics">Fashion</option>
+                    <option value="footwear">Casual</option>
+                    <option value="authentic">Authentic</option>
+
+                </select>
+                <small class="text-danger" id="productCategoryError"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script>
+        function validateForm() {
+
+            document.getElementById('productNameError').innerHTML = '';
+            document.getElementById('productDescriptionError').innerHTML = '';
+            document.getElementById('productPriceError').innerHTML = '';
+            document.getElementById('productBrandError').innerHTML = '';
+            document.getElementById('productCategoryError').innerHTML = '';
+
+
+            var productName = document.getElementById('productName').value.trim();
+            var productDescription = document.getElementById('productDescription').value.trim();
+            var productPrice = document.getElementById('productPrice').value.trim();
+            var productBrand = document.getElementById('productImage').value.trim();
+            var productCategory = document.getElementById('productCategory').value.trim();
+
+            // Validate product name
+            if (productName === '') {
+                document.getElementById('productNameError').innerHTML = 'Please enter a valid product name.';
+                return false;
+            }
+
+            // Validate description
+            if (productDescription === '') {
+                document.getElementById('productDescriptionError').innerHTML = 'Please enter a product description.';
+                return false;
+            }
+
+            // Validate price
+            if (isNaN(productPrice) || parseFloat(productPrice) <= 0) {
+                document.getElementById('productPriceError').innerHTML = 'Please enter a valid positive price.';
+                return false;
+            }
+
+            // Validate brand
+            if (productBrand === '') {
+                document.getElementById('productBrandError').innerHTML = 'Please enter a valid brand.';
+                return false;
+            }
+
+            // Validate category
+            if (productCategory === '') {
+                document.getElementById('productCategoryError').innerHTML = 'Please select a valid category.';
+                return false;
+            }
+
+
+            return true;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,368 @@
+<%- include('partials/header.ejs',{tab:"addProduct"}) %>
+
+    <section class="content-main">
+        <form id="form" action="/admin/product/push" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-9">
+
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                        <div>
+                            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                            <button class="btn btn-md rounded font-sm hover-up" type="submit"> Publish</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">   
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label for="product_title" class="form-label">Product title</label>
+                                <input type="text" placeholder="Type here" class="form-control" name="title"
+                                    onkeyup="titleValidation()" id="title">
+                                <span id="titleValueError" class="text-danger"></span>
+                            </div>
+                            <div class="row gx-3">
+                                <div class="col-md-4  mb-3">
+                                    <label for="product_sku" class="form-label">Type</label>
+                                    <input type="text" placeholder="Type here" class="form-control" name="type"
+                                        onkeyup="typeValidation()" id="type">
+                                    <span id="typeValueError" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4  mb-3">
+                                    <label for="product_color" class="form-label">Color</label>
+                                    <input type="text" placeholder="Type here" class="form-control" name="color"
+                                        onkeyup="colorValidation()" id="color">
+                                    <span id="colorValueError" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4  mb-3">
+                                    <label for="product_size" class="form-label">Size</label>
+                                    <input type="number" placeholder="Type here" class="form-control" name="size"
+                                        onkeyup="sizeValidation()" id="size">
+                                    <span id="sizeValueError" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="product_brand" class="form-label">Brand</label>
+                                <input type="text" placeholder="Type here" class="form-control" name="brand"
+                                    onkeyup="brandValidation()" id="brand">
+                                <span id="brandValueError" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Type here" class="form-control" name="description"
+                                    onkeyup="descriptionValidation()" id="description" rows="4"></textarea>
+                                <span id="descriptionValueError" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Images</label>
+                                <input class="form-control" type="file" name="image" multiple>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label class="form-label">Price</label>
+                                <input type="text" placeholder="Type here" class="form-control"
+                                    onkeyup="priceValidation()" id="Price" name="Price">
+                                <span id="priceValueError" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label class="form-label">Stock Limit</label>
+                                <input type="text" placeholder="Type here" class="form-control"
+                                   id="stock" name="stock">
+                                <span id="stockValueError" class="text-danger"></span>
+                            </div>
+                            <div class="container mt-4">
+
+
+
+                                <div class="form-group">
+                                    <label for="exampleSelect">Category:</label>
+                                    <select class="form-control" id="exampleSelect" name="category">
+                                        <% category.forEach(element=> { %>
+                                            <option value='<%= element._id %>'>
+                                                <%= element.name %>
+                                            </option>
+                                            <% }); %>
+                                    </select>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                            <!-- <h5 class="mb-3">Categories</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat">
+                                <label class="form-check-label" for="product-cat"> Shirt </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat-1">
+                                <label class="form-check-label" for="product-cat-1"> T-Shirt </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat-2">
+                                <label class="form-check-label" for="product-cat-2"> Sneakers </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat-3">
+                                <label class="form-check-label" for="product-cat-3"> Joggers </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat-4">
+                                <label class="form-check-label" for="product-cat-4"> Vests </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat-5">
+                                <label class="form-check-label" for="product-cat-5"> Knitwear </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="product-cat-8">
+                                <label class="form-check-label" for="product-cat-8"> Shorts </label>
+                            </div> -->
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+            <div class="col-sm-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> ©, Evara - HTML Ecommerce Template .
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end">
+                    All rights reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+    </main>
+    <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/asset/js/vendors/select2.min.js"></script>
+    <script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/asset/js/main.js" type="text/javascript"></script>
+    </body>
+
+    </html>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('form');
+            const titleValue = document.getElementById('title');
+            const typeValue = document.getElementById('type');
+            const colorValue = document.getElementById('color');
+            const sizeValue = document.getElementById('size');
+            const brandValue = document.getElementById('brand')
+            const descriptionValue = document.getElementById('description')
+            const priceValue = document.getElementById('Price')
+            const stockValue=document.getElementById('stock')
+
+
+            const titleValueError = document.getElementById('titleValueError');
+            const typeValueError = document.getElementById('typeValueError');
+            const colorValueError = document.getElementById('colorValueError')
+            const sizeValueError = document.getElementById('sizeValueError')
+            const brandValueError = document.getElementById('brandValueError')
+            const descriptionValueError = document.getElementById('descriptionValueError')
+            const priceValueError = document.getElementById('priceValueError')
+            const stockValueError=document.getElementById('stockValueError')
+
+
+            //initialize error messages
+            titleValueError.innerText = ''
+            typeValueError.innerText = ''
+            colorValueError.innerText = ''
+            sizeValueError.innerText = ''
+            brandValueError.innerText = ''
+            descriptionValueError.innerText = ''
+            priceValueError.innerText = ''
+            stockValueError.innerText=''
+
+
+
+
+            function titleValidation() {
+                const title = titleValue.value.trim();
+
+                if (title.length === 0) {
+                    titleValueError.innerText = 'title is required';
+                    return false;
+                }
+
+                titleValueError.innerText = '';
+                return true;
+            }
+
+            function typeValidation() {
+                const type = typeValue.value.trim()
+                if (type.length === 0) {
+                    typeValueError.innerText = 'type is required'
+                    return false
+                }
+                typeValueError.innerText = ''
+                return true
+            }
+
+            function colorValidation() {
+                const color = colorValue.value.trim()
+                if (color.length === 0) {
+                    colorValueError.innerText = 'color is required'
+                    return false
+                }
+                colorValueError.innerText = ''
+                return true
+            }
+
+            function sizeValidation() {
+                const size = sizeValue.value.trim()
+                if (size.length === 0) {
+                    sizeValueError.innerText = 'size is required'
+                    return false
+                } if (size === '' || isNaN(size)) {
+                    sizeValueError.innerText = 'enterd a valid size'
+                    return false
+                }
+
+                const sizeRegex = /^[0-9]+(?:\.[0-9]+)?[a-zA-Z]*$/
+
+                if (!size || !size.match(sizeRegex)) {
+                    sizeValueError.innerText = 'Invalid size format';
+                    return false;
+                }
+                sizeValueError.innerText = ''
+                return true
+            }
+
+            function brandValidation() {
+                const brand = brandValue.value.trim()
+                if (brand.length === 0) {
+                    brandValueError.innerText = 'brand is required'
+                    return false
+                }
+                brandValueError.innerText = ''
+                return true
+            }
+
+            function descriptionValidation() {
+                const description = descriptionValue.value.trim()
+                if (description.length === 0) {
+                    descriptionValueError.innerText = 'description is require'
+                    return false
+                }
+                descriptionValueError.innerText = ''
+                return true
+            }
+
+            function priceValidation() {
+                const price = priceValue.value.trim()
+                if (price.length == 0) {
+                    priceValueError.innerText = 'price required'
+                    return false
+                }
+                if (price === '' || isNaN(price)) {
+                    priceValueError.innerText = 'Please enter a valid product price.'
+                    return false
+                }
+
+                const priceRegex = /^\d+(\.\d{1,2})?$/
+
+                if (!price || !price.match(priceRegex)) {
+                    priceValueError.innerText = 'Invalid price format';
+                    return false;
+                }
+
+
+
+                priceValueError.innerText = ''
+                return true
+            }
+
+
+            function stockValidation(){
+                const stock = stockValue.value.trim()
+                console.log("working");
+                if (stock.length == 0) {
+                    stockValueError.innerText = 'stock required'
+                    return false
+                }
+                if (stock === '' || isNaN(stock)) {
+                    stockValueError.innerText = 'Please enter a valid product stock.'
+                    return false
+                }
+
+                const stockRegex= /^[1-9]\d*$/
+
+
+
+                if (!stock || !stock.match(stockRegex)) {
+                    stockValueError.innerText = 'Invalid stock format';
+                    return false;
+                }
+
+
+
+                stockValueError.innerText = ''
+                return true
+            }
+
+
+            // all check
+            function submitForm(event) {
+                event.preventDefault();
+
+
+                if (!titleValidation() || !typeValidation() || !colorValidation() || !sizeValidation() || !brandValidation() || !priceValidation() ||
+                    !descriptionValidation() || !stockValidation()) {
+                    return false
+                } else {
+                    form.submit()
+                    return true
+
+                }
+            }
+
+            form.addEventListener('submit', submitForm);
+            titleValue.addEventListener('keyup', descriptionValidation);
+            descriptionValue.addEventListener('keyup', descriptionValidation);
+            typeValue.addEventListener('keyup', typeValidation)
+            sizeValue.addEventListener('keyup', sizeValidation)
+            colorValue.addEventListener('keyup', colorValidation)
+            brandValue.addEventListener('keyup', brandValidation)
+            priceValue.addEventListener('keyup', priceValidation)
+            stockValue.addEventListener('keyup',stockValidation)
+
+
+        })
+    </script>
+
+
+
+    <script>
+
+
+
+    </script>

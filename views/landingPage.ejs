@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy9t+dlc5wo5I9emTIW8d9O1I5 /yJ0LbS" crossorigin="anonymous">
+    <title>Your Landing Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+        #sidebar {
+            height: 100vh;
+            width: 250px;
+            background-color: #343a40;
+            color: #fff;
+            position: fixed;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+        #content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    <h2>Sidebar</h2>
+    <p>Your sidebar content goes here.</p>
+</div>
+
+<div id="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fa fa-align-left"></i> Toggle Sidebar
+        </button>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Login</h2>
+                <!-- Your login form goes here -->
+                <form>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter your username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2>Image</h2>
+                <!-- Your image goes here -->
+                <img src="/assets/imgs/shop/background/Desktop_banner_copy_b594297b-1423-4f99-bede-b3b4a3e15239_1950x.webp" alt="Your Image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-GLhlTQ8iKp4T5l/ZZnF8YU32RS860+vgUZ6iU2GGI3fZEL3U5S/JN/DAiS+gFfN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wy9t+dlc5wo5I9emTIW8d9O1I5 /yJ0LbS" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>
+
+</body>
+</html>

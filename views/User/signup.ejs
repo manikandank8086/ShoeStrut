@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS for additional styling -->
+    <style>
+        body {
+            background-image: url('/assets/imgs/shop/background/bk\ 4.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            text-align: center;
+            margin: 100px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin-top: 50px;
+            color: #60c6b7;
+        }
+
+        button {
+            color: #60c6b7;
+        }
+
+        h2 {
+            color: #60c6b7;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">Sign Up</h2>
+
+        <form id="form" onsubmit="return submitForm(event)" action="/signup" method="post">
+            <p class="text-danger"><%= error %></p>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username">
+                <span id="usernameError" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input type="email" class="form-control" id="emailvalue" name="Email">
+                <span id="emailError" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber">
+                <span id="phoneError" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password">
+                <span id="passwordError" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+                <span id="confirmPasswordError" class="text-danger"></span>
+            </div>
+        
+            <button type="submit" id="otpverify" class="btn btn-success btn-block">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+             document.getElementById('form').addEventListener('submit', function(event) {
+        if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+    function validateForm() {
+        const isUsernameValid = usernameValidation();
+        const isEmailValid = emailValidation();
+        const isPhoneValid = phoneValidation();
+        const isPasswordValid = passwordValidation();
+        const isConfirmPasswordValid = confirmPasswordValidation();
+
+        return isUsernameValid && isEmailValid && isPhoneValid && isPasswordValid && isConfirmPasswordValid;
+    }
+
+    function usernameValidation() {
+        const username = document.getElementById('username').value;
+        const usernameError = document.getElementById('usernameError');
+
+        if (!username) {
+            usernameError.innerText = 'Username is required';
+            return false;
+        } else if (username.includes(' ')) {
+            usernameError.innerText = 'Username cannot contain spaces';
+            return false;
+        } else {
+            usernameError.innerText = '';
+            return true;
+        }
+    }
+
+    function emailValidation() {
+        const email = document.getElementById('emailvalue').value;
+        const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+        const emailError = document.getElementById('emailError');
+
+        if (!email || !email.match(emailRegex)) {
+            emailError.innerText = 'Invalid email format';
+            return false;
+        } else {
+            emailError.innerText = '';
+            return true;
+        }
+    }
+
+    function phoneValidation() {
+        const phoneNumber = document.getElementById('phoneNumber').value;
+        const phoneRegex = /^(\d{10}|\d{3}[-.\s]?\d{3}[-.\s]?\d{4}|\(\d{3}\)[-.\s]?\d{3}[-.\s]?\d{4})$/;
+        const phoneError = document.getElementById('phoneError');
+
+        if (!phoneNumber || !phoneNumber.match(phoneRegex)) {
+            phoneError.innerText = 'Invalid phone number format';
+            return false;
+        } else {
+            phoneError.innerText = '';
+            return true;
+        }
+    }
+
+    function passwordValidation() {
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{6}$/;
+        const password = document.getElementById('password').value;
+        const passwordError = document.getElementById('passwordError');
+
+        if (!password) {
+            passwordError.innerText = 'Password is required';
+            return false;
+        } else if (password.length < 6) {
+            passwordError.innerText = 'Password must be at least 6 characters';
+            return false;
+        } else if (password.includes(' ')) {
+            passwordError.innerText = 'Password cannot contain spaces';
+            return false;
+        } else if (!passwordRegex.test(password)) {
+            passwordError.innerText = 'Create Strong password';
+            return false;
+        } else {
+            passwordError.innerText = '';
+            return true;
+        }
+    }
+
+    function confirmPasswordValidation() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+        if (password !== confirmPassword) {
+            confirmPasswordError.innerText = 'Passwords do not match';
+            return false;
+        } else {
+            confirmPasswordError.innerText = '';
+            return true;
+        }
+    }
+    
+        </script>

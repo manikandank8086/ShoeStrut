@@ -1,0 +1,223 @@
+<%- include('partials/header.ejs',{tab:'product'}) %>
+
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <h4>Product Name</h4>
+                    </th>
+                    <th>
+                        <h4>category</h4>
+                    </th>
+
+                    <th>
+                        <h4>Stock</h4>
+                    </th>
+                    <th>
+                        <h4>Type</h4>
+                    </th>
+                    <th>
+                        <h4>Brand</h4>
+                    </th>
+                    <th>
+                        <h4>Price</h4>
+                    </th>
+                    <th>
+                        <h4>Status</h4>
+                    </th>
+                    <th class="text-center">
+                        <h4>List/Unlist</h4>
+                    </th>
+                    <th>
+                        <h4>Edit</h4>
+                    </th>
+                    <!--  Block or Unblock buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                <% product.forEach(element=> { %>
+                    <tr>
+
+                        <td>
+                            <a class="itemside" href="#">
+                                <div class="left">
+                                    <img src="/images/<%= element.image %>" class="img-sm img-thumbnail" alt="Item">
+                                </div>
+                                <div class="info">
+                                    <h6 class="mb-0">
+                                        <%= element.title %>
+                                    </h6>
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            <%= element.categoryId.name %>
+                        </td>
+
+                        <td>
+                            <%= element.stock %>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill alert-success">
+                                <%= element.type %>
+                            </span>
+                        </td>
+                        <td>
+                            <%= element.brand %>
+                        </td>
+                        <td>
+                            <%= element.Price %>
+                        </td>
+
+                        <td>
+                            <% if (element.isblock==true) { %>
+                                <span class="badge rounded-pill alert-danger">Inactive</span>
+                                <% } else { %>
+                                    <span class="badge rounded-pill alert-success">Active</span>
+                                    <% } %>
+                        </td>
+                        <td class="text-center">
+                            <% if (element.isblock==true) { %>
+                                <button id="userdeleteblock" onclick="Listproduct('<%= element._id %>')"
+                                    class="btn btn-success">
+                                    <%= (element.isblock===true)?'List':'Unlist'%>
+                                </button>
+                                <% } else { %>
+                                    <button id="userdelete" onclick="Listproduct('<%= element._id %>')"
+                                        class="btn btn-danger">
+                                        <%= (element.isblock===true)?'List':'Unlist'%>
+                                    </button>
+                                    <% } %> 
+                        </td>
+
+                        <td><a href="/admin/product/productListEdit/<%= element._id %>"><button
+                                    class="btn btn-primary">Edit</button></a></td>
+
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+        <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+                    <% for(let i=1; i <= totalPages && i <= 2; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>" style="width: 50px; height: 35px;">
+                            <a class="page-link" style="width: 100%; height: 100%;" href="/admin/product/list?page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                    <% } %>
+                    <% if (currentPage < totalPages) { %>
+                        <li class="page-item">
+                            <a class="page-link" style="width: 50px; height: 35px;" href="/admin/product/list?page=<%= currentPage + 1 %>">Next</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+        
+    </div> <!-- card-body end// -->
+    
+    </div>
+    <!-- card-body end// -->
+    </div> <!-- card end// -->
+   
+   
+    </section> <!-- content-main end// -->
+   
+    </main>
+    <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+
+            <div class="col-sm-6">
+                <div class="text-sm-end">
+
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/asset/js/vendors/select2.min.js"></script>
+    <script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/asset/js/main.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    </body>
+
+    </html>
+
+
+    <script>
+        function click() {
+            console.log('clicked')
+        }
+    </script>
+
+
+
+
+    <script>
+
+
+
+
+
+
+
+        async function Listproduct(id) {
+    
+            Swal.fire({
+                title: 'Warning',
+                text: 'Are you sure',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const responds = await fetch('/admin/product/productList?id=' + id);
+
+                    await responds.json()
+                    if (responds.status === 200) {
+                        block = true
+                        block = !block;
+                        location.reload()
+                    }
+                }
+            })
+        }
+    </script>
+
+
+
+    <script>
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Warning',
+                text: 'Are you sure?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const response = await fetch(`/admin/product/delete/${id}`);
+                    const data = await response.json();
+
+                    if (response.status === 200) {
+
+                        location.reload();
+                    } else {
+
+                        console.error('Error deleting item:', data.message);
+                    }
+                }
+            });
+        }
+
+
+    </script>
