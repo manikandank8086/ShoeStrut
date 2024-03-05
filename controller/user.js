@@ -11,6 +11,14 @@ const nodemailer = require("nodemailer");
 const { ObjectId } = require("mongodb");
 const { cartModel } = require("../model/cartModel");
 const { Order } = require("../model/orderModel");
+const { reviewModel } = require("../model/ReviewModel");
+const Razorpay = require('razorpay');
+
+var instance = new Razorpay({
+  key_id: 'YOUR_KEY_ID',
+  key_secret: 'YOUR_KEY_SECRET',
+});
+
 
 const loginGet = async (req, res) => {
   try{
@@ -272,11 +280,10 @@ const resendOTP = (req, res) => {
 
 const homeGet = async (req, res) => {
   try {
-    const products = await productPush.find({}).populate("categoryId");
+    const products = await productPush.find({}).populate("categoryId")
     const newArrivals = await productPush.find({})
     .sort({ _id: -1 }) 
-    .limit(9);    console.log('NEw Productssssssssssss')
-    console.log(newArrivals)
+    .limit(9);    
 
     const categories = await categoryModel.find({});
 
@@ -289,6 +296,7 @@ const homeGet = async (req, res) => {
         );
         return category && category.isblock == true;
       });
+      
 
       let session = req.session.userId;
       res.render("User/home", { user, product: filteredProducts, session ,newArrivals});
@@ -621,15 +629,18 @@ const successPageGet = async (req, res) => {
     req.session.order=null
     const userId = req.session.userId
       const index = req.session.address
-       console.log(req.session.address)
-      //  const AddressId = req. 
+     
        const deliveryAddress = await addressModel.findOne({userId:userId})
       console.log("All address : ",deliveryAddress)
       const currentAddress = deliveryAddress.Address[index]
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-      console.log( "Current ",currentAddress)
+      console.log(userId)
+      
+
+      const items= await Order.findOne({userId:userId}).populate("items.productId")
+      console.log('items ...............')
+    console.log(items)      
    
-    res.status(200).render("User/successPage",{deliveryAddress : currentAddress});
+    res.status(200).render("User/successPage",{deliveryAddress : currentAddress,items});
     
   } catch (error) {
     console.log(error);
@@ -671,7 +682,12 @@ const orderCOD = async (req, res) => {
       city: address.Address[index].city,
       State: address.Address[index].state,
     };
-    console.log(deliveryAddress);
+       
+    products.forEach(element => {
+      console.log('Price is ')
+      console.log(element.price)
+      console.log(element.Price)
+  });
     const newOrder = new Order({
       userId,
       orderId: generateOrderId(),
@@ -686,15 +702,14 @@ const orderCOD = async (req, res) => {
       deliveryAddress: deliveryAddress,
     });
 
+    
+
+
     await newOrder.save();
-    console.log(newOrder.orderId);
-    console.log("new address");
-    console.log(newOrder);
     await cartModel.findOneAndUpdate({ userId }, { $set: { products: [] } });
     for (const item of newOrder.items) {
       const productId = item.productId;
       const quantity = item.quantity;
-      console.log(`Product ID: ${productId}, Quantity: ${quantity}`);
       await productPush.findOneAndUpdate(
         { _id: productId },
         { $inc: { stock: -quantity } },
@@ -702,10 +717,7 @@ const orderCOD = async (req, res) => {
       );
     }
 
-    console.log("vannu");
-    console.log(newOrder)
-    console.log(newOrder?._id)
-     
+   
      res.redirect('/successPage')
   } catch (error) {
     console.log(error);
@@ -723,15 +735,40 @@ const ordreDetailsGet = async (req, res) => {
       .populate("userId", "city")
       .populate("items.productId");
 
+
+
+        // rating
+      let userRating = await reviewModel.findOne({
+        productId: productId,
+        userId: req.session.userId,
+      });
+      let userRated = userRating?.rating ? userRating.rating : 0;
+      console.log("Rating : ", userRated);
+
+      console.log('user rated is ..............')
+      console.log(userRated)
+
+      //
+
+      const reviewData = await reviewModel
+      .find({ productId:productId })
+      .populate("userId", "username");
+
+      console.log('review data isss..........')
+      console.log(reviewData)
+
+
+      const reviewCount = reviewModel.length - 1;
+    console.log("review count " + reviewCount)
+
     const items = await Order.findById(productId).populate("items.productId");
-    console.log("itmessdfsfsd");
-    console.log(items);
+  
 
     const userData = await User.findOne({ _id: req.session.userId });
-    console.log(userData + "jhjhjhjhjhjhjh");
-    // console.log(order);
+    
+    
     if (order) {
-      return res.status(200).render("User/orderDetails", { order, userData });
+      return res.status(200).render("User/orderDetails", { order, userData,reviewData,userRated,reviewCount });
     }
     res.status(404).send("Order data not found");
   } catch (error) {
@@ -742,18 +779,17 @@ const ordreDetailsGet = async (req, res) => {
 
 
 
-// const orderDetailsSuccess = async(req,res)=>{
-//   try{
-//      res.status(200).render('User/orderDetails',{openTab:'orders'})
-//   }catch(error){
-//     console.log(error)
-//   }
-// }
+
 
 
 
 const orderCancel = async (req, res) => {
   try {
+    console.log('Hey this is working...............')
+    console.log(req.body)
+    const cancelationReason = req.body.reason
+    console.log('Cancelation reason')
+    console.log(cancelationReason)
     const orderId = req.params.id;
     const userData = await User.findOne({ _id: req.session.userId });
 
@@ -763,6 +799,9 @@ const orderCancel = async (req, res) => {
       status: { $ne: "Canceled" },
     }).populate("items.productId");
 
+
+    
+
     if (!order) {
       return res
         .status(404)
@@ -771,6 +810,11 @@ const orderCancel = async (req, res) => {
           message: "Order not found or already canceled",
         });
     }
+
+  console.log('working 1')
+    order.cancellationReason=cancelationReason
+    console.log('working 2')
+    console.log(order)
 
     for (const item of order.items) {
       const product = item.productId;

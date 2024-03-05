@@ -75,6 +75,9 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  cancellationReason:{
+     type:String
+  },
   status: {
     type: String,
     enum:['Pending','Processing', 'Shipped', 'Delivered','Canceled','Return','Request'],

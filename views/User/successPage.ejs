@@ -74,42 +74,79 @@
     <hr style="margin-top: 1px; margin-bottom: 10px; width: 20%; margin-right: 80%;">
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="page-title">Your payment has been successfully processed.</div>
-                        <div class="text-center mt-6">
-                            <i class="fas fa-check-circle fa-5x text-success"></i>
-                        </div>
-                        
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="page-title">Your payment has been successfully processed.</div>
+                    <div class="text-center mt-6">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
                     </div>
                 </div>
-                <div class="card mt-6">
-                    <div class="card-header">
-                        Delivery Address
-                    </div>        
-                    <div class="card-body">
-                        <p class="text-center">  <%= deliveryAddress.name %> <br> <%= deliveryAddress.address %> , <%= deliveryAddress.pincode %> <br> <%= deliveryAddress.phone %>    <br>  </p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col">
-                                <div class="text-center mt-3">
-                                    <a href="/profile?tab=orders" class="btn btn-danger">Go to Ordre Details</a>
-                                </div>
+                
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="40%">Product</th>
+                                <th width="20%">Unit Price</th>
+                                <th width="20%">Quantity</th>
+                                <th width="20%" class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% items.items.forEach(item => { %>
+                            <tr>
+                                <td>
+                                   
+                                        <div class="left">
+                                            <img src="<%= item.image %>" width="40" height="40" class="img-xs" alt="Item">
+                                        </div>
+                                        <div class="info"> <%= item.productId.title %> </div>
+                                    
+                                </td>
+                                <td> <%= item.price %> </td>
+                                <td> <%= item.quantity %> </td>
+                                <td class="text-end"> <%= item.price * item.quantity %> </td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                        
+                    </table>
+                </div>
+                <div class="card-header">
+                    Delivery Address
+                </div>        
+                <div class="card-body">
+                    <p class="text-center">  <%= deliveryAddress.name %> <br> <%= deliveryAddress.address %> , <%= deliveryAddress.pincode %> <br> <%= deliveryAddress.phone %>    <br>  </p>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center mt-3">
+                                <a href="/profile?tab=orders" class="btn btn-danger">Go to Order Details</a>
                             </div>
-                            <div class="col">
-                                <div class="text-center mt-3">
-                                    <a href="/product/shop" class="btn btn-primary">Continue Shopping</a>
-                                </div>
+                        </div>
+                        <div class="col">
+                            <div class="text-center mt-3">
+                                <a href="/product/shop" class="btn btn-primary">Continue Shopping</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+            </div>
+            
+            <!-- table-responsive -->
+                </div>
+           
+           
+        
+        
+                
+   
+   
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

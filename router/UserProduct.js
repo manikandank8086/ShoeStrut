@@ -7,6 +7,8 @@ const {userAuthentication}=require('../middleware/userAuth')
 
 router.get('/details/:id',userAuthentication,UserProductController.productDetailsGet)
 
+// router.get('/addToCartSize',userAuthentication,UserProductController.sizeAdd)
+
 router.post('/ratings',userAuthentication,UserProductController.Ratings)
 
 router.post('/star',userAuthentication,UserProductController.Star)
@@ -16,10 +18,9 @@ router.get('/shop',userAuthentication,UserProductController.shopGet)
 
 router.get('/categoryFiltering',userAuthentication,UserProductController.CategoryFilter)
 
-router.post('/ShopPageSort', UserProductController.ShopSort);
+router.post('/ShopPageSort',userAuthentication, UserProductController.ShopSort);
 
-router.post('/shopSearch', UserProductController.ShopSearch);
-
+router.post('/shopSearch', userAuthentication,UserProductController.ShopSearch);
 
 
 
@@ -30,6 +31,7 @@ router.get('/cart',userAuthentication,UserCartController.cartGet)
 router.get('/addcart/:id',userAuthentication,UserCartController.cartAdd)
     
 router.post('/updateQuantity/:id',userAuthentication,UserCartController.qtyUp)
+router.get('/getQuantity/:id',userAuthentication,UserCartController.qtyUpdation)
 
 router.delete('/remove/:id', userAuthentication,UserCartController.removeDelete);
 

@@ -55,9 +55,6 @@ const homeGet = async (req, res) => {
   }
 };
 
-
-
-
 const categoryLisGet = async (req, res) => {
   try {
     const id = req.query.id;

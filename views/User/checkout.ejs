@@ -431,10 +431,10 @@
                                 <% }) %>
 
                                     <div class="card mb-3 mb-lg-0" style="margin-top: 20px;">
-                                       <button 
-                                                class="btn btn-sm btn-outline-secondary float-right"
-                                                style="width: 100%;"   data-bs-toggle="modal" data-bs-target="#exampleModal">Add New
-                                                Address</button>
+                                        <button class="btn btn-sm btn-outline-secondary float-right"
+                                            style="width: 100%;" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">Add New
+                                            Address</button>
 
 
 
@@ -537,6 +537,7 @@
                                                             </td>
                                                             <td><strong>₹</strong>
                                                                 <%= product.total %>
+
                                                             </td>
                                                         </tr>
                                                         <% }) %>
@@ -562,21 +563,30 @@
 
                                             </table>
                                         </div>
-                                        <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                                          <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                                         <div class="payment_method">
                                             <div class="mb-25">
                                                 <h5>Payment</h5>
                                             </div>
                                             <div class="payment_option">
-
                                                 <div class="custome-radio">
-                                                    <input class="form-check-input" required="" type="radio"
-                                                        name="payment_option" id="exampleRadios5" checked="">
-                                                    <label class="form-check-label" for="exampleRadios5"
-                                                        data-bs-toggle="collapse" data-target="#cashOnDelivery"
-                                                        aria-controls="cashOnDelivery">Cash on Delivery</label>
-                                                    <div class="form-group collapse in" id="cashOnDelivery">
-
+                                                    <input class="form-check-input" required="" type="radio" name="payment_option" id="cashOnDeliveryRadio" checked="">
+                                                    <label class="form-check-label" for="cashOnDeliveryRadio" data-bs-toggle="collapse" data-target="#cashOnDelivery" aria-controls="cashOnDelivery">Cash on Delivery</label><br>
+                                            
+                                                    <input class="form-check-input" required="" type="radio" name="payment_option" id="razorpayRadio">
+                                                    <label class="form-check-label" for="razorpayRadio" data-bs-toggle="collapse" data-target="#razorpayDetails" aria-controls="razorpayDetails">Razorpay</label><br>
+                                            
+                                                    <input class="form-check-input" required="" type="radio" name="payment_option" id="walletRadio">
+                                                    <label class="form-check-label" for="walletRadio" data-bs-toggle="collapse" data-target="#walletDetails" aria-controls="walletDetails">Wallet</label>
+                                            
+                                                    <!-- Razorpay Details -->
+                                                    <div class="form-group collapse" id="razorpayDetails">
+                                                        <!-- Insert Razorpay payment details here -->
+                                                    </div>
+                                            
+                                                    <!-- Wallet Details -->
+                                                    <div class="form-group collapse" id="walletDetails">
+                                                        <!-- Insert Wallet payment details here -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -591,30 +601,31 @@
         </section>
     </main>
 
-     <!-- modal add address -->
+    <!-- modal add address -->
 
-     <div class="modal"  id="exampleModal" tabindex="-1">
+    <div class="modal" id="exampleModal" tabindex="-1">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="container  align-center">
-                
-                    <div class="row">
-                            <div class="col"  >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container  align-center">
+
+                        <div class="row">
+                            <div class="col">
                                 <div class="mb-25">
                                     <h4>Add address</h4>
-                                </div> 
+                                </div>
                                 <form action="/addressSave" method="post" onsubmit="return validateForm()">
                                     <div class="form-group">
-                                        <input type="text" name="name" id="name" placeholder="First name *" >
+                                        <input type="text" name="name" id="name" placeholder="First name *">
                                         <span id="nameError" class="error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="tel" name="phone" id="phone" placeholder="10 digit mobile number *">
+                                        <input type="tel" name="phone" id="phone"
+                                            placeholder="10 digit mobile number *">
                                         <span id="phoneError" class="error"></span>
                                     </div>
                                     <div class="form-group">
@@ -631,7 +642,8 @@
                                         <span id="addressTypeError" class="error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="address" id="address" placeholder="Address (Area and Street) *">
+                                        <input type="text" name="address" id="address"
+                                            placeholder="Address (Area and Street) *">
                                         <span id="addressError" class="error"></span>
                                     </div>
                                     <div class="form-group">
@@ -639,7 +651,7 @@
                                         <span id="stateError" class="error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" name="city" id="city" placeholder="City / District / Town *" >
+                                        <input type="text" name="city" id="city" placeholder="City / District / Town *">
                                         <span id="cityError" class="error"></span>
                                     </div>
                                     <div class="form-group">
@@ -647,30 +659,32 @@
                                         <span id="landmarkError" class="error"></span>
                                     </div>
                                     <div class="form-group">
-                                        <input type="tel" name="alternatePhone" id="alternatePhone" placeholder="Alternate phone option*">
+                                        <input type="tel" name="alternatePhone" id="alternatePhone"
+                                            placeholder="Alternate phone option*">
                                         <span id="alternatePhoneError" class="error"></span>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button   type="submit" class="btn btn-primary">Save Address</button>
-                                      </div>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save Address</button>
+                                    </div>
                                     <!-- <button class="button" id="button" >Save Address</button> -->
                                 </form>
-                                
+
                                 <style>
                                     .error {
-                                        color: #dc3545; 
-                                        font-size: 0.875rem; 
+                                        color: #dc3545;
+                                        font-size: 0.875rem;
                                     }
                                 </style>
-                          </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
-           
-          </div>
         </div>
-      </div>
+    </div>
 
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
@@ -788,14 +802,14 @@
         });
     });
     const totalAmount = document.getElementById('totalAmount').innerText;
-
+  
 
 
 
     function payment(id) {
         Swal.fire({
             title: 'Payment item',
-            text: 'Are you sure you Confirm',
+            text: 'Are you sure',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'OK',
@@ -930,16 +944,8 @@
             document.getElementById('alternatePhoneError').innerHTML = "";
         }
 
-        return true; // Form submission allowed if all validations pass
+        return true;
     }
-
-
-
-
-
-    
-
-
 
 </script>
 
@@ -950,59 +956,59 @@
     //  save address validation
 
     function validateForm() {
-    const phoneRegex = /^\d{10}$/;
-    const pincodeRegex = /^\d{6}$/;
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const pincode = document.getElementById('pincode').value.trim();
-    const addressType = document.getElementById('addressType').value.trim();
-    const address = document.getElementById('address').value.trim();
-    const state = document.getElementById('state').value.trim();
-    const city = document.getElementById('city').value.trim();
-    const landmark = document.getElementById('landmark').value.trim();
-    const alternatePhone = document.getElementById('alternatePhone').value.trim();
-    const stateCityRegex = /^[a-zA-Z\s]+$/; // Regular expression to validate only letters and spaces
+        const phoneRegex = /^\d{10}$/;
+        const pincodeRegex = /^\d{6}$/;
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const pincode = document.getElementById('pincode').value.trim();
+        const addressType = document.getElementById('addressType').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const landmark = document.getElementById('landmark').value.trim();
+        const alternatePhone = document.getElementById('alternatePhone').value.trim();
+        const stateCityRegex = /^[a-zA-Z\s]+$/; // Regular expression to validate only letters and spaces
 
-    let isValid = true;
+        let isValid = true;
 
-    if (!name || !phone || !addressType || !address || !city || !state || !landmark) {
-        // At least one required field is empty
-        document.getElementById('nameError').innerHTML = name ? (name.match(stateCityRegex) ? "" : "Name must contain only letters") : "Please enter your first name";
-        document.getElementById('phoneError').innerHTML = phoneRegex.test(phone) ? "" : "Please enter a valid 10 digit mobile number";
-        document.getElementById('addressTypeError').innerHTML = addressType ? "" : "Please select an address type";
-        document.getElementById('addressError').innerHTML = address ? "" : "Please enter your address";
-        document.getElementById('cityError').innerHTML = city ? (city.match(stateCityRegex) ? "" : "City must contain only letters") : "Please enter your city/district/town";
-        document.getElementById('stateError').innerHTML = state ? (state.match(stateCityRegex) ? "" : "State must contain only letters") : "Please enter your state"; // Show error message if state is empty or not containing only letters
-        document.getElementById('landmarkError').innerHTML = landmark ? (landmark.match(stateCityRegex) ? "" : "Landmark must contain only letters") : "Please enter a landmark";
-        isValid = false;
-    } else {
-        // All required fields are filled
-        document.getElementById('nameError').innerHTML = "";
-        document.getElementById('phoneError').innerHTML = "";
-        document.getElementById('addressTypeError').innerHTML = "";
-        document.getElementById('addressError').innerHTML = "";
-        document.getElementById('cityError').innerHTML = "";
-        document.getElementById('stateError').innerHTML = "";
-        document.getElementById('landmarkError').innerHTML = "";
+        if (!name || !phone || !addressType || !address || !city || !state || !landmark) {
+            // At least one required field is empty
+            document.getElementById('nameError').innerHTML = name ? (name.match(stateCityRegex) ? "" : "Name must contain only letters") : "Please enter your first name";
+            document.getElementById('phoneError').innerHTML = phoneRegex.test(phone) ? "" : "Please enter a valid 10 digit mobile number";
+            document.getElementById('addressTypeError').innerHTML = addressType ? "" : "Please select an address type";
+            document.getElementById('addressError').innerHTML = address ? "" : "Please enter your address";
+            document.getElementById('cityError').innerHTML = city ? (city.match(stateCityRegex) ? "" : "City must contain only letters") : "Please enter your city/district/town";
+            document.getElementById('stateError').innerHTML = state ? (state.match(stateCityRegex) ? "" : "State must contain only letters") : "Please enter your state"; // Show error message if state is empty or not containing only letters
+            document.getElementById('landmarkError').innerHTML = landmark ? (landmark.match(stateCityRegex) ? "" : "Landmark must contain only letters") : "Please enter a landmark";
+            isValid = false;
+        } else {
+            // All required fields are filled
+            document.getElementById('nameError').innerHTML = "";
+            document.getElementById('phoneError').innerHTML = "";
+            document.getElementById('addressTypeError').innerHTML = "";
+            document.getElementById('addressError').innerHTML = "";
+            document.getElementById('cityError').innerHTML = "";
+            document.getElementById('stateError').innerHTML = "";
+            document.getElementById('landmarkError').innerHTML = "";
+        }
+
+        // Validate other fields
+        if (pincode && !pincodeRegex.test(pincode)) {
+            document.getElementById('pincodeError').innerHTML = "Please enter a valid 6 digit pincode";
+            isValid = false;
+        } else {
+            document.getElementById('pincodeError').innerHTML = "";
+        }
+
+        if (alternatePhone && !phoneRegex.test(alternatePhone)) {
+            document.getElementById('alternatePhoneError').innerHTML = "Please enter a valid 10 digit alternate phone number";
+            isValid = false;
+        } else {
+            document.getElementById('alternatePhoneError').innerHTML = "";
+        }
+
+        return isValid;
     }
-
-    // Validate other fields
-    if (pincode && !pincodeRegex.test(pincode)) {
-        document.getElementById('pincodeError').innerHTML = "Please enter a valid 6 digit pincode";
-        isValid = false;
-    } else {
-        document.getElementById('pincodeError').innerHTML = "";
-    }
-
-    if (alternatePhone && !phoneRegex.test(alternatePhone)) {
-        document.getElementById('alternatePhoneError').innerHTML = "Please enter a valid 10 digit alternate phone number";
-        isValid = false;
-    } else {
-        document.getElementById('alternatePhoneError').innerHTML = "";
-    }
-
-    return isValid;
-}
 </script>
 
 </html>

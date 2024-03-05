@@ -407,12 +407,10 @@
                                         </td>
                                         <td class="price" data-title="Price"><span> <strong>₹</strong> <%= element.Price %> </span></td>
                                         <td class="text-center" data-title="Stock">
-                                            <div class="detail-qty border radius  m-auto">
-                                                <a  onclick="quantityDown('<%= element._id %>')" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                
-                                                <span  id="quantityValue_<%= element._id %>" class="qty-val"><%= element.quantity %></span>
-                                                <a onclick="quantityUp('<%= element._id %>')" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                                   
+                                            <div class="">
+                                                <a  onclick="quantityDown('<%= element._id %>')" class="" style="font-size: 35px; "><b>-</b></a>                                                
+                                                <span   id="quantityValue_<%= element._id %>" class="qty-val"><%= element.quantity %></span>
+                                                <a onclick="quantityUp('<%= element._id %>')" class=""  style="font-size: 20px; "><b>+</b></a>                                                   
                                             </div>
                                         </td>
                                         <td class="text-right" data-title="Cart">
@@ -607,8 +605,6 @@
     const quantityElement = document.getElementById(`quantityValue_${productId}`);
     const currentQuantity = parseInt(quantityElement.innerText);
   
-    
-    
 
     fetch(`/product/updateQuantity/${productId}`, {  
         method: 'POST',
@@ -622,6 +618,19 @@
     })
         .then(response => response.json())
         .then(data => {
+            console.log("product quantity" ,data.quantity)
+            // document.getElementById(`quantityValue_${productId}`).innerText = data.quantity
+
+          if(data.status==="exceeded"){
+            Swal.fire({
+    
+        text: 'Stock exceeded',
+        icon: 'warning',
+
+        confirmButtonText: 'OK',
+    
+    })
+          }else{
     const matchedProductData = data.matchedProduct;
 
     const productData = data.product;
@@ -632,12 +641,14 @@
     quantityElement.innerText = matchedProductData.quantity;
     document.getElementById(`${matchedProductData._id}`).innerText = matchedProductData.total;
     document.getElementById('cartDataTotal').innerHTML = productData.total;
+          }
 })
         .catch(error => {
-            console.log('Fetch Error:', error);
+            console.log('Fetch Error:', error);       
         });
 }
-    
+
+
 
 
 async function removeCart(id) {

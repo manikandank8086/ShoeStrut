@@ -4,6 +4,8 @@ const userController = require('../controller/user')
 const { route } = require('./admin')
 const {userAuthentication}=require('../middleware/userAuth')
 
+
+
 router.get('/',userController.loginGet)
 
 router.post('/login',userController.loginPost)
@@ -44,9 +46,9 @@ router.post('/orderCOD',userAuthentication,userController.orderCOD)
 
 router.get('/orderDetails/:id',userAuthentication,userController.ordreDetailsGet)
 
-// router.get('/orderDetailsSuccess',userAuthentication,userController.orderDetailsSuccess)
 
-router.get('/orderCancel/:id',userAuthentication,userController.orderCancel)
+
+router.post('/orderCancel/:id',userAuthentication,userController.orderCancel)
 
 
 

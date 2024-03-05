@@ -1,4 +1,4 @@
-<%- include('partials/header.ejs',{tab:"product"}) %>
+<%- include('partials/header.ejs',{tab:"orders"}) %>
 
 <section class="content-main mb-5">
     <div class="content-header">
@@ -34,7 +34,7 @@
                                 <td><%= element.billTotal %></td>
                                 <td>
                                     <span class="badge">
-                                        <select name="status" onchange='statusChange("<%= element.orderId %>")'>
+                                        <select name="status" id="statusSelect_<%= element.orderId %>" onchange='statusChange("<%= element.orderId %>")'>
                                             <option value="Pending" <%= element.status==='Pending' ? 'selected' : '' %>>Pending</option>
                                             <option value="Processing" <%= element.status==='Processing' ? 'selected' : '' %>>Processing</option>
                                             <option value="Shipped" <%= element.status==='Shipped' ? 'selected' : '' %>>Shipped</option>
@@ -89,28 +89,73 @@
     </div>
 </footer>
 </main>
+
+<script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+<script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+<script src="/asset/js/vendors/select2.min.js"></script>
+<script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+<script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+<!-- Main Script -->
+<script src="/asset/js/main.js" type="text/javascript"></script>
+</body>
+</html>
+
+
+
 <script>
+    // async function statusChange(orderId) {
+    //     let status = document.querySelector(`#statusSelect_${orderId}`).value;
+    //     alert('working')
+
+    //     try {
+    //         const response = await fetch(`/admin/product/changeStatus`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 orderId: orderId,
+    //                 newStatus: status,
+    //             }),
+    //         });
+
+    //         const data = await response.json();
+    //         console.log(data); // Log the response data to the console
+    //     } catch (err) {
+    //         console.error(err); // Log any errors to the console
+    //     }
+    // }
+
+
     async function statusChange(orderId) {
-        let status = document.querySelector(`#statusSelect_${orderId}`).value;
+    
+    let status = document.querySelector(`#statusSelect_${orderId}`).value;
 
-        try {
-            const response = await fetch(`/admin/product/changeStatus`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    orderId: orderId,
-                    newStatus: status,
-                }),
-            });
 
-            const data = await response.json();
-            console.log(data); // Log the response data to the console
-        } catch (err) {
-            console.error(err); // Log any errors to the console
+    try {
+        const response = await fetch(`/admin/product/changeStatus`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                orderId: orderId,
+                newStatus: status,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update status');
         }
+
+        const data = await response.json();
+        console.log(data); // Log the response data to the console
+    } catch (err) {
+        console.error(err); // Log any errors to the console
+        // Handle error display or retry logic here
     }
+}
+
 
     document.getElementById("searchForm").addEventListener("submit", async function(event) {
         event.preventDefault();
@@ -153,7 +198,7 @@
                 <td>${result.billTotal}</td>
                 <td>
                     <span class="badge">
-                        <select name="status" id="statusSelect_${result.orderId}" onchange="statusChange('${result.orderId}')">
+                        <select name="status" id="statusSelect_${result.orderId}" onchage="statusChange('${result.orderId}')">
                             <option value="Pending" ${result.status==='Pending' ? 'selected' : ''}>Pending</option>
                             <option value="Processing" ${result.status==='Processing' ? 'selected' : ''}>Processing</option>
                             <option value="Shipped" ${result.status==='Shipped' ? 'selected' : ''}>Shipped</option>
@@ -174,12 +219,3 @@
     }
 </script>
 
-<script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
-<script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
-<script src="/asset/js/vendors/select2.min.js"></script>
-<script src="/asset/js/vendors/perfect-scrollbar.js"></script>
-<script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
-<!-- Main Script -->
-<script src="/asset/js/main.js" type="text/javascript"></script>
-</body>
-</html>

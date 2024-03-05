@@ -19,6 +19,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="/assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link rel="stylesheet" href="/assets/css/main.css?v=3.4">
+
+
+
+    <!-- rating -->
+
+   
 </head>
 
 <body>
@@ -288,7 +294,7 @@
                                 </p>
                                 <a href="#">View profile</a>
                             </div>
-                        </article>
+                        </article>   
                     </div> <!-- col// -->
                 </div> <!-- row // -->
                 <div class="row">
@@ -320,7 +326,7 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <%= item.price %>
+                                                        <%= item.productId.Price %>
                                                     </td>
                                                     <td>
                                                         <%= item.quantity %>
@@ -397,16 +403,77 @@
             </div> <!-- card-body end// -->
         </div> <!-- card end// -->
     </section> <!-- content-main end// -->
-    <footer class="main-footer font-xs">
-        <div class="row pb-30 pt-15">
 
-            <div class="col-sm-6">
-                <div class="text-sm-end">
-                    All rights reserved
+    <section>
+ 
+      
+    </section>
+
+
+    <footer class="main">
+        <section class="newsletter p-30 text-white wow fadeIn animated">
+
+        </section>
+        <section class="section-padding footer-mid " style="margin-right: 50px;">
+            <div class="container pt-15 pb-20">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="widget-about font-md mb-md-5 mb-lg-0">
+                            <div class="logo logo-width-1 wow fadeIn animated">
+                                <a href="index.html">
+                                    <h3>ShoeStrut</h3>
+                                </a>
+                            </div>
+                            <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
+                            <p class="wow fadeIn animated">
+                                <strong>Address: </strong> MG Road, Street 32, Ernakulam
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Phone: </strong>(+91) 8086136588
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Hours: </strong>24 x 7
+                            </p>
+                            <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+
+                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img
+                                        src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img
+                                        src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img
+                                        src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">About</h5>
+                        <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms &amp; Conditions</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Support Center</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">My Account</h5>
+                        <ul class="footer-list wow fadeIn animated">
+                            <li><a href="/signup">Sign In</a></li>
+                            <li><a href="/product/cart">View Cart</a></li>
+                            <li><a href="#">My Wishlist</a></li>
+                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="/profile?tab=orders">Order</a></li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </footer>
+        </section>
+
+    
 
     <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
@@ -420,51 +487,68 @@
 
 <script>
 
-    function CancelButton(id) {
-        Swal.fire({
-            title: 'Are You Sure You Want to Cancel the Order?',
+    
+    
 
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'OK',
-            cancelButtonText: 'Cancel'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Reason for Cancelling',
-                    html: '<input id="swal-input1" class="swal2-input" placeholder="Reason for cancellation">',
-                    icon: 'warning',
-                   
-                    confirmButtonText: 'Submit',
-                  
-                }).then(async(result)=>{
-                    if(result.isConfirmed){
-                        try {
-                    const response = await fetch('/orderCancel/' + id, {
-                        method: 'GET'
-                    });
-                    const data = await response.json();
-                    console.log(response);
-                    if (data.success) {
-                        Swal.fire('Success', data.message, 'success');
-                        location.reload();
-                    } else {
-                        Swal.fire('Error', data.message, 'error');
-                        console.error('Item not canceled');
+
+    function CancelButton(id) {
+    Swal.fire({
+        title: 'Are You Sure You Want to Cancel the Order?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Reason for Cancelling',
+                html: '<input id="cancelationReason" class="swal2-input" placeholder="Reason for cancellation">',
+                icon: 'warning',
+                confirmButtonText: 'Submit',
+                preConfirm: () => {
+                    const cancellationReason = document.getElementById('cancelationReason').value;
+                    if (!cancellationReason) {
+                        Swal.showValidationMessage('Cancellation reason cannot be empty');
+                    } else if(!isNaN(cancellationReason)) {
+                        Swal.showValidationMessage('Cancellation reason must be a string');
                     }
-                } catch (error) {
-                    Swal.fire('Error', 'Failed to cancel order', 'error');
-                    console.log('Fetch Error:', error);
+                    // Add more validation logic here if needed
+                    return cancellationReason;
                 }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const cancellationReason = result.value; // Retrieve cancellation reason entered by the user
+                    try {
+                        const response = await fetch('/orderCancel/' + id, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                reason: cancellationReason
+                            })
+                        });
+                        const data = await response.json();
+                        console.log(response);
+                        if (data.success) {
+                            Swal.fire('Success', data.message, 'success');
+                            location.reload();
+                        } else {
+                            Swal.fire('Error', data.message, 'error');
+                            console.error('Item not canceled');
+                        }
+                    } catch (error) {
+                        Swal.fire('Error', 'Failed to cancel order', 'error');
+                        console.log('Fetch Error:', error);
                     }
-                })
-                
-            } else {
-                // Handle cancellation by the user
-                console.log('Action canceled by the user');
-            }
-        });
-    }
+                }
+            });
+        } else {
+            // Handle cancellation by the user
+            console.log('Action canceled by the user');
+        }
+    });
+}
 
 </script>
 

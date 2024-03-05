@@ -13,7 +13,7 @@ const cartGet = async (req, res) => {
   try {
     const cartData = await cartModel.findOne({ userId: req.session.userId });
     if (!cartData) {
-      res.render("User/cart", { cartData:'' });
+      res.render("User/cart", { cartData: "" });
     }
 
     res.render("User/cart", { cartData });
@@ -88,13 +88,13 @@ const calculateTotal = (products) => {
 
 const qtyUp = async (req, res) => {
   const { action } = req.body;
-  console.log("halaaaa", action);
   let productId = req.params.id;
+  console.log("halaaaa", productId);
 
   try {
     productId = new ObjectId(productId);
     const product = await cartModel.findOne({ "products._id": productId });
-    console.log("1");
+    console.log("Product : ",product);
     if (!product) {
       console.log("404");
       return res.status(404).send("Product not found");
@@ -104,22 +104,40 @@ const qtyUp = async (req, res) => {
     const productData = await productPush.findOne({
       _id: matchedProduct.productId,
     });
+    console.log("quantity");
+    console.log(matchedProduct.quantity);
+    console.log("stock");
+    console.log(productData.stock);
+
     if (action === "increment") {
       console.log("inc");
-      console.log('qty' + '  ' + matchedProduct.quantity)
-      console.log('stock' + '  ' + productData.stock)
-    
+      console.log("qty" + "  " + matchedProduct.quantity);
+      console.log("stock" + "  " + productData.stock);
 
-      if (matchedProduct.quantity < productData.stock && matchedProduct.quantity <5) {
-        matchedProduct.quantity += 1;
-        console.log("increment");
+      if (matchedProduct.quantity < 5) {
+        console.log('its why worki')
+        if (matchedProduct.quantity < productData.stock) {
+          matchedProduct.quantity += 1;
+          console.log("increment :",matchedProduct.quantity);
+          //upadate
+          matchedProduct.total = matchedProduct.quantity * matchedProduct.Price;
+          //  product.save()
+          console.log('matched product')
+          console.log(product)
 
-        matchedProduct.total = matchedProduct.quantity * matchedProduct.Price;
-        product.total = calculateTotal(product.products);
+          product.total = calculateTotal(product.products);
+          // return res.json({ status: "", quantity: matchedProduct.quantity });
+        } else {
+          return res
+            .status(200)
+            .json({ status: "exceeded", quantity: matchedProduct.quantity });
+        }
+      } else {
+        console.log("matchdeproduct.quantity<5");
+        return res
+          .status(200)
+          .json({ status: "minimum", quantity: matchedProduct.quantity });
       }
-
-        
-            
     } else if (action === "decrement" && matchedProduct.quantity > 1) {
       console.log("dec");
       matchedProduct.quantity -= 1;
@@ -127,11 +145,18 @@ const qtyUp = async (req, res) => {
       product.total = calculateTotal(product.products);
     }
     await product.save();
-
-    res.status(200).json({ matchedProduct: matchedProduct, product: product });
+    console.log('haloooo')
+    console.log(matchedProduct)
+     res
+      .status(200)
+      .json({
+         matchedProduct,
+         product,
+        quantity: matchedProduct.quantity,
+      });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+       res.status(500).send("Internal Server Error");
   }
 };
 
@@ -162,42 +187,75 @@ const removeDelete = async (req, res) => {
 
 const checkoutGet = async (req, res) => {
   try {
-      if(req.session.order){
-    const cartData = await cartModel.findOne({ userId: req.session.userId });
+    if (req.session.order) {
+      const cartData = await cartModel.findOne({ userId: req.session.userId });
 
-    const userAddress = await addressModel.findOne({
-      userId: req.session.userId,
-    });
+      const userAddress = await addressModel.findOne({
+        userId: req.session.userId,
+      });
 
-    if (!cartData) {
-      return res.status(404).json({ message: "Cart not found for the user" });
+      if (!cartData) {
+        return res.status(404).json({ message: "Cart not found for the user" });
+      }
+
+      const products = cartData.products;
+
+      products.forEach((Element) => {
+        console.log("price is");
+        console.log(Element.Price);
+      });
+
+      const subtotal = products.reduce(
+        (acc, product) => acc + product.total,
+        0
+      );
+
+      res.render("User/checkout", { products, subtotal, userAddress });
+    } else {
+      res.redirect("/product/cart");
     }
-
-    const products = cartData.products;
-
-    const subtotal = products.reduce((acc, product) => acc + product.total, 0);
-    console.log('sdfsafhfdsahfjhdasjdhfjhsakfjhsakjfhdkjshfajfhadsk')
-    console.log(userAddress)
-
-    res.render("User/checkout", { products, subtotal, userAddress });
-  }else{
-    res.redirect('/product/cart')
-  }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-
-const checkVerify = async(req,res)=>{
-  try{
-     req.session.order=true
-     res.redirect('/product/checkout')
-  }catch(error){
-    console.log(error)
+const checkVerify = async (req, res) => {
+  try {
+    req.session.order = true;
+    res.redirect("/product/checkout");
+  } catch (error) {
+    console.log(error);
   }
-}
+};
+
+const qtyUpdation = async(req,res) =>{
+  let productId = req.params.id;
+  console.log("halaaaa", productId);
+    productId = new ObjectId(productId);
+    const product = await cartModel.findOne({ "products._id": productId });
+    console.log("Product : ",product);
+    if (!product) {
+      console.log("404");
+      return res.status(404).send("Product not found");
+    }
+
+    let matchedProduct = product.products.find((p) => p._id.equals(productId));
+    const productData = await productPush.findOne({
+      _id: matchedProduct.productId,
+    });
+    console.log("quantity");
+    console.log(matchedProduct.quantity);
+    console.log("stock");
+    console.log(productData.stock);
+
+    res.status(200)
+      .json({
+        quantity: matchedProduct.quantity,
+      })
+
+  }
+  
 
 const checkoutPost = async (req, res) => {};
 
@@ -208,5 +266,6 @@ module.exports = {
   removeDelete,
   checkoutPost,
   checkoutGet,
-  checkVerify
+  checkVerify,
+  qtyUpdation
 };

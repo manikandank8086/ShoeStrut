@@ -9,6 +9,8 @@ const { cartModel } = require("../model/cartModel");
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
 const { reviewModel } = require("../model/ReviewModel");
+const { signupGet } = require("./user");
+const { Order } = require("../model/orderModel");
 
 const productDetailsGet = async (req, res) => {
   try {
@@ -31,22 +33,27 @@ const productDetailsGet = async (req, res) => {
       .find({})
       .sort({ _id: -1 })
       .limit(4);
-  
+
     if (!product) {
       return res.render("404page");
     }
+
+    const reviewData = await reviewModel
+      .find({ productId: id })
+      .populate("userId", "username");
+
+
+      //finding user have ordered product
+
+      const orderedProduct = await  Order.findOne({userId:req.session.userId,'items.productId':id})
+      console.log('product ind')
+      console.log(orderedProduct)
+
     
-    const reviewData = await reviewModel.find({ productId: id }).populate('userId', 'username');
-    
-    // reviewData.forEach(review => {
-    //     console.log('Username:', review.userId.username); // Access the username of the user who wrote the review
-    // });
     const cartData = await cartModel.find({ userId: req.session.userId });
 
-
-    const reviewCount = reviewModel.length-1
-    console.log( 'review count ' + reviewCount)
-    
+    const reviewCount = reviewModel.length - 1;
+    console.log("review count " + reviewCount);
 
     res.render("User/productDetails", {
       product,
@@ -55,11 +62,43 @@ const productDetailsGet = async (req, res) => {
       userRated,
       reviewData,
       reviewCount,
+      orderedProduct,
     });
   } catch (error) {
     console.log(error);
   }
 };
+
+// const sizeAdd = async (req, res) => {
+//   try {
+//       const size = req.query.size;
+//       const productId = req.query.productId;
+//       console.log('working')
+
+//       // Find the product by its ID and update its size attribute
+//       const updatedProduct = await productPush.findByIdAndUpdate(
+//           {_id:productId}, // Filter by product ID
+//           { size: size }, // Set the size field to the new value
+//           { new: true } // Return the updated document
+//       );
+
+
+//       console.log('perfect working')
+
+//       console.log(updatedProduct)
+
+//       if (!updatedProduct) {
+//         console.log('not working')
+//           return res.status(404).json( "Product not found" );
+//       }
+
+//       console.log(updatedProduct);
+//       return res.json(updatedProduct);
+//   } catch (error) {
+//       console.error(error);
+//       return res.status(500).json({ message: "Internal Server Error" });
+//   }
+// }
 
 const Ratings = async (req, res) => {
   try {
@@ -81,11 +120,9 @@ const Ratings = async (req, res) => {
         comment: comment,
       });
       await newReview.save();
-      console.log(newReview);
     } else {
       review.comment = comment;
       await review.save();
-      console.log(review);
     }
 
     res.status(200).json({ message: "Comment added successfully" });
@@ -106,7 +143,7 @@ const Star = async (req, res) => {
       userId: userId,
       productId: productId,
     });
-    
+
     if (!commentExist) {
       const newComment = new reviewModel({
         productId: productId,
@@ -127,24 +164,24 @@ const Star = async (req, res) => {
           from: "reviews",
           localField: "_id",
           foreignField: "productId",
-          as: "reviews"
-        }
+          as: "reviews",
+        },
       },
       {
         $addFields: {
-          averageRating: { $avg: "$reviews.rating" }
-        }
-      }
+          averageRating: { $avg: "$reviews.rating" },
+        },
+      },
     ]);
 
-  
-    ratings.forEach(async rating => {
-      await productPush.findByIdAndUpdate(rating._id, { $set: { rating: rating.averageRating } });
+    ratings.forEach(async (rating) => {
+      await productPush.findByIdAndUpdate(rating._id, {
+        $set: { rating: rating.averageRating },
+      });
     });
 
-    
     const productsUpdated = await productPush.find({});
-    console.log('working  aaaanu')
+    console.log("working  aaaanu");
     console.log(productsUpdated);
 
     return res.json({ status: true });
@@ -153,7 +190,6 @@ const Star = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 const shopGet = async (req, res) => {
   const PAGE_SIZE = 6;
@@ -166,26 +202,23 @@ const shopGet = async (req, res) => {
     const totalPages = Math.ceil(totalDocuments / limit);
 
     const product = await productPush.find({}).skip(startIndex).limit(limit);
-    console.log(product)
+    console.log(product);
 
-
-
-     const ratings = await productPush.aggregate([
+    const ratings = await productPush.aggregate([
       {
-          $lookup: {
-              from: "reviews", 
-              localField: "_id",
-              foreignField: "productId",
-              as: "reviews"
-          }
+        $lookup: {
+          from: "reviews",
+          localField: "_id",
+          foreignField: "productId",
+          as: "reviews",
+        },
       },
       {
-          $addFields: {
-              averageRating: { $avg: "$reviews.rating" }
-          }
+        $addFields: {
+          averageRating: { $avg: "$reviews.rating" },
+        },
       },
-      
-  ]);
+    ]);
 
     const newArrivals = await productPush.find({}).sort({ _id: -1 }).limit(5);
 
@@ -241,23 +274,22 @@ const ShopSort = async (req, res) => {
     } else if (sortOption === "Ratings") {
       sortedProducts = await productPush.aggregate([
         {
-            $lookup: {
-                from: "reviews", 
-                localField: "_id",
-                foreignField: "productId",
-                as: "reviews"
-            }
+          $lookup: {
+            from: "reviews",
+            localField: "_id",
+            foreignField: "productId",
+            as: "reviews",
+          },
         },
         {
-            $addFields: {
-                averageRating: { $avg: "$reviews.rating" }
-            }
+          $addFields: {
+            averageRating: { $avg: "$reviews.rating" },
+          },
         },
-        
-    ]);
-    console.log(sortedProducts)
+      ]);
+      console.log(sortedProducts);
 
-    return res.status(200).json(sortedProducts)
+      return res.status(200).json(sortedProducts);
     } else if (sortOption === "Featured") {
       console.log("working");
       sortedProducts = await productPush.find({ Price: { $gt: 10000 } });
@@ -326,6 +358,7 @@ const ShopSearch = async (req, res) => {
 
 module.exports = {
   productDetailsGet,
+  
   Ratings,
   Star,
   shopGet,

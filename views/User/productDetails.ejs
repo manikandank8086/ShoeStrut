@@ -138,10 +138,12 @@
                                     <div class=" d-inline-block">
                                         <div class="" style="width:90%; color: #f49507; font-size: 25px;">
                                             <% function generateStarRating(starLength) { %>
-                                                <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                              <% } %>
-                                              <%= generateStarRating(product.rating) %>
-                                              <span class="font-small ml-5 text-muted"> (25 reviews)</span>
+                                                <%= new Array(5).fill(null).map((star, i)=> star = i >= starLength ? '☆'
+                                                    : '★').join('') %>
+                                                    <% } %>
+                                                        <%= generateStarRating(product.rating) %>
+                                                            <span class="font-small ml-5 text-muted"> (25
+                                                                reviews)</span>
                                         </div>
                                     </div>
                                 </div>
@@ -599,34 +601,13 @@
                                             <figure class="border-radius-10" style="">
                                                 <img src="/images/<%= product.image %>" alt="product image">
                                             </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="/images/<%=product.image %>" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="/assets/imgs/shop/product-16-3.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="/assets/imgs/shop/product-16-4.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="/assets/imgs/shop/product-16-5.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="/assets/imgs/shop/product-16-6.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="/assets/imgs/shop/product-16-7.jpg" alt="product image">
-                                            </figure>
+
+
                                         </div>
                                         <!-- THUMBNAILS -->
                                         <div class="slider-nav-thumbnails pl-15 pr-15">
                                             <div><img src="/images/<%=product.image %>" alt="product image"></div>
-                                            <div><img src="/assets/imgs/shop/thumbnail-4.jpg" alt="product image"></div>
-                                            <div><img src="/assets/imgs/shop/thumbnail-5.jpg" alt="product image"></div>
-                                            <div><img src="/assets/imgs/shop/thumbnail-6.jpg" alt="product image"></div>
-                                            <div><img src="/assets/imgs/shop/thumbnail-7.jpg" alt="product image"></div>
-                                            <div><img src="/assets/imgs/shop/thumbnail-8.jpg" alt="product image"></div>
-                                            <div><img src="/assets/imgs/shop/thumbnail-9.jpg" alt="product image"></div>
+
                                         </div>
                                     </div>
                                     <!-- End Gallery -->
@@ -645,11 +626,14 @@
                                             <div class=" d-inline-block">
                                                 <div class="" style="width:90%; color: #f49507; font-size: 20px;">
                                                     <% function generateStarRating(starLength) { %>
-                                                        <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                                      <% } %>
-                                                      <%= generateStarRating(product.rating) %>
-                                                      
-                                                      <p class="font-small ml-5 text-muted"> <%= reviewCount %>(reviews)</p>
+                                                        <%= new Array(5).fill(null).map((star, i)=> star = i >=
+                                                            starLength ? '☆' : '★').join('') %>
+                                                            <% } %>
+                                                                <%= generateStarRating(product.rating) %>
+
+                                                                    <p class="font-small ml-5 text-muted">
+                                                                        <%= reviewCount %>(reviews)
+                                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -658,8 +642,8 @@
                                                 <ins><span class="text-brand"> <strong>₹</strong>
                                                         <%=product.Price %>
                                                     </span></ins>
-                                                <ins><span class="old-price font-md ml-15">200.00</span></ins>
-                                                <span class="save-price  font-md color3 ml-15">25% Off</span>
+                                                <!-- <ins><span class="old-price font-md ml-15">200.00</span></ins>
+                                                <span class="save-price  font-md color3 ml-15">25% Off</span> -->
                                             </div>
                                         </div>
                                         <div class="bt-1 border-color-1 mt-15 mb-15"></div>
@@ -680,7 +664,8 @@
                                                     <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> Available Stock
                                                         <strong>
                                                             <%= product.stock %>
-                                                        </strong></li>
+                                                        </strong>
+                                                    </li>
                                                     <% } else { %>
                                                         <span style="color: red;">Out of Stock</span>
                                                         <% } %>
@@ -694,10 +679,14 @@
                                             <strong class="mr-10">Size</strong>
                                             <ul class="list-filter size-filter font-small">
                                                 <li><a href="#">7</a></li>
-                                                <li class="active"><a href="#">8</a></li>
+                                                <li class="active"><a href="#%>">8</a></li>
                                                 <li><a href="#">9</a></li>
-                                                <li><a href="#">10</a></li>
-                                                <li><a href="#">11</a></li>
+                                                <li><a
+                                                        href="/product/addToCartSize/?size=10&productId=<%= product.id %>">10</a>
+                                                </li>
+                                                <li><a
+                                                        href="/product/addToCartSize/?size=11&productId=<%= product.id %>">11</a>
+                                                </li>
                                             </ul>
                                         </div>
 
@@ -739,165 +728,64 @@
                                             <%= product.description %>
                                         </p>
 
-                                        <!-- <ul class="product-more-infor mt-30">
-                                            <li><span>Type Of Packing</span> Bottle</li>
-                                            <li><span>Color</span> Green, Pink, Powder Blue, Purple</li>
-                                            <li><span>Quantity Per Case</span> 100ml</li>
-                                            <li><span>Ethyl Alcohol</span> 70%</li>
-                                            <li><span>Piece In One</span> Carton</li>
-                                        </ul> -->
+     
                                         <hr class="wp-block-separator is-style-dots">
-                                        <!-- <p>Laconic overheard dear woodchuck wow this outrageously taut beaver hey hello far meadowlark imitatively egregiously hugged that yikes minimally unanimous pouted flirtatiously as beaver beheld above forward
-                                            energetic across this jeepers beneficently cockily less a the raucously that magic upheld far so the this where crud then below after jeez enchanting drunkenly more much wow callously irrespective limpet.</p> -->
-                                        <!-- <h4 class="mt-30">Packaging & Delivery</h4>
-                                        <hr class="wp-block-separator is-style-wide">
-                                        <p>Less lion goodness that euphemistically robin expeditiously bluebird smugly scratched far while thus cackled sheepishly rigid after due one assenting regarding censorious while occasional or this more crane
-                                            went more as this less much amid overhung anathematic because much held one exuberantly sheep goodness so where rat wry well concomitantly.
-                                        </p>
-                                        <p>Scallop or far crud plain remarkably far by thus far iguana lewd precociously and and less rattlesnake contrary caustic wow this near alas and next and pled the yikes articulate about as less cackled dalmatian
-                                            in much less well jeering for the thanks blindly sentimental whimpered less across objectively fanciful grimaced wildly some wow and rose jeepers outgrew lugubrious luridly irrationally attractively
-                                            dachshund.
-                                        </p> -->
+
                                     </div>
-                                    <!-- <h3 class="section-title style-1 mb-30">Additional info</h3> -->
-                                    <!-- <table class="font-md mb-30">
-                                        <tbody>
-                                            <tr class="stand-up">
-                                                <th>Stand Up</th>
-                                                <td>
-                                                    <p>35″L x 24″W x 37-45″H(front to back wheel)</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="folded-wo-wheels">
-                                                <th>Folded (w/o wheels)</th>
-                                                <td>
-                                                    <p>32.5″L x 18.5″W x 16.5″H</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="folded-w-wheels">
-                                                <th>Folded (w/ wheels)</th>
-                                                <td>
-                                                    <p>32.5″L x 24″W x 18.5″H</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="door-pass-through">
-                                                <th>Door Pass Through</th>
-                                                <td>
-                                                    <p>24</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="frame">
-                                                <th>Frame</th>
-                                                <td>
-                                                    <p>Aluminum</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="weight-wo-wheels">
-                                                <th>Weight (w/o wheels)</th>
-                                                <td>
-                                                    <p>20 LBS</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="weight-capacity">
-                                                <th>Weight Capacity</th>
-                                                <td>
-                                                    <p>60 LBS</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="width">
-                                                <th>Width</th>
-                                                <td>
-                                                    <p>24″</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="handle-height-ground-to-handle">
-                                                <th>Handle height (ground to handle)</th>
-                                                <td>
-                                                    <p>37-45″</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="wheels">
-                                                <th>Wheels</th>
-                                                <td>
-                                                    <p>12″ air / wide track slick tread</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="seat-back-height">
-                                                <th>Seat back height</th>
-                                                <td>
-                                                    <p>21.5″</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="head-room-inside-canopy">
-                                                <th>Head room (inside canopy)</th>
-                                                <td>
-                                                    <p>25″</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="pa_color">
-                                                <th>Color</th>
-                                                <td>
-                                                    <p>Black, Blue, Red, White</p>
-                                                </td>
-                                            </tr>
-                                            <tr class="pa_size">
-                                                <th>Size</th>
-                                                <td>
-                                                    <p>M, S</p>
-                                                </td>
-                                            </tr>   
-                                        </tbody>
-                                    </table> -->
-                                    <!-- <div class="social-icons single-share">
-                                        <ul class="text-grey-5 d-inline-block">
-                                            <li><strong class="mr-10">Share this:</strong></li>
-                                            <li class="social-facebook"><a href="#"><img src="/assets/imgs/theme/icons/icon-facebook.svg" alt=""></a></li>
-                                            <li class="social-twitter"> <a href="#"><img src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a></li>
-                                            <li class="social-instagram"><a href="#"><img src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a></li>
-                                            <li class="social-linkedin"><a href="#"><img src="/assets/imgs/theme/icons/icon-pinterest.svg" alt=""></a></li>
-                                        </ul>
-                                    </div> -->
+
                                     <h3 class="section-title style-1 mb-30 mt-30">Reviews (3)</h3>
                                     <!--Comments-->
                                     <div class="comments-area style-2">
                                         <div class="row">
                                             <div class="col-lg-8">
                                                 <h4 class="mb-30">Customer questions & answers</h4>
-                                                
-                                                 
-                                              
+
+   
+
                                                 <div class="comment-list">
-                                                    <% reviewData.forEach(review => { %>
-                                                    <div class="single-comment justify-content-between d-flex">
-                                                        <div class="user justify-content-between d-flex">
-                                                            <div class="thumb text-center">
-                                                                <img src="/assets/imgs/page/avatar-6.jpg" alt="">
-                                                                <h6><a href=""><%= review.userId.username%></a></h6>
-                                                                  
-                                                            </div>
-                                                            <div class="desc">
-                                                                <div class=" d-inline-block">
-                                                                    <div class="" style="width:90%; color: #f49507; font-size: 30px;">
-                                                                        <% function generateStarRating(starLength) { %>
-                                                                            <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                                                          <% } %>
-                                                                          <%= generateStarRating(review.rating) %>
-                                                                    </div>
+                                                    <% reviewData.forEach(review=> { %>
+                                                        <div class="single-comment justify-content-between d-flex">
+                                                            <div class="user justify-content-between d-flex">
+                                                                <div class="thumb text-center">
+                                                                    <img src="/assets/imgs/page/avatar-6.jpg" alt="">
+                                                                    <h6><a href="">
+                                                                            <%= review.userId.username%>
+                                                                        </a></h6>
+   
                                                                 </div>
-                                                                <p><%= review.comment %>.
-                                                                </p>
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <p class="font-xs mr-30"><%= review.createdAt.toLocaleString()  %></p>
-                                                                        <!-- <a href="#" class="text-brand btn-reply">Reply -->
-                                                                            <i class="fi-rs-arrow-right"></i> </a>
+                                                                <div class="desc">
+                                                                    <div class=" d-inline-block">
+                                                                        <div class=""
+                                                                            style="width:90%; color: #f49507; font-size: 30px;">
+                                                                            <% function generateStarRating(starLength) {
+                                                                                %>
+                                                                                <%= new Array(5).fill(null).map((star,
+                                                                                    i)=> star = i >= starLength ? '☆' :
+                                                                                    '★').join('') %>
+                                                                                    <% } %>
+                                                                                        <%= generateStarRating(review.rating)
+                                                                                            %>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    <p>
+                                                                        <%= review.comment %>
+                                                                        
+                                                                    </p>
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <p class="font-xs mr-30">
+                                                                                <%= review.createdAt.toLocaleString() %>
+                                                                            </p>
+                                                                            <a href="#"
+                                                                                class="text-brand btn-reply">Reply
+                                                                                <i class="fi-rs-arrow-right"></i> </a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>  
-                                                   
-                                                    <% }) %>
+                                                        <% }) %>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4">
@@ -943,7 +831,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--comment form-->
+                                
+
+                                    <% if (orderedProduct) { %>
+                                        
                                     <div class="d-flex col-md-6  ">
                                         <div class="d-flex flex-column ">
                                             <div class="d-flex flex-row  comment-top   border-bottom px-4">
@@ -983,16 +874,25 @@
                                                     </span></p>
                                                 <div class="d-flex flex-row add-comment-section mt-4 mb-4">
                                                     <form id="commentForm" style="display: flex;">
-                                                        <input type="hidden" id="gameId" name="gameId" value="your-value">
-                                                        <textarea rows="2" cols="50" class="form-control mr-3" id="commentTextarea" placeholder="Add comment" style="width: 400px;"></textarea>
-                                                        <button class="btn btn-primary comment-btn" type="button" onclick="ratings()">Submit</button>
+                                                        <input type="hidden" id="gameId" name="gameId"
+                                                            value="your-value">
+                                                        <textarea rows="2" cols="50" class="form-control mr-3"
+                                                            id="commentTextarea" placeholder="Add comment"
+                                                            style="width: 400px;"></textarea>
+                                                        <button class="btn btn-primary comment-btn" type="button"
+                                                            onclick="ratings()">Submit</button>
                                                     </form>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- hi -->
+                                    <% } else { %> 
+                                    
+    <p>Only customers who have purchased this product can leave a review.</p>
+<% } %>
+
+
                                 </div>
                             </div>
                             <div class="row mt-60">
@@ -1041,15 +941,17 @@
                                                         <h2><a href="shop-product-right.html" tabindex="0">
                                                                 <%= element.title %>
                                                             </a></h2>
-                                                            <div class=" d-inline-block">
-                                                                <div class="" style="width:90%; color: #f49507; font-size: 16px;">
-                                                                    <% function generateStarRating(starLength) { %>
-                                                                        <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                                                      <% } %>
-                                                                      <%= generateStarRating(element.rating) %>
-                                                                    
-                                                                </div>
+                                                        <div class=" d-inline-block">
+                                                            <div class=""
+                                                                style="width:90%; color: #f49507; font-size: 16px;">
+                                                                <% function generateStarRating(starLength) { %>
+                                                                    <%= new Array(5).fill(null).map((star, i)=> star = i
+                                                                        >= starLength ? '☆' : '★').join('') %>
+                                                                        <% } %>
+                                                                            <%= generateStarRating(element.rating) %>
+
                                                             </div>
+                                                        </div>
                                                         <div class="product-price">
                                                             <span> <strong>₹</strong>
                                                                 <%= element.Price %>
@@ -1138,21 +1040,7 @@
         </section>
 
     </footer>
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="text-center">
-                    <h5 class="mb-5">Now Loading</h5>
-                    <div class="loader">
-                        <div class="bar bar1"></div>
-                        <div class="bar bar2"></div>
-                        <div class="bar bar3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Vendor JS-->
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
@@ -1181,7 +1069,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
-    //re
+
 
 
 
@@ -1316,9 +1204,9 @@
 
 
     function ratings() {
-      
+
         const productId = `<%= product._id %>`
-    
+
         try {
             fetch('/product/ratings', {
                 method: 'POST',
@@ -1328,15 +1216,15 @@
                 body: JSON.stringify({
 
                     comment: document.getElementById('commentTextarea').value,
-                    productId:productId
-                  
+                    productId: productId
+
 
                 })
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
-                    // Handle response data as needed
+
+                    location.reload();
                 });
         } catch (error) {
             console.error('Error', error);

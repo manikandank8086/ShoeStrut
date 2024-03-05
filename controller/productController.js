@@ -3,7 +3,7 @@ const { adminModel } = require("../model/adminModel");
 const { User } = require("../model/userModel");
 const { productPush } = require("../model/productModel");
 const { categoryModel } = require("../model/categoryModel");
-const {Order}   = require('../model/orderModel')
+const { Order } = require("../model/orderModel");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
 
@@ -12,22 +12,26 @@ const session = require("express-session");
 const productGet = async (req, res) => {
   const PAGE_SIZE = 3;
   try {
-    console.log(req.query.page)
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || PAGE_SIZE;
-      const startIndex = (page - 1) * limit;
+    console.log(req.query.page);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || PAGE_SIZE;
+    const startIndex = (page - 1) * limit;
 
-      const totalDocuments = await productPush.countDocuments({});
-      const totalPages = Math.ceil(totalDocuments / limit);
+    const totalDocuments = await productPush.countDocuments({});
+    const totalPages = Math.ceil(totalDocuments / limit);
 
-      const product = await productPush.find().populate("categoryId")
-          .skip(startIndex)
-          .limit(limit);
-      
-      res.status(200).render("admin/productList", { product, totalPages, currentPage: page });
+    const product = await productPush
+      .find()
+      .populate("categoryId")
+      .skip(startIndex)
+      .limit(limit);
+
+    res
+      .status(200)
+      .render("admin/productList", { product, totalPages, currentPage: page });
   } catch (error) {
-      console.log(error);
-      res.status(500).send("Internal Server Error");
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
@@ -102,7 +106,7 @@ const productListGet = async (req, res) => {
     }
 
     const publish = !data.isblock;
-    
+
     const updatedProduct = await productPush.findByIdAndUpdate(id, {
       $set: {
         isblock: publish,
@@ -130,8 +134,6 @@ const productListEditGet = async (req, res) => {
       return res.status(404).render("404page");
     }
 
-
-    
     res.render("admin/productEdit", { product });
   } catch (error) {
     console.log(error);
@@ -204,35 +206,41 @@ const blockUserGet = async (req, res) => {
 const orderList = async (req, res) => {
   const PAGE_SIZE = 12;
   try {
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || PAGE_SIZE;
-      const startIndex = (page - 1) * limit;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || PAGE_SIZE;
+    const startIndex = (page - 1) * limit;
 
-      const totalDocuments = await Order.countDocuments({});
-      const totalPages = Math.ceil(totalDocuments / limit);
+    const totalDocuments = await Order.countDocuments({});
+    const totalPages = Math.ceil(totalDocuments / limit);
 
-      const orderData = await Order.find({})
-          .populate('userId', 'username')
-          .skip(startIndex)
-          .limit(limit);
+    const orderData = await Order.find({})
+      .populate("userId", "username")
+      .sort({createdAt:-1})
+      .skip(startIndex)
+      .limit(limit);
 
-      if (orderData.length > 0) {
-          return res.status(200).render("admin/orderList", { orderData, totalPages, currentPage: page  });
-      } else {
-          return res.status(404).redirect('404');
-      }
+    if (orderData.length > 0) {
+      return res
+        .status(200)
+        .render("admin/orderList", {
+          orderData,
+          totalPages,
+          currentPage: page,
+        });
+    } else {
+      return res.status(404).redirect("404");
+    }
   } catch (error) {
-      console.log(error);
-      res.status(500).send("Internal Server error");
+    console.log(error);
+    res.status(500).send("Internal Server error");
   }
 };
-
 
 // const OrderSearch = async(req,res)=>{
 //   try{
 
 //     console.log(req.query.key)
-    
+
 //        let orderData= await  Order.find({
 //          "$or":[
 //           {orderId:{$regex:req.params.key}}
@@ -253,96 +261,85 @@ const OrderSearch = async (req, res) => {
 
     // Perform search query
     const orderData = await Order.find({
-      "$or": [
-        { orderId: { $regex: query, $options: 'i' } }, 
-        { status: { $regex: query, $options: 'i' } }, 
-        { 'userId.username': { $regex: query, $options: 'i' } } 
-      ]
-    }).populate('userId', 'username');
+      $or: [
+        { orderId: { $regex: query, $options: "i" } },
+        { status: { $regex: query, $options: "i" } },
+        { "userId.username": { $regex: query, $options: "i" } },
+      ],
+    }).populate("userId", "username");
 
     console.log("Query:", query);
     console.log("Search Results:", orderData);
 
-    res.status(200).json({ status: 'success', data: orderData });
+    res.status(200).json({ status: "success", data: orderData });
   } catch (error) {
-    console.error('Error searching orders:', error);
-    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    console.error("Error searching orders:", error);
+    res.status(500).json({ status: "error", message: "Internal Server Error" });
   }
 };
-
-
-
 
 const changeStatus = async (req, res) => {
   try {
-      console.log("Working 2");
-      let {  orderId, newStatus } = req.body;
-      console.log( orderId , newStatus)
-      
+    console.log("Working 2");
+    let { orderId, newStatus } = req.body;
+    console.log(orderId, newStatus);
 
-     
-      console.log('working', newStatus);
+    console.log("working", newStatus);
 
-      const updatedOrder = await Order.findOneAndUpdate(
-          { orderId: orderId },
-          { status: newStatus },
-          { new: true } 
-      );
+    const updatedOrder = await Order.findOneAndUpdate(
+      { orderId: orderId },
+      { status: newStatus },
+      { new: true }
+    );
 
-      if (!updatedOrder) {
-          return res.status(404).json({ message: "Order not found" });
-      }
-
-      return res.json(updatedOrder);
-  } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-
-const orderDelete = async(req,res)=>{
-
-    try {
-      console.log('5433')
-        const orderId = req.params.id;
-        console.log(orderId);
-
-    const orderData= await Order.find({}).populate('userId','username')
-        
-        const deletedOrder = await Order.findByIdAndDelete(orderId);
-
-        if (!deletedOrder) {
-            return res.status(404).send('Order not found');
-        }
-
-        return res.status(200).render('admin/orderList',{orderData})
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Internal Server Error');
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Order not found" });
     }
+
+    return res.json(updatedOrder);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
 
+const orderDelete = async (req, res) => {
+  try {
+    console.log("5433");
+    const orderId = req.params.id;
+    console.log(orderId);
 
-const OrderDetails=async(req,res)=>{
-  try{
-      
-    const orderId=req.params.id
+    const orderData = await Order.find({}).populate("userId", "username");
 
-    const orderData = await Order.findOne({orderId:orderId}).populate("userId", "city")
-    .populate("items.productId");
-    console.log(orderData.userId)
-    console.log(orderId)
-    const userData = await User.findOne({ _id:orderData.userId });
-      res.status(200).render('admin/orderDetails',{order:orderData,userData})
+    const deletedOrder = await Order.findByIdAndDelete(orderId);
 
-  }catch(error){
-    console.log(error)
+    if (!deletedOrder) {
+      return res.status(404).send("Order not found");
+    }
+
+    return res.status(200).render("admin/orderList", { orderData });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   }
-}
+};
 
+const OrderDetails = async (req, res) => {
+  try {
+    const orderId = req.params.id;
 
+    const orderData = await Order.findOne({ orderId: orderId })
+      .populate("userId", "city")
+      .populate("items.productId");
 
+    const userData = await User.findOne({ _id: orderData.userId });
+    res
+      .status(200)
+      .render("admin/orderDetails", { order: orderData, userData });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
   productGet,

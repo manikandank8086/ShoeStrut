@@ -507,7 +507,7 @@
                                                             <span> <strong>₹</strong>
                                                                 <%=element.Price %>
                                                             </span>
-                                                            <span class="old-price">$10999.8</span>
+                                                         
                                                         </div>
                                                         <div class="product-action-1 show">
                                                             <% if (element.stock > 0) { %>
@@ -869,14 +869,14 @@ function displayFilteredProducts(products) {
                         </div>
                         <h2><a href="/product/details/${product._id}">${product.brand}</a></h2>
                         <!-- Star Rating -->
-                        <div class="d-inline-block" style="width: 90%; color: #f49507; font-size: 0px;">
+                        <div class="d-inline-block" style="width: 90%; color: #f49507; font-size: 16px;">
                             ${generateStarRating(product.rating)}
                         </div>
                         <p>${product.stock > 0 ? `Only ${product.stock} Stock Available` : '<span style="color: red;">Out of Stock</span>'}</p>
                         <!-- Product Price -->
                         <div class="product-price">   
                             <span><strong>₹</strong>${product.Price}</span>
-                            <span class="old-price">$10999.8</span> <!-- Example old price, customize as needed -->
+                           
                         </div>
                         <!-- Additional Product Actions -->
                         <div class="product-action-1 show">

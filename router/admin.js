@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controller/admin");
-const adminCategoryController = require("../controller/AdminCategoryController")
+const adminCategoryController = require("../controller/AdminCategoryController");
 const { upload } = require("../helper/multer");
 const { adminAuthentication } = require("../middleware/adminAuth");
 
@@ -13,22 +13,16 @@ router.post("/login", adminController.loginPost);
 
 router.get("/adminHome", adminAuthentication, adminController.homeGet);
 
+// Category
 
+router.get("/category", adminAuthentication,adminCategoryController.categoryGet);
 
+router.get("/categoryList", adminAuthentication,adminCategoryController.categoryListGet);
 
+router.get("/editCategory/:id", adminAuthentication, adminCategoryController.editCategoryGet);
 
- // Category
+router.post("/categoryEdited/:id", adminAuthentication,adminCategoryController.categoryEditPost);
 
-router.get("/category", adminCategoryController.categoryGet);
-
-router.get("/categoryList", adminCategoryController.categoryListGet);
-
-router.get("/editCategory/:id", adminCategoryController.editCategoryGet);
-
-router.post("/categoryEdited/:id", adminCategoryController.categoryEditPost);
-
-router.post("/create/categoty", adminCategoryController.categoryPost);
-
-
+router.post("/create/categoty", adminAuthentication, adminCategoryController.categoryPost);
 
 module.exports = router;
