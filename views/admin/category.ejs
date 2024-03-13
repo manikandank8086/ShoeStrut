@@ -6,7 +6,7 @@
                 <p>Add, edit or delete a category</p>
             </div>
             <div>
-                <input type="text" placeholder="Search Categories" class="form-control bg-white">
+              <a href="/admin/categoryOffer/" > <button style="background-color: darkcyan;" >Add Category Offer</button></a> 
             </div>
         </div>
         <div class="card">
@@ -20,7 +20,9 @@
                                 <input type="text" placeholder="Type here" class="form-control" name="name"
                                     onkeyup="nameValidation()" id="nameId" />
                                 <span id="nameValue" class="text-danger"></span>
-                                <span  style="color: rgb(228, 20, 20);" > <%= message %></span>
+                                <span style="color: rgb(228, 20, 20);">
+                                    <%= message %>
+                                </span>
                             </div>
 
 
@@ -41,7 +43,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        
+
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th>Status</th>
@@ -70,7 +72,7 @@
                                             </td>
                                             <td>
                                                 <% if (element.isblock==true) { %>
-                                                    <button id="userdeleteblock" 
+                                                    <button id="userdeleteblock"
                                                         onclick="ListCategory('<%= element._id %>')"
                                                         class="btn btn-danger">
                                                         <%= (element.isblock===true)?'List':'Unlist'%>
@@ -195,9 +197,9 @@
                     return false;
                 }
 
-                if(description.length>100){
-                     descriptionValueError.innerText='description length must be under 50 letters'
-                     return false
+                if (description.length > 100) {
+                    descriptionValueError.innerText = 'description length must be under 50 letters'
+                    return false
                 }
 
                 descriptionValueError.innerText = '';
@@ -214,9 +216,14 @@
                     return true;
                 }
             }
-
             form.addEventListener('submit', submitForm);
             nameValue.addEventListener('keyup', nameValidation);
             descriptionValue.addEventListener('keyup', descriptionValidation);
         });
+    </script>
+
+    <!-- categoty offer -->
+
+    <script>
+       
     </script>

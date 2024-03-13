@@ -87,7 +87,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="/product/wishlist/">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -326,13 +326,14 @@
                                                         </a>
                                                     </td>
                                                     <td>
-                                                        <%= item.productId.Price %>
+                                                        ₹ <%= item.productId.Price %>
                                                     </td>
                                                     <td>
                                                         <%= item.quantity %>
                                                     </td> 
                                                     <td class="text-end">
-                                                        <%= item.price * item.quantity %>
+                                                       
+                                                        ₹ <%= order.billTotal  %>
                                                     </td> 
                                                 </tr>
                                                 <% }) %>
@@ -348,18 +349,24 @@
                                                                         <dl class="dlist">
                                                                             <dt>Subtotal:</dt>
                                                                             <dd>
-                                                                                <%= order.billTotal %>
+                                                                                ₹ <%= order.billTotal %>
                                                                             </dd>
                                                                         </dl>
                                                                         <dl class="dlist">
-                                                                            <dt>Shipping cost:</dt>
-                                                                            <dd>$00.00</dd>
+                                                                            <dt>Discount Price:</dt>
+                                                                            <dd style="color: green;" > ₹ <%= order.discountPrice %></dd>
                                                                         </dl>
                                                                         <dl class="dlist">
                                                                             <dt>Grand total:</dt>
                                                                             <dd> <b class="h5">
-                                                                                    <%= order.billTotal %>
+                                                                                <% if (order.netAmount > 0) { %>
+                                                                                    ₹ <%= order.netAmount %>
                                                                                 </b> </dd>
+                                                                                <% } else { %>
+                                                                                    ₹ <%= order.billTotal %>
+                                                                                </b> </dd>
+                                                                                <% } %>
+                                                                               
                                                                         </dl>
                                                                         <dl class="dlist">
                                                                             <dt class="text-muted">Status:</dt>

@@ -8,6 +8,7 @@ const { categoryModel } = require("../model/categoryModel");
 const { cartModel } = require("../model/cartModel");
 const { addressModel } = require("../model/addressModel");
 const { ObjectId } = require("mongodb");
+const { Coupon } = require("../model/coupon");
 
 const cartGet = async (req, res) => {
   try {
@@ -27,9 +28,20 @@ const cartAdd = async (req, res) => {
     const productId = req.params.id;
     const product = await productPush.findOne({ _id: productId });
     if (product) {
-      const { title, Price, image } = product;
+      const { title,  image,offerPrice } = product;
+      let Price = product.Price
+      console.log(Price)
+      console.log(offerPrice , "const")
       const userId = req.session.userId;
       const existingCart = await cartModel.findOne({ userId: userId });
+      console.log('offer price')
+      console.log(product.offerPrice)
+      if(product.offerPrice > 0){
+        console.log(offerPrice)
+        console.log(Price)
+        Price =product.offerPrice
+        console.log(Price)
+      }
       if (existingCart) {
         const existingProductIndex = existingCart.products.findIndex(
           (item) => item.productId.toString() === productId
@@ -210,7 +222,10 @@ const checkoutGet = async (req, res) => {
         0
       );
 
-      res.render("User/checkout", { products, subtotal, userAddress });
+
+      const coupons = await Coupon.find({})
+
+      res.render("User/checkout", { products, subtotal, userAddress,coupons });
     } else {
       res.redirect("/product/cart");
     }
@@ -253,19 +268,23 @@ const qtyUpdation = async(req,res) =>{
       .json({
         quantity: matchedProduct.quantity,
       })
-
   }
+
+
+
+
+
   
 
-const checkoutPost = async (req, res) => {};
+
 
 module.exports = {
   cartAdd,
   cartGet,
   qtyUp,
   removeDelete,
-  checkoutPost,
   checkoutGet,
   checkVerify,
-  qtyUpdation
+  qtyUpdation,
+  
 };

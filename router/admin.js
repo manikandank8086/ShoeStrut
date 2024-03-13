@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminController = require("../controller/admin");
-const adminCategoryController = require("../controller/AdminCategoryController");
+const adminCategoryController = require("../controller/category");
 const { upload } = require("../helper/multer");
 const { adminAuthentication } = require("../middleware/adminAuth");
 
@@ -12,6 +12,11 @@ router.get("/logout", adminController.logoutGet);
 router.post("/login", adminController.loginPost);
 
 router.get("/adminHome", adminAuthentication, adminController.homeGet);
+
+
+//sales Report
+
+
 
 // Category
 
@@ -24,5 +29,12 @@ router.get("/editCategory/:id", adminAuthentication, adminCategoryController.edi
 router.post("/categoryEdited/:id", adminAuthentication,adminCategoryController.categoryEditPost);
 
 router.post("/create/categoty", adminAuthentication, adminCategoryController.categoryPost);
+// offer category
+
+router.get('/categoryOffer', adminAuthentication, adminCategoryController.OfferListGet)
+
+router.get('/editCatOffer/:id', adminAuthentication, adminCategoryController.createOffer)
+
+router.patch('/editConfirm',adminAuthentication,adminCategoryController.editPatch)
 
 module.exports = router;

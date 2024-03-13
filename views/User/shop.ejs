@@ -79,7 +79,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="/product/wishlist/">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -448,6 +448,7 @@
                         </div>
                         <div class="row product-grid-4">
                             <% product.forEach(element=> { %>
+                                
 
                                 <div class="col-lg-4 col-md-4 col-12 col-sm-6">
                                     <div class="product-cart-wrap mb-30">
@@ -493,6 +494,38 @@
                                                           <%= generateStarRating(element.rating) %>
                                                     </div>
                                                 </div>
+
+                                                <% if (element.offerPrice > 0) { %>
+                                                    
+                                                  
+                                                    <h5 class="offer-price"
+                                                        style="color: green; font-size: large;font-weight: 500; ">
+                                                        <%= element.discountPercentage.toFixed(2)%> %Off
+                                                    </h5>
+
+
+                                                    <span style="text-decoration: line-through; color: brown;"><strong>
+                                                            ₹</strong>
+                                                        <%= element.Price %>
+                                                    </span>
+
+                                                    
+
+                                                        <small class="offer-price"
+                                                            style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
+                                                                ₹</strong>
+                                                            <%= element.offerPrice %>
+                                                        </small>
+                                                        <% } else { %>
+                                                         
+                                                        
+                                            <div class="product-price">
+                                                <span> <strong> ₹</strong>
+                                                    <%=element.Price %>
+                                                </span>
+                                                <!-- <span class="old-price">10999.8</span> -->
+                                            </div>
+                                            <% } %>
                                                
                                                 <br>
                                             <% if (element.stock>0) { %>
@@ -601,7 +634,7 @@
                                     <img src="/images/<%= newArrieve.image %>" alt="#">
                                 </div>
                                 <div class="content pt-10">
-                                    <h5><a href="/product/details/<%= newArrieve._id %>"><%= newArrieve.title %></a></h5>
+                                    <h5><a href="/product/details/<%= newArrieve._id %>"><%= newArrieve.brand %></a></h5>
                                     <p class="price mb-0 mt-5"><%= newArrieve.Price %></p>
                                     <div class=" d-inline-block">
                                         <div class="" style="width:90%; color: #f49507; font-size: 10px;">
@@ -611,14 +644,47 @@
                                               <%= generateStarRating(newArrieve.rating) %>
                                              
                                         </div>
+                                        <% if (newArrieve.offerPrice > 0) { %>
+                                                    
+                                                  
+                                            <!-- <h5 class="offer-price"
+                                                style="  width:90%; green; font-size: large;font-weight: 100; font-size: 10px;">
+                                                <%= newArrieve.discountPercentage.toFixed(2)%> %Off
+                                            </h5> -->
+
+
+                                            <span style="text-decoration: line-through; color: brown;"><strong>
+                                                    ₹</strong>
+                                                <%= newArrieve.Price %>
+                                            </span>
+
+                                            
+
+                                                <small class="offer-price"
+                                                    style="color:rgb(48, 50, 50); font-size: small;  font-weight: 100;"><strong>
+                                                        ₹</strong>
+                                                    <%= newArrieve.offerPrice %>
+                                                </small>
+                                                <% } else { %>
+                                                 
+                                                
+                                    <div class="product-price">
+                                        <span> <strong> ₹</strong>
+                                            <%=newArrieve.Price %>
+                                        </span>
+                                        <!-- <span class="old-price">10999.8</span> -->
+                                    </div>
+                                    <% } %>
                                     </div>
                                
                             </div>
+                            <h1></h1>
                             
                             <% }) %>
                            
                             
                         </div>
+                       
 
                     </div>
                 </div>
@@ -824,8 +890,7 @@ function filterProducts(categoryName) {
 }
 
 
-                                                                          
-
+              
 function displayFilteredProducts(products) {
     const productGrid = document.querySelector('.product-grid-4');
     productGrid.innerHTML = ''; // Clear previous products
@@ -836,66 +901,72 @@ function displayFilteredProducts(products) {
     }
 
     // Iterate through each product and generate HTML dynamically
-    products.forEach(product => {
-        const productHTML = `
-            <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                <div class="product-cart-wrap mb-30">
-                    <div class="product-img-action-wrap" style="height: 500px; position: relative; overflow: hidden;">
-                        <div class="product-img product-img-zoom">
-                            <a href="/product/details/${product._id}">
-                                <img class="default-img" src="/images/${product.image}" alt="" style="height: 300px; width: 100%; object-fit: cover;">
-                                <img class="hover-img" src="/images/${product.image}" alt="" style="height: 300px; width: 100%; object-fit: cover;">
-                            </a>
-                            <div class="product-badges product-badges-position product-badges-mrg">
-                                <span class="hot">Hot</span> <!-- Example badge, customize as needed -->
-                            </div>
-                        </div>
-                        <div class="product-action-1">
-                            <% if (product.stock > 0) { %>
-                                <a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
-                                    <i class="fi-rs-shopping-bag-add"></i>
-                                </a>
-                            <% } else { %>
-                                <a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
-                                    <i class="fi-rs-shopping-bag-add"></i>
-                                </a>
-                            <% } %>
-                            <!-- Add other product actions (e.g., quick view, wishlist, compare) here -->
+    
+
+products.forEach(product => {
+    const productHTML = `
+        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap" style="height: 500px; position: relative; overflow: hidden;">
+                    <div class="product-img product-img-zoom">
+                        <a href="/product/details/${product._id}">
+                            <img class="default-img" src="/images/${product.image}" alt="" style="height: 300px; width: 100%; object-fit: cover;">
+                            <img class="hover-img" src="/images/${product.image}" alt="" style="height: 300px; width: 100%; object-fit: cover;">
+                        </a>
+                        <div class="product-badges product-badges-position product-badges-mrg">
+                            <span class="hot">Hot</span> <!-- Example badge, customize as needed -->
                         </div>
                     </div>
-                    <div class="product-content-wrap">
-                        <div class="product-category">
-                            <a href="/product/details/${product._id}">${product.title}</a>
-                        </div>
-                        <h2><a href="/product/details/${product._id}">${product.brand}</a></h2>
-                        <!-- Star Rating -->
-                        <div class="d-inline-block" style="width: 90%; color: #f49507; font-size: 16px;">
-                            ${generateStarRating(product.rating)}
-                        </div>
-                        <p>${product.stock > 0 ? `Only ${product.stock} Stock Available` : '<span style="color: red;">Out of Stock</span>'}</p>
-                        <!-- Product Price -->
-                        <div class="product-price">   
-                            <span><strong>₹</strong>${product.Price}</span>
-                           
-                        </div>
-                        <!-- Additional Product Actions -->
-                        <div class="product-action-1 show">
-                            <% if (product.stock > 0) { %>
-                                <a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
-                                    <i class="fi-rs-shopping-bag-add"></i>
-                                </a>
-                            <% } else { %>
-                                <a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
-                                    <i class="fi-rs-shopping-bag-add"></i>
-                                </a>
-                            <% } %>
-                        </div>
+                    <div class="product-action-1">
+                        ${product.stock > 0 ?
+                            `<a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
+                                <i class="fi-rs-shopping-bag-add"></i>
+                            </a>` :
+                            `<a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
+                                <i class="fi-rs-shopping-bag-add"></i>
+                            </a>`}
+                        <!-- Add other product actions (e.g., quick view, wishlist, compare) here -->
                     </div>
                 </div>
-            </div>`;
-        // Append the generated product HTML to the product grid
-        productGrid.insertAdjacentHTML('beforeend', productHTML);
-    });
+                <div class="product-content-wrap">
+                    <div class="product-category">
+                        <a href="/product/details/${product._id}">${product.title}</a>
+                    </div>
+                    <h2><a href="/product/details/${product._id}">${product.brand}</a></h2>
+                    <!-- Star Rating -->
+                    <div class="d-inline-block" style="width: 90%; color: #f49507; font-size: 16px;">
+                        ${generateStarRating(product.rating)}
+                    </div>
+                    <!-- Offer Price -->
+                    ${product.offerPrice > 0 ?
+                        `<h5 class="offer-price" style="color: green; font-size: large;font-weight: 500;">
+                            ${product.discountPercentage.toFixed(2)} %Off
+                        </h5>
+                        <span style="text-decoration: line-through; color: brown;"><strong>₹</strong>${product.Price}</span>
+                        <small class="offer-price" style="color:rgb(48, 50, 50); font-size: x-large; font-weight: 100;"><strong>₹</strong>${product.offerPrice}</small>` :
+                        `<div class="product-price">
+                            <span> <strong> ₹</strong>${product.Price}</span>
+                        </div>`}
+                    <p>${product.stock > 0 ? `Only ${product.stock} Stock Available` : '<span style="color: red;">Out of Stock</span>'}</p>
+                    <!-- Additional Product Actions -->
+                    <div class="product-price">   
+                        <span><strong>₹</strong>${product.Price}</span>
+                    </div>
+                    <div class="product-action-1 show">
+                        ${product.stock > 0 ?
+                            `<a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
+                                <i class="fi-rs-shopping-bag-add"></i>
+                            </a>` :
+                            `<a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
+                                <i class="fi-rs-shopping-bag-add"></i>
+                            </a>`}
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    // Append the generated product HTML to the product grid
+    productGrid.insertAdjacentHTML('beforeend', productHTML);
+});
 }
 
 
@@ -994,16 +1065,6 @@ function fetchDataFromBackend(query) {
         console.log('Failed to fetch data. Please try again later.');
     });
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

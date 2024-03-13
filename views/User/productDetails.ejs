@@ -96,6 +96,7 @@
                                         <img src="/images/<%= product.image %>" alt="product image"
                                             style="width: 100%;">
                                     </figure>
+                                    
 
                                 </div>
                                 <!-- THUMBNAILS -->
@@ -273,7 +274,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="/product/wishlist/">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -607,19 +608,24 @@
                                         <!-- THUMBNAILS -->
                                         <div class="slider-nav-thumbnails pl-15 pr-15">
                                             <div><img src="/images/<%=product.image %>" alt="product image"></div>
+                                            <div><img src="/images/<%=product.image %>" alt="product image"></div>
+                                            <div><img src="/images/<%=product.image %>" alt="product image"></div>
+                                            <div><img src="/images/<%=product.image %>" alt="product image"></div>
+                                            <div><img src="/images/<%=product.image %>" alt="product image"></div>
 
                                         </div>
+                                        
                                     </div>
                                     <!-- End Gallery -->
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div class="detail-info">
-                                        <h2 class="title-detail">
+                                        <h2  style="color: darkcyan;" class="title-detail" >
                                             <%= product.title %>
                                         </h2>
                                         <div class="product-detail-rating">
                                             <div class="pro-details-brand">
-                                                <span> Brands: <a href="shop-grid-right.html">
+                                                <span> Brands: <a  style="color: black;font-weight: 700; " href="shop-grid-right.html">
                                                         <%=product.brand %>
                                                     </a></span>
                                             </div>
@@ -637,15 +643,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="clearfix product-price-cover">
-                                            <div class="product-price primary-color float-left">
-                                                <ins><span class="text-brand"> <strong>₹</strong>
-                                                        <%=product.Price %>
-                                                    </span></ins>
-                                                <!-- <ins><span class="old-price font-md ml-15">200.00</span></ins>
-                                                <span class="save-price  font-md color3 ml-15">25% Off</span> -->
-                                            </div>
+                                       
+                                            <% if (product.offerPrice > 0) { %>
+                                                    
+                                                  
+                                                <h5 class="offer-price"
+                                                    style="color: green; font-size: large;font-weight: 500; font-weight: 700; ">
+                                                    <%= product.discountPercentage.toFixed(2)%> %Off
+                                                </h5>
+
+
+                                                <span style="text-decoration: line-through; color: brown;"><strong>
+                                                        ₹</strong>
+                                                    <%= product.Price %>
+                                                </span>
+
+                                                
+
+                                                    <small class="offer-price"
+                                                        style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
+                                                            ₹</strong>
+                                                        <%= product.offerPrice %>
+                                                    </small>
+                                                    <% } else { %> 
+                                                     
+                                                    
+                                        <div class="product-price" >
+                                            <span style="font-size: x-large; color: darkcyan; font-weight: 700;" > <strong> ₹</strong>
+                                                <%=product.Price %>
+                                            </span>
+                                            <!-- <span class="old-price">10999.8</span> -->
                                         </div>
+                                        <% } %>
+                                        
                                         <div class="bt-1 border-color-1 mt-15 mb-15"></div>
                                         <div class="short-desc mb-30">
                                             <p>
@@ -654,7 +684,7 @@
                                         </div>
                                         <div class="product_sort_info font-xs mb-30">
                                             <ul>
-                                                <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year <%=
+                                                <li style="color: darkgreen;" class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year <%=
                                                         product.brand %> Brand Warranty</li>
                                                 <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return
                                                     Policy</li>
@@ -662,7 +692,7 @@
 
 
                                                     <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> Available Stock
-                                                        <strong>
+                                                        <strong style="color: rgb(29, 65, 29);font-weight: 700; " >
                                                             <%= product.stock %>
                                                         </strong>
                                                     </li>
@@ -704,11 +734,11 @@
 
 
                                                             <a aria-label="Add To Wishlist" class="action-btn hover-up"
-                                                                href="shop-wishlist.html"><i
+                                                                onclick="WhislistAdd('<%= product._id %>')"><i
                                                                     class="fi-rs-heart"></i></a>
-                                                            <a aria-label="Compare" class="action-btn hover-up"
+                                                            <!-- <a aria-label="Compare" class="action-btn hover-up"
                                                                 href="shop-compare.html"><i
-                                                                    class="fi-rs-shuffle"></i></a>
+                                                                    class="fi-rs-shuffle"></i></a> -->
                                             </div>
                                         </div>
                                         <!-- <ul class="product-meta font-xs color-grey mt-50">
@@ -728,7 +758,7 @@
                                             <%= product.description %>
                                         </p>
 
-     
+
                                         <hr class="wp-block-separator is-style-dots">
 
                                     </div>
@@ -740,7 +770,7 @@
                                             <div class="col-lg-8">
                                                 <h4 class="mb-30">Customer questions & answers</h4>
 
-   
+
 
                                                 <div class="comment-list">
                                                     <% reviewData.forEach(review=> { %>
@@ -751,7 +781,7 @@
                                                                     <h6><a href="">
                                                                             <%= review.userId.username%>
                                                                         </a></h6>
-   
+
                                                                 </div>
                                                                 <div class="desc">
                                                                     <div class=" d-inline-block">
@@ -766,11 +796,11 @@
                                                                                         <%= generateStarRating(review.rating)
                                                                                             %>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                     <p>
                                                                         <%= review.comment %>
-                                                                        
+
                                                                     </p>
                                                                     <div class="d-flex justify-content-between">
                                                                         <div class="d-flex align-items-center">
@@ -831,66 +861,66 @@
                                             </div>
                                         </div>
                                     </div>
-                                
+
 
                                     <% if (orderedProduct) { %>
-                                        
-                                    <div class="d-flex col-md-6  ">
-                                        <div class="d-flex flex-column ">
-                                            <div class="d-flex flex-row  comment-top   border-bottom px-4">
 
-                                                <div class="d-flex flex-column ml-3">
-                                                    <div class="d-flex flex-row post-title">
-                                                        <h4>Rate and Review This Product</h4>
-                                                        <span class="ml-2"
-                                                            style="color: aliceblue; font-size: 20px;"></span>
+                                        <div class="d-flex col-md-6  ">
+                                            <div class="d-flex flex-column ">
+                                                <div class="d-flex flex-row  comment-top   border-bottom px-4">
+
+                                                    <div class="d-flex flex-column ml-3">
+                                                        <div class="d-flex flex-row post-title">
+                                                            <h4>Rate and Review This Product</h4>
+                                                            <span class="ml-2"
+                                                                style="color: aliceblue; font-size: 20px;"></span>
+                                                        </div>
+
                                                     </div>
-
                                                 </div>
-                                            </div>
 
-                                            <div class="coment-bottom  " style="padding-top: 20px;">
-                                                <p>Rating: <span class="star-rating">
-                                                        <label for="rate-1" style="--i:1"><i
-                                                                class="fa-solid fa-star"></i></label>
-                                                        <input type="radio" name="rating" id="rate-1" value="1"
-                                                            onclick="Star(1)" style="width: 0px;border: 0px;">
-                                                        <label for="rate-2" style="--i:2"><i
-                                                                class="fa-solid fa-star"></i></label>
-                                                        <input type="radio" name="rating" id="rate-2" value="2"
-                                                            onclick="Star(2)" style="width: 0px;border: 0px;">
-                                                        <label for="rate-3" style="--i:3"><i
-                                                                class="fa-solid fa-star"></i></label>
-                                                        <input type="radio" name="rating" id="rate-3" value="3"
-                                                            onclick="Star(3)" style="width: 0px;border: 0px;">
-                                                        <label for="rate-4" style="--i:4"><i
-                                                                class="fa-solid fa-star"></i></label>
-                                                        <input type="radio" name="rating" id="rate-4" value="4"
-                                                            onclick="Star(4)" style="width: 0px;border: 0px;">
-                                                        <label for="rate-5" style="--i:5"><i
-                                                                class="fa-solid fa-star"></i></label>
-                                                        <input type="radio" name="rating" id="rate-5" value="5"
-                                                            onclick="Star(5)" style="width: 0px;border: 0px;">
-                                                    </span></p>
-                                                <div class="d-flex flex-row add-comment-section mt-4 mb-4">
-                                                    <form id="commentForm" style="display: flex;">
-                                                        <input type="hidden" id="gameId" name="gameId"
-                                                            value="your-value">
-                                                        <textarea rows="2" cols="50" class="form-control mr-3"
-                                                            id="commentTextarea" placeholder="Add comment"
-                                                            style="width: 400px;"></textarea>
-                                                        <button class="btn btn-primary comment-btn" type="button"
-                                                            onclick="ratings()">Submit</button>
-                                                    </form>
+                                                <div class="coment-bottom  " style="padding-top: 20px;">
+                                                    <p>Rating: <span class="star-rating">
+                                                            <label for="rate-1" style="--i:1"><i
+                                                                    class="fa-solid fa-star"></i></label>
+                                                            <input type="radio" name="rating" id="rate-1" value="1"
+                                                                onclick="Star(1)" style="width: 0px;border: 0px;">
+                                                            <label for="rate-2" style="--i:2"><i
+                                                                    class="fa-solid fa-star"></i></label>
+                                                            <input type="radio" name="rating" id="rate-2" value="2"
+                                                                onclick="Star(2)" style="width: 0px;border: 0px;">
+                                                            <label for="rate-3" style="--i:3"><i
+                                                                    class="fa-solid fa-star"></i></label>
+                                                            <input type="radio" name="rating" id="rate-3" value="3"
+                                                                onclick="Star(3)" style="width: 0px;border: 0px;">
+                                                            <label for="rate-4" style="--i:4"><i
+                                                                    class="fa-solid fa-star"></i></label>
+                                                            <input type="radio" name="rating" id="rate-4" value="4"
+                                                                onclick="Star(4)" style="width: 0px;border: 0px;">
+                                                            <label for="rate-5" style="--i:5"><i
+                                                                    class="fa-solid fa-star"></i></label>
+                                                            <input type="radio" name="rating" id="rate-5" value="5"
+                                                                onclick="Star(5)" style="width: 0px;border: 0px;">
+                                                        </span></p>
+                                                    <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+                                                        <form id="commentForm" style="display: flex;">
+                                                            <input type="hidden" id="gameId" name="gameId"
+                                                                value="your-value">
+                                                            <textarea rows="2" cols="50" class="form-control mr-3"
+                                                                id="commentTextarea" placeholder="Add comment"
+                                                                style="width: 400px;"></textarea>
+                                                            <button class="btn btn-primary comment-btn" type="button"
+                                                                onclick="ratings()">Submit</button>
+                                                        </form>
 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <% } else { %> 
-                                    
-    <p>Only customers who have purchased this product can leave a review.</p>
-<% } %>
+                                        <% } else { %>
+
+                                            <p>Only customers who have purchased this product can leave a review.</p>
+                                            <% } %>
 
 
                                 </div>
@@ -1149,6 +1179,46 @@
                 }
             }
         });
+    }
+
+
+
+    function WhislistAdd(id) {
+
+        fetch('/product/addWhislis/<%= product._id %>', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(async (response) => {
+            if (response.ok) {
+                const data = await response.json()
+                if (data.status == 'included') {
+                    Swal.fire({
+                        title: 'Item Already Added',
+                        text: 'This item is already in your wishlist.',
+                        icon: 'warning',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            icon: 'icon-class',
+                        },
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Item Added Successfully',
+                        text: 'This item has been added to your wishlist.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            icon: 'icon-class',
+                        },
+                    });
+                }
+
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
 

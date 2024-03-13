@@ -18,6 +18,8 @@
 </head>
 
 <body>
+    <!-- Quick view -->
+   
     <header class="header-area header-style-1 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
@@ -184,7 +186,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>    
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
                                     <span class="burger-icon-top"></span>
@@ -199,243 +201,67 @@
         </div>
     </header>
 
-     
-       <body>
-        
-      
 
-    <div class="col-lg-6  "  style="margin-left: 400px;  margin-bottom: 30px;" >
-                           
-        <div class="mb-25 "  style="margin-top: 40px; margin-left: 300px; ">
-            <h4>Edit address</h4>
-        </div>
-        <form action="/addressEdit/<%= address.id %>" method="post" onsubmit="return validateForm()">
-            <div class="form-group">
-                <input type="text" name="name" id="name" value="<%= address.name %>" placeholder="First name *">
-                <span id="nameError" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="tel" name="phone" id="phone" value="<%= address.phone %>" placeholder="10 digit mobile number *">
-                <span id="phoneError" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="text" name="pincode" id="pincode" value="<%= address.pincode %>" placeholder="Pincode">
-                <span id="pincodeError" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <select name="addressType" class="form-control" id="addressType">
-                    <option value="work">work</option>
-                    <option value="home">home</option>
-                    <option value="temp">temp</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="text" name="address" id="address" value="<%= address.address %>" placeholder="Address (Area and Street) *">
-                <span id="addressError" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="text" name="state" id="state" value="<%= address.state %>" placeholder="State">
-                <span id="stateError" class="text-danger"></span>
-            </div>   
-            <div class="form-group">
-                <input type="text" name="city" id="city" value="<%= address.city %>" placeholder="City / District / Town *">
-                <span id="cityError" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="text" name="landmark" id="landmark" value="<%= address.landmark %>" placeholder="Landmark *">
-                <span id="landmarkError" class="text-danger"></span>
-            </div>
+
+
+    <footer class="main">
+        <section class="newsletter p-30 text-white wow fadeIn animated">
            
-            <button class="button" id="button" type="submit">Save Address</button>
-        </form>
-      
-</div>
-</body>
-
-
-
-
-<footer class="main">
-    <section class="newsletter p-30 text-white wow fadeIn animated">
-       
-    </section>
-    <section class="section-padding footer-mid " style="margin-right: 50px;">
-        <div class="container pt-15 pb-20" >
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="widget-about font-md mb-md-5 mb-lg-0">
-                        <div class="logo logo-width-1 wow fadeIn animated">
-                            <a href="index.html">
-                                <h3>ShoeStrut</h3>
-                            </a>
-                        </div>
-                        <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
-                        <p class="wow fadeIn animated">
-                            <strong>Address: </strong> MG  Road, Street 32, Ernakulam
-                        </p>
-                        <p class="wow fadeIn animated">
-                            <strong>Phone: </strong>(+91) 8086136588
-                        </p>
-                        <p class="wow fadeIn animated">
-                            <strong>Hours: </strong>24 x 7
-                        </p>
-                        <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
-                        <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                          
-                            <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
-                            <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
-                            <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+        </section>
+        <section class="section-padding footer-mid " style="margin-right: 50px;">
+            <div class="container pt-15 pb-20" >
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="widget-about font-md mb-md-5 mb-lg-0">
+                            <div class="logo logo-width-1 wow fadeIn animated">
+                                <a href="index.html">
+                                    <h3>ShoeStrut</h3>
+                                </a>
+                            </div>
+                            <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
+                            <p class="wow fadeIn animated">
+                                <strong>Address: </strong> MG  Road, Street 32, Ernakulam
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Phone: </strong>(+91) 8086136588
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Hours: </strong>24 x 7
+                            </p>
+                            <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+                              
+                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-lg-2 col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">About</h5>
+                        <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Delivery Information</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms &amp; Conditions</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Support Center</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">My Account</h5>
+                        <ul class="footer-list wow fadeIn animated">
+                            <li><a href="/signup">Sign In</a></li>
+                            <li><a href="/product/cart">View Cart</a></li>
+                            <li><a href="#">My Wishlist</a></li>
+                            <li><a href="#">Track My Order</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="/profile?tab=orders">Order</a></li>
+                        </ul>
+                    </div>
+                    
                 </div>
-                <div class="col-lg-2 col-md-3">
-                    <h5 class="widget-title wow fadeIn animated">About</h5>
-                    <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Delivery Information</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms &amp; Conditions</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Support Center</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2  col-md-3">
-                    <h5 class="widget-title wow fadeIn animated">My Account</h5>
-                    <ul class="footer-list wow fadeIn animated">
-                        <li><a href="/signup">Sign In</a></li>
-                        <li><a href="/product/cart">View Cart</a></li>
-                        <li><a href="#">My Wishlist</a></li>
-                        <li><a href="#">Track My Order</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="/profile?tab=orders">Order</a></li>
-                    </ul>
-                </div>
-                
             </div>
-        </div>
-    </section>
-   
-</footer>
-   
-    <!-- Vendor JS-->
-    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
-    <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/plugins/slick.js"></script>
-    <script src="/assets/js/plugins/jquery.syotimer.min.js"></script>
-    <script src="/assets/js/plugins/wow.js"></script>
-    <script src="/assets/js/plugins/jquery-ui.js"></script>
-    <script src="/assets/js/plugins/perfect-scrollbar.js"></script>
-    <script src="/assets/js/plugins/magnific-popup.js"></script>
-    <script src="/assets/js/plugins/select2.min.js"></script>
-    <script src="/assets/js/plugins/waypoints.js"></script>
-    <script src="/assets/js/plugins/counterup.js"></script>
-    <script src="/assets/js/plugins/jquery.countdown.min.js"></script>
-    <script src="/assets/js/plugins/images-loaded.js"></script>
-    <script src="/assets/js/plugins/isotope.js"></script>
-    <script src="/assets/js/plugins/scrollup.js"></script>
-    <script src="/assets/js/plugins/jquery.vticker-min.js"></script>
-    <!-- Template  JS -->
-    <script src="/assets/js/main.js?v=3.4"></script>
-    <script src="/assets/js/shop.js?v=3.4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-</body>
-
-</html>
-
-
-<script>
-function validateForm() {
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const pincode = document.getElementById('pincode').value.trim();
-    const address = document.getElementById('address').value.trim();
-    const state = document.getElementById('state').value.trim();
-    const city = document.getElementById('city').value.trim();
-    const landmark = document.getElementById('landmark').value.trim();
-    const alternatePhone = document.getElementById('alternatePhone').value.trim();
-    const addressType = document.getElementById('addressType').value;
-
-    let isValid = true;
-
-    // Validate name
-    if (name === '') {
-        document.getElementById('nameError').innerText = 'Name is required';
-        isValid = false;
-    } else if (/\d/.test(name)) { 
-        document.getElementById('nameError').innerText = 'Name cannot contain numbers';
-        isValid = false;
-    } else {
-        document.getElementById('nameError').innerText = '';
-    }
-
-    
-    if (phone === '' || !(/^\d{10}$/).test(phone)) {
-        document.getElementById('phoneError').innerText = 'Enter a valid 10-digit phone number';
-        isValid = false;
-    } else {
-        document.getElementById('phoneError').innerText = '';
-    }
-
-    
-    if (pincode === '') {
-        document.getElementById('pincodeError').innerText = 'Pincode is required';
-        isValid = false;
-    } else if (!(/^\d{6}$/).test(pincode)) {
-        document.getElementById('pincodeError').innerText = 'Enter a valid 6-digit pincode';
-        isValid = false;
-    } else {
-        document.getElementById('pincodeError').innerText = '';
-    }
-
-    
-    if (address === '') {
-        document.getElementById('addressError').innerText = 'Address is required';
-        isValid = false;
-    } else {
-        document.getElementById('addressError').innerText = '';
-    }
-
-    
-    if (state === '') {
-        document.getElementById('stateError').innerText = 'State is required';
-        isValid = false;
-    } else if (/\d/.test(state)) { // Check if state contains numbers
-        document.getElementById('stateError').innerText = 'State cannot contain numbers';
-        isValid = false;
-    } else {
-        document.getElementById('stateError').innerText = '';
-    }
-
-    
-    if (city === '') {
-        document.getElementById('cityError').innerText = 'City/District/Town is required';
-        isValid = false;
-    } else if (/\d/.test(city)) { 
-        document.getElementById('cityError').innerText = 'City/District/Town cannot contain numbers';
-        isValid = false;
-    } else {
-        document.getElementById('cityError').innerText = '';
-    }
-
-    
-    if (landmark === '') {
-        document.getElementById('landmarkError').innerText = 'Landmark is required';
-        isValid = false;
-    } else  {
-        document.getElementById('landmarkError').innerText = '';
-    }
-
-    
-    if (alternatePhone === '' || !(/^\d{10}$/).test(alternatePhone)) {
-        document.getElementById('alternatePhoneError').innerText = 'Enter a valid 10-digit alternate phone number';
-        isValid = false;
-    } else {
-        document.getElementById('alternatePhoneError').innerText = '';
-    }
-
-    return isValid;
-}
-
-</script>
+        </section>
+       
+    </footer>

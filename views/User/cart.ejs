@@ -77,7 +77,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="/product/wishlist/">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -414,7 +414,13 @@
                                             </div>
                                         </td>
                                         <td class="text-right" data-title="Cart">
+                                            <% if (element.offerPrice > 0) { %>
+                                                <span id="<%= element._id %>"> <strong>₹</strong> <%= element.offerPrice %> </span>
+                                            
+                                            <% } else { %>
+                                             
                                             <span id="<%= element._id %>"> <strong>₹</strong> <%= element.total %> </span>
+                                            <% } %>
                                         </td>
                                         <td class="action" data-title="Remove"><a onclick="removeCart('<%= element._id %>')"  class="text-muted"><i class="fi-rs-trash"></i></a></td>
                                     </tr>
@@ -630,6 +636,15 @@
         confirmButtonText: 'OK',
     
     })
+          }else if(data.status=='minimum'){
+            Swal.fire({
+    
+    text: 'Minimum purchasing stock',
+    icon: 'warning',
+
+    confirmButtonText: 'OK',
+
+})
           }else{
     const matchedProductData = data.matchedProduct;
 

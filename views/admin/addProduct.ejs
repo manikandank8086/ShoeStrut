@@ -8,13 +8,13 @@
                     <div class="content-header">
                         <h2 class="content-title">Add New Product</h2>
                         <div>
-                            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                           
                             <button class="btn btn-md rounded font-sm hover-up" type="submit"> Publish</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">   
-                    <div class="card mb-4">
+                    <div class="card mb-4">  
                         <div class="card-body">
                             <div class="mb-4">
                                 <label for="product_title" class="form-label">Product title</label>
@@ -69,7 +69,7 @@
                         </div>
                     </div> <!-- card end// -->
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="mb-4">
@@ -100,6 +100,15 @@
                                             <% }); %>
                                     </select>
                                 </div>
+                                 
+                                <h1></h1>
+
+                                <div  style="margin-bottom: 10px;" class="mb-6">
+                                    <label class=""> Offer Price</label>
+                                    <input type="text" placeholder="Type here" class="form-control"
+                                        onkeyup="OfferPriceValidation()" id="OfferPrice" name="OfferPrice">
+                                    <span id="OfferPriceValueError" class="text-danger"></span>
+                                </div>
 
 
                             </div>
@@ -107,35 +116,6 @@
 
 
 
-                            <!-- <h5 class="mb-3">Categories</h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat">
-                                <label class="form-check-label" for="product-cat"> Shirt </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat-1">
-                                <label class="form-check-label" for="product-cat-1"> T-Shirt </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat-2">
-                                <label class="form-check-label" for="product-cat-2"> Sneakers </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat-3">
-                                <label class="form-check-label" for="product-cat-3"> Joggers </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat-4">
-                                <label class="form-check-label" for="product-cat-4"> Vests </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat-5">
-                                <label class="form-check-label" for="product-cat-5"> Knitwear </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="product-cat-8">
-                                <label class="form-check-label" for="product-cat-8"> Shorts </label>
-                            </div> -->
                         </div>
                     </div> <!-- card end// -->
                 </div>
@@ -148,7 +128,7 @@
             <div class="col-sm-6">
                 <script>
                     document.write(new Date().getFullYear())
-                </script> ©, Evara - HTML Ecommerce Template .
+                </script> ©, ShoeStrut .
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end">
@@ -180,6 +160,7 @@
             const descriptionValue = document.getElementById('description')
             const priceValue = document.getElementById('Price')
             const stockValue=document.getElementById('stock')
+            const OfferPriceValue = document.getElementById('OfferPrice')
 
 
             const titleValueError = document.getElementById('titleValueError');
@@ -190,6 +171,7 @@
             const descriptionValueError = document.getElementById('descriptionValueError')
             const priceValueError = document.getElementById('priceValueError')
             const stockValueError=document.getElementById('stockValueError')
+            const OfferPriceValueError = document.getElementById('OfferPriceValueError')
 
 
             //initialize error messages
@@ -201,6 +183,7 @@
             descriptionValueError.innerText = ''
             priceValueError.innerText = ''
             stockValueError.innerText=''
+            OfferPriceValueError.innerHTML =''
 
 
 
@@ -323,11 +306,45 @@
                     return false;
                 }
 
-
+                  
 
                 stockValueError.innerText = ''
                 return true
             }
+
+              function OfferPriceValidation(){
+                  const offerPrice = OfferPriceValue.value.trim()
+                  let price = priceValue.value.trim()
+                  console.log(price)
+                  if(offerPrice > price){
+                    OfferPriceValueError.innerText = 'cannot add offer price greaterthan product price'
+                    return false
+                  }
+                   
+                  if(offerPrice<0){
+                    OfferPriceValueError.innerText = ' offer price cannot add lessthan 0'
+                    return false
+                  }
+
+                  if (offerPrice === '' || isNaN(offerPrice)) {
+                    OfferPriceValueError.innerText = 'Please enter a valid Offer price.'
+                    return false
+                }
+
+                const OfferPriceRegex = /^\d+(\.\d{1,2})?$/
+
+                if (!offerPrice || !price.match(OfferPriceRegex)) {
+                    OfferPriceValueError.innerText = 'Invalid price format';
+                    return false;
+                }
+
+                if(offerPrice>100000){
+                    OfferPriceValueError.innerText = 'Offer Price Cannot add above 100000'
+                    return false
+                }
+                OfferPriceValueError.innerText =''
+                return true
+              }
 
 
             // all check
@@ -336,7 +353,7 @@
 
 
                 if (!titleValidation() || !typeValidation() || !colorValidation() || !sizeValidation() || !brandValidation() || !priceValidation() ||
-                    !descriptionValidation() || !stockValidation()) {
+                    !descriptionValidation() || !stockValidation() ||  !OfferPriceValidation) {
                     return false
                 } else {
                     form.submit()
@@ -354,6 +371,7 @@
             brandValue.addEventListener('keyup', brandValidation)
             priceValue.addEventListener('keyup', priceValidation)
             stockValue.addEventListener('keyup',stockValidation)
+            OfferPriceValue.addEventListener('keyup',OfferPriceValidation)
 
 
         })

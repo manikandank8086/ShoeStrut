@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Product Edit</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<%- include('partials/header.ejs',{tab:"product"}) %>
 
 <body>
 
-    <div class="container mt-5">
+    <div style="width: 60%; margin-bottom: 30px;" class="container mt-5">
         <h2 class="mb-4">Edit Product</h2>
 
-        <form action="/admin/product/productEdit/<%= product._id %>" method="post" onsubmit="return validateForm()">
+        <form action="/admin/product/productEdit/<%= product._id %>" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="form-group">
                 <label for="productName">Product Name:</label>
                 <input type="text" class="form-control" id="productName" name="title" value="<%= product.title %>"
@@ -34,6 +25,14 @@
                 <input type="number" class="form-control" name="Price" id="productPrice" value="<%= product.Price %>"
                     placeholder="Enter product price" required>
                 <small class="text-danger" id="productPriceError"></small>
+            </div>
+
+
+            <div class="form-group">
+                <label for="OfferPrice">Offer Price:</label>
+                <input type="number" class="form-control" name="offerPrice" id="offerPrice" value="<%= product.offerPrice %>"
+                    placeholder="Enter product price" required>
+                <small class="text-danger" id="offerPriceError"></small>
             </div>
 
 
@@ -58,11 +57,26 @@
                     <option value="clothing">Formal</option>
                     <option value="electronics">Fashion</option>
                     <option value="footwear">Casual</option>
-                    <option value="authentic">Authentic</option>
+                 
 
                 </select>
                 <small class="text-danger" id="productCategoryError"></small>
             </div>
+
+            <div class="form-group">
+                <label for="productImage">Product Image:</label>
+                <input type="file" class="form-control-file" id="productImage" name="image" multiple>
+                <br>
+                <img src="/images/<%= product.image %>" alt="Product Image" class="img-thumbnail mt-2" style="max-width: 200px;">
+            </div>
+<!--             
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="delete" id="deleteImageCheckbox" name="deleteImage">
+                <label class="form-check-label" for="deleteImageCheckbox">
+                    Delete current image
+                </label>
+            </div> -->
+            
 
             <button type="submit" class="btn btn-primary">Save Changes</button>
         </form>
@@ -75,6 +89,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
+
+
+    
+
     <script>
         function validateForm() {
 
@@ -83,13 +101,15 @@
             document.getElementById('productPriceError').innerHTML = '';
             document.getElementById('productBrandError').innerHTML = '';
             document.getElementById('productCategoryError').innerHTML = '';
+            document.getElementById('offerPriceError').innerHTML = ''
 
 
             var productName = document.getElementById('productName').value.trim();
             var productDescription = document.getElementById('productDescription').value.trim();
-            var productPrice = document.getElementById('productPrice').value.trim();
-            var productBrand = document.getElementById('productImage').value.trim();
+            var productPrice = parseInt( document.getElementById('productPrice').value.trim())
+            var productBrand =  document.getElementById('productImage').value.trim();
             var productCategory = document.getElementById('productCategory').value.trim();
+            var offerPrice = parseInt( document.getElementById('offerPrice').value.trim())
 
             // Validate product name
             if (productName === '') {
@@ -107,6 +127,17 @@
             if (isNaN(productPrice) || parseFloat(productPrice) <= 0) {
                 document.getElementById('productPriceError').innerHTML = 'Please enter a valid positive price.';
                 return false;
+            }
+
+            if(offerPrice >= productPrice){
+                console.log(productPrice)
+                document.getElementById('offerPriceError').innerHTML = 'offer price cannod add greaterthan product price'
+                return false
+            }else if(offerPrice ===''){
+               document.getElementById('offerPriceError').innerHTML = 'please enter a offer price'
+               return false
+            }else if(offerPrice < 0){
+                document.getElementById('offerPrice').innerHTML = 'offer price cannot add lessthan 0'
             }
 
             // Validate brand

@@ -77,7 +77,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="/product/wishlist/">
+                                    <a href="shop-wishlist.html">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -247,7 +247,7 @@
                                     <li><a href="index-3.html">Home 3</a></li>
                                     <li><a href="index-4.html">Home 4</a></li>
                                 </ul>
-                            </li>     
+                            </li>
                             <li class="menu-item-has-children"><span class="menu-expand"></span><a href="shop-grid-right.html">shop</a>
                                 <ul class="dropdown">
                                     <li><a href="shop-grid-right.html">Shop Grid – Right Sidebar</a></li>
@@ -340,14 +340,9 @@
                     <div class="single-mobile-header-info mt-30">
                         <a  href="page-contact.html"> Our location </a>
                     </div>
-                    <li>
-                        <a class="language-dropdown-active" > <i class="fi-rs-user"></i> User <i class="fi-rs-angle-small-down"></i></a>
-                    <ul class="language-dropdown">
-                        <li><a class="text-danger" href="/logout"><img  alt="">Logout</a></li>
-                        <li><a href="/profile"><img alt="">Profile</a></li>
-                        
-                    </ul>
-                </li>        
+                    <div class="single-mobile-header-info">
+                        <a href="page-login-register.html">Log In / Sign Up </a>
+                    </div>
                     <div class="single-mobile-header-info">
                         <a href="#">(+01) - 2345 - 6789 </a>
                     </div>
@@ -364,67 +359,82 @@
         </div>
     </div>
     <main class="main">
-       
-        <section class="mt-50 mb-50   ">
-            <div class="container  align-center">   
-                
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a  style="padding-right: 10px;" href="/home"  rel="nofollow">Home</a>
+                    <a  style="padding-right: 10px;"  href="/product/shop" rel="nofollow">Shop</a>
+                    <a   style="padding-right: 10px;" href="/product/wishlist" rel="nofollow">Wishlist</a>
+                    
+                                        
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
                 <div class="row">
-                        <div class="col-md-6"  style="margin-left: 350px;">
-                            <div class="mb-25">
-                                <h4>Add address</h4>
-                            </div> 
-                            <form action="/addAddressProfile" method="post" onsubmit="return validateForm()">
-                                <div class="form-group">
-                                    <input type="text" name="name" id="name" placeholder="First name *" >
-                                    <span id="nameError" class="error"></span>
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table shopping-summery text-center">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col" colspan="2">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock Status</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                       <% if (products.length>0) { %>
+                                        
+                                     
+                                    <% products.forEach(element => { %>
+                                     
+                                    
+                                    <tr>
+                                        <td class="image product-thumbnail"><img src="/images/<%= element.image %>" alt="#"></td>
+                                        <td class="product-des product-name">
+                                            <h5 class="product-name"><a href="shop-product-right.html"><%= element.title %></a></h5>
+                                            <p class="font-xs"><%= element.discription %>.
+                                            </p>
+                                        </td>
+                                        <td class="price" data-title="Price">₹<span><%= element.Price %> </span></td>
+                                        <td class="text-center" data-title="Stock">
+                                            <% if (element.stock>0) { %>
+                                                <span class="color3 font-weight-bold"  style="color: green;">In stock</span>
+                                                <% } else { %>
+                                                    <span class="color3 font-weight-bold" style="color: red;">Out of stock</span>
+                                            <% } %>
+                                          
+                                        </td>
+                                        <td class="text-right" data-title="Cart">
+                                            <% if (element.stock > 0) { %>
+                                                <button type="button" onclick="AddToCart('<%= element._id %>')" class="btn btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Add To Cart</button>
+                                            <% } else { %>
+                                                <button type="button" class="btn btn-sm" disabled><i class="fi-rs-shopping-bag mr-5"></i>Add To Cart</button>
+                                            <% } %>
+                                            
+                                        </td>
+                                        <td class="action" data-title="Remove"><a  onclick="RemoveWishlist('<%= element._id%>')" ><i class="fi-rs-trash"></i></a></td>
+                                    </tr>
+                                    
+                                    <% }) %>
+                                   
+                                </tbody>
+
+                            </table>
+                            <% } else { %>
+                                <div style="padding-top: 5%; padding-bottom: 15%; margin-left: 40%;">
+                                    <h3 style="margin-bottom: 5%;">User has no wishlist</h3>
+                                    <button style="margin-left: 60px; background-color: rgb(98, 202, 228); border: none; padding: 10px 20px; border-radius: 5px;">
+                                        <a style="color: white; text-decoration: none;" href="/product/shop">Continue Shopping</a>
+                                    </button>
                                 </div>
-                                <div class="form-group">
-                                    <input type="tel" name="phone" id="phone" placeholder="10 digit mobile number *">
-                                    <span id="phoneError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="pincode" id="pincode" placeholder="Pincode">
-                                    <span id="pincodeError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <select name="addressType" id="addressType" class="form-control">
-                                        <option value="">Select Address Type</option>
-                                        <option value="work">work</option>
-                                        <option value="home">home</option>
-                                        <option value="temp">temp</option>
-                                    </select>
-                                    <span id="addressTypeError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="address" id="address" placeholder="Address (Area and Street) *">
-                                    <span id="addressError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="state" id="state" placeholder="State">
-                                    <span id="stateError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="city" id="city" placeholder="City / District / Town *" >
-                                    <span id="cityError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="landmark" id="landmark" placeholder="Landmark*">
-                                    <span id="landmarkError" class="error"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="tel" name="alternatePhone" id="alternatePhone" placeholder="Alternate phone option*">
-                                    <span id="alternatePhoneError" class="error"></span>
-                                </div>
-                                <button class="button" id="button" type="submit">Save Address</button>
-                            </form>
-                            
-                            <style>
-                                .error {
-                                    color: #dc3545; 
-                                    font-size: 0.875rem; 
-                                }
-                            </style>
-                      </div>
+                                
+                         <% } %>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -527,71 +537,78 @@
     <!-- Template  JS -->
     <script src="/assets/js/main.js?v=3.4"></script>
     <script src="/assets/js/shop.js?v=3.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>
 
 </html>
-    
+
 
 <script>
-function validateForm() {
-    const phoneRegex = /^\d{10}$/;
-    const pincodeRegex = /^\d{6}$/;
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const pincode = document.getElementById('pincode').value.trim();
-    const addressType = document.getElementById('addressType').value.trim();
-    const address = document.getElementById('address').value.trim();
-    const state = document.getElementById('state').value.trim();
-    const city = document.getElementById('city').value.trim();
-    const landmark = document.getElementById('landmark').value.trim();
-    const alternatePhone = document.getElementById('alternatePhone').value.trim();
-    const stateCityRegex = /^[a-zA-Z\s]+$/; // Regular expression to validate only letters and spaces
+  
 
-    let isValid = true;
-
-    if (!name || !phone || !addressType || !address || !city || !state || !landmark) {
-        // At least one required field is empty
-        document.getElementById('nameError').innerHTML = name ? (name.match(stateCityRegex) ? "" : "Name must contain only letters") : "Please enter your first name";
-        document.getElementById('phoneError').innerHTML = phoneRegex.test(phone) ? "" : "Please enter a valid 10 digit mobile number";
-        document.getElementById('addressTypeError').innerHTML = addressType ? "" : "Please select an address type";
-        document.getElementById('addressError').innerHTML = address ? "" : "Please enter your address";
-        document.getElementById('cityError').innerHTML = city ? (city.match(stateCityRegex) ? "" : "City must contain only letters") : "Please enter your city/district/town";
-        document.getElementById('stateError').innerHTML = state ? (state.match(stateCityRegex) ? "" : "State must contain only letters") : "Please enter your state"; // Show error message if state is empty or not containing only letters
-        document.getElementById('landmarkError').innerHTML = landmark ? (landmark.match(stateCityRegex) ? "" : "Landmark must contain only letters") : "Please enter a landmark";
-        isValid = false;
-    } else {
-        // All required fields are filled
-        document.getElementById('nameError').innerHTML = "";
-        document.getElementById('phoneError').innerHTML = "";
-        document.getElementById('addressTypeError').innerHTML = "";
-        document.getElementById('addressError').innerHTML = "";
-        document.getElementById('cityError').innerHTML = "";
-        document.getElementById('stateError').innerHTML = "";
-        document.getElementById('landmarkError').innerHTML = "";
+  async function AddToCart(id) {
+   
+console.log(id); 
+Swal.fire({
+    title: 'Item added',
+    icon: 'success',
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel'
+}).then(async (result) => {
+    if (result.isConfirmed) {
+        try {
+            const response = await fetch('/product/addToCartWishlist/' + id, {
+                method: 'GET'
+            });
+            const data = await response.json();
+            console.log(response);
+            if (response.status == 200) {
+                location.reload();
+            } else {
+                console.error(data.message);
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+        }
     }
-
-    // Validate other fields
-    if (pincode && !pincodeRegex.test(pincode)) {
-        document.getElementById('pincodeError').innerHTML = "Please enter a valid 6 digit pincode";
-        isValid = false;
-    } else {
-        document.getElementById('pincodeError').innerHTML = "";
-    }
-
-    if (alternatePhone && !phoneRegex.test(alternatePhone)) {
-        document.getElementById('alternatePhoneError').innerHTML = "Please enter a valid 10 digit alternate phone number";
-        isValid = false;
-    } else {
-        document.getElementById('alternatePhoneError').innerHTML = "";
-    }
-
-    return isValid;
+});
 }
 
 
 
 
 
+async function RemoveWishlist(id) {
+
+console.log(id);
+Swal.fire({
+    title: 'Remove item',
+    text: 'Are you sure  you want to remove this item?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel'
+}).then(async (result) => {
+    if (result.isConfirmed) {
+        try {
+        
+            const response = await fetch('/product/remove-wishlist/' + id, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+           console.log(response);
+            if (response.status == 200) {
+        
+                location.reload();
+            } else {
+                console.error(data.message);
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+        }
+    }
+});
+}
+    
 </script>
-
-

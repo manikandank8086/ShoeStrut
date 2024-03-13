@@ -44,6 +44,8 @@ router.get('/successPage', userAuthentication,userController.successPageGet)
 
 router.post('/orderCOD',userAuthentication,userController.orderCOD)
 
+router.post('/verify-payment/',userAuthentication,userController.verifyPayment)
+
 router.get('/orderDetails/:id',userAuthentication,userController.ordreDetailsGet)
 
 

@@ -79,7 +79,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="/product/wishlist">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -227,6 +227,7 @@
                         <img src="/assets/imgs/shop/headers/HomePage_4.webp" class="d-block w-100" alt="...">
 
                     </div>
+                   
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
                     data-bs-slide="prev">
@@ -285,11 +286,39 @@
                                           <%= generateStarRating(element.rating) %>
                                          
                                     </div>
-                                </div>   
+                                    <% if (element.offerPrice > 0) { %>
+                                                    
+                                                  
+                                        <h5 class="offer-price"
+                                            style="color: green; font-size: large;font-weight: 100; font-size: 12px; ">
+                                            <%= element.discountPercentage.toFixed(2)%> %Off
+                                        </h5>
+
+
+                                        <span style="text-decoration: line-through; color: brown;"><strong>
+                                                ₹</strong>
+                                            <%= element.Price %>
+                                        </span>
+
+                                        
+
+                                            <small class="offer-price"
+                                                style="color:rgb(48, 50, 50); font-size: small;  font-weight: 100;"><strong>
+                                                    ₹</strong>
+                                                <%= element.offerPrice %>
+                                            </small>
+                                            <% } else { %>
+                                             
+                                            
                                 <div class="product-price">
-                                    <span>   <strong>₹</strong> <%= element.Price %> </span>
-                                 
+                                    <span> <strong> ₹</strong>
+                                        <%=element.Price %>
+                                    </span>
+                                    <!-- <span class="old-price">10999.8</span> -->
                                 </div>
+                                <% } %>
+                                </div>   
+                               
                             </div>
                         </div>
                         <% }) %>
@@ -412,12 +441,37 @@
                                                               
                                                         </div>
                                                     </div>
+                                                    <% if (element.offerPrice > 0) { %>
+                                                    
+                                                  
+                                                        <h5 class="offer-price"
+                                                            style="color: green; font-size: large;font-weight: 500; ">
+                                                            <%= element.discountPercentage.toFixed(2)%> %Off
+                                                        </h5>
+    
+    
+                                                        <span style="text-decoration: line-through; color: brown;"><strong>
+                                                                ₹</strong>
+                                                            <%= element.Price %>
+                                                        </span>
+    
+                                                        
+    
+                                                            <small class="offer-price"
+                                                                style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
+                                                                    ₹</strong>
+                                                                <%= element.offerPrice %>
+                                                            </small>
+                                                            <% } else { %>
+                                                             
+                                                            
                                                 <div class="product-price">
                                                     <span> <strong> ₹</strong>
                                                         <%=element.Price %>
                                                     </span>
                                                     <!-- <span class="old-price">10999.8</span> -->
                                                 </div>
+                                                <% } %>
                                                 <div class="product-action-1 show">
                                                     <% if (element.stock > 0) { %>
                                                         <a aria-label="Add To Cart" class="action-btn hover-up"

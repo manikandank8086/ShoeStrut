@@ -18,8 +18,11 @@
                     <small class="text-muted">Order ID:<%= order._id%></small>
                 </div>
                 <div >
-                <h5>Reason for cancelation</h5>
-                <p> <%= order.cancellationReason %></p>
+                    <% if (order.cancellationReason) { %>
+                        <h5>Reason for cancelation</h5>
+                        <p> <%= order.cancellationReason %></p>
+                    <% } %>
+               
             </div>
             </div>    
           
@@ -101,9 +104,9 @@
                                                         <div class="info"> <%= item.productId.title %> </div>
                                                     </a>
                                                 </td>
-                                                <td> <%= item.price %> </td>
+                                                <td>₹ <%= item.price %> </td>
                                                 <td> <%= item.quantity %> </td> <!-- Adjusted to lowercase "quantity" -->
-                                                <td class="text-end"> <%= item.price * item.quantity %> </td> <!-- Adjusted subtotal calculation -->
+                                                <td class="text-end">₹ <%= item.price * item.quantity %> </td> <!-- Adjusted subtotal calculation -->
                                             </tr>
                                         <% }) %>
                                     <% } else { %>
@@ -117,15 +120,15 @@
                                             <article class="float-end">
                                                 <dl class="dlist">
                                                     <dt>Subtotal:</dt>
-                                                    <dd><%= order.billTotal %></dd>
+                                                    <dd > ₹<%= order.billTotal %></dd>
                                                 </dl>
                                                 <dl class="dlist">
                                                     <dt>Shipping cost:</dt>
-                                                    <dd>$00.00</dd>
+                                                    <dd> ₹00.00</dd>
                                                 </dl>
                                                 <dl class="dlist">
                                                     <dt>Grand total:</dt>
-                                                    <dd> <b class="h5"><%= order.billTotal %></b> </dd>
+                                                    <dd> <b class="h5">₹<%= order.billTotal %></b> </dd>
                                                 </dl>
                                                 <dl class="dlist">
                                                     <dt class="text-muted">Status:</dt>

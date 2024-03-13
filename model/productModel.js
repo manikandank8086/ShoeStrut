@@ -36,6 +36,14 @@ const productSchema= new  mongoose.Schema({
         type:Number,
         require:true
       },
+      offerPrice:{
+        type:Number,
+        default:0
+      },
+      discountPercentage :{
+        type:Number,
+        default:0
+      },
       stock:{
           type:Number,
           require:true
@@ -71,7 +79,7 @@ const productSchema= new  mongoose.Schema({
         type:Boolean,
         default:true
        
-      } 
+      } ,
     },{
         timestamps: true 
     });

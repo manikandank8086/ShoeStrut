@@ -1,0 +1,129 @@
+<%- include('partials/header.ejs',{tab:"coupon"}) %>
+
+    <section class="content-main mb-5">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Coupon list </h2>
+            </div>
+            <a href="/admin/product/coupon"><button style="background-color: darkcyan;"> Create
+                    Coupon</button></a>
+        </div>
+        <div id="searchResults" class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Coupon Name</th>
+                                <th >Code</th>
+                                <th >Purchase Price</th>
+                                <th > Date Start</th>
+                                <th > Date End</th>
+                                <th >Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% CouponData.forEach(element=> { %>
+                                <tr>
+                                    <td>
+                                        <%= element.discount %>% discount
+                                    </td>
+                                    <td>
+                                        <%= element.code %>
+                                    </td>
+                                   
+                                        <td > <Strong>Rs.</Strong> <%= element.minimum %></td>
+                                        <td>
+                                        <%= element.validFrom.toLocaleString()%>
+
+                                    </td>
+                                    <td>
+                                        <%= element.validUntil.toLocaleString() %>
+                                    </td>
+                                   <% if (element.isActive) { %>
+                                    <td style="color: green;" >Active</td>
+                                    <% } else { %>
+                                     <td style="color: red;" >Inactive</td>
+                                   <% } %>
+
+                                   <td>
+                                    <% if (element.isActive==true) { %>
+                                        <button id="couponBlock" onclick="blockCoupon('<%= element._id %>')"
+                                            class="btn btn-danger">
+                                            <%= (element.isActive===true)?'Block':'Unblock'%>
+                                        </button>
+                                        <% } else { %>
+                                            <button id="couponUnblock" onclick="blockCoupon('<%= element._id %>')"
+                                                class="btn btn-success">
+                                                <%= (element.isActive===true)?'Block':'Unblock'%>
+                                            </button>
+                                            <% } %>
+                                   </td>
+
+
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+            <div class="col-sm-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> ©, ShoeStrut .
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end">
+                    All rights reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+    </main>
+
+    <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/asset/js/vendors/select2.min.js"></script>
+    <script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/asset/js/main.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    </body>
+
+    </html>
+
+
+    <script>
+        async function blockCoupon(id) {
+            console.log(id)
+            Swal.fire({
+                title: 'Warning',
+                text: 'Are you want?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const responds = await fetch('/admin/product/blocCoupon?id=' + id)
+                    await responds.json()
+                    if (responds.status === 200) {
+                        block = true
+                        block = !block;
+                        location.reload()
+                    }
+                }
+            })
+        }
+    </script>
+
+
+    

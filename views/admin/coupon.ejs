@@ -1,0 +1,220 @@
+<%- include('partials/header.ejs',{tab:'coupon'}) %>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>Create Coupon</title>
+        <style>
+            form {
+                width: 70%;
+                max-width: 400px;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f9f9f9;
+                margin-left: 27%;
+                margin-bottom: 20%;
+            }
+
+            h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="date"] {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 20px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #1d4c7a;
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            .error-message {
+                color: red;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2></h2>
+        <form id="coupon-form" action="/admin/product/addCoupon" method="POST" onsubmit="return validateAndSubmit()">
+
+            <h2>Create Coupon</h2>
+
+
+            <label for="code">Coupon name:</label>
+            <input type="text" id="name" name="name">
+            <div id="name-error" class="error-message"></div>
+
+            <label for="code">Coupon Code <Code></Code>:</label>
+            <input type="text" id="code" name="code">
+            <div id="code-error" class="error-message"></div>
+            <span style="color: red;">
+                <%= message %>
+            </span>
+
+
+            <label for="discount">Discount (%):</label>
+            <input type="number" id="discount" name="discount">
+            <div id="discount-error" class="error-message"></div>
+
+            <label for="validFrom">Valid From:</label>
+            <input type="date" id="validFrom" name="validFrom">
+            <div id="validFrom-error" class="error-message"></div>
+
+            <label for="validUntil">Valid Until:</label>
+            <input type="date" id="validUntil" name="validUntil">
+            <div id="validUntil-error" class="error-message"></div>
+
+            <label for="minimum">Minimum Amount:</label>
+            <input type="number" id="minimum" name="minimum">
+            <div id="minimum-error" class="error-message"></div>
+
+            <label for="maximum">Maximum Amount:</label>
+            <input type="number" id="maximum" name="maximum">
+            <div id="maximum-error" class="error-message"></div>
+
+            <button type="submit">Create Coupon</button>
+        </form>
+
+        <script>
+            function validateAndSubmit() {
+                if (validateForm()) {
+                    document.getElementById("coupon-form").submit();
+                }
+                return false; // Prevent form submission if validation fails
+            }
+
+            function validateForm() {
+                var code = document.getElementById("code").value.trim();
+                var discount = document.getElementById("discount").value.trim();
+                var validFrom = new Date(document.getElementById("validFrom").value.trim());
+                var validUntil = new Date(document.getElementById("validUntil").value.trim());
+                var minimumAmount = document.getElementById("minimum").value.trim();
+                var maximumAmout = document.getElementById('maximum').value.trim()
+                var name = document.getElementById('name').value.trim()
+                var currentDate = new Date();
+                var errorMessage = "";
+
+
+                if (name === '') {
+                    errorMessage += 'Please enter a coupon name .<br>'
+                    document.getElementById('name-error').innerHTML = ' Enter a coupon name'
+                } else if (typeof name !== 'string') {
+                    errorMessage += 'Coupon  name must be string .<br>'
+                    document.getElementById('name-error').innerHTML = ' Coupon name must be string'
+                } else if (name.length < 3) {
+                    errorMessage += 'Coupon name maximum 3 letter .<br>'
+                    document.getElementById('name-error').innerHTML = ' Coupon name maximum 3 letter'
+                } else {
+                    document.getElementById('name-error').innerHTML = ""
+
+                }
+
+
+                if (code === "") {
+                    errorMessage += "Please enter a coupon code.<br>";
+                    document.getElementById("code-error").innerHTML = "Please enter a coupon code.";
+                } else if (code.length < 4) {
+                    errorMessage += "Coupon code  must be contain 4 letters.<br>";
+                    document.getElementById("code-error").innerHTML = "Coupon code must be contain 4 letter.";
+
+
+                } else {
+                    document.getElementById("code-error").innerHTML = "";
+                }
+
+                if (isNaN(discount) || discount === "") {
+                    errorMessage += "Please enter a valid discount  percentage .<br>";
+                    document.getElementById("discount-error").innerHTML = "Please enter a valid discount percentage.";
+                } else if (discount < 1 || discount > 99) {
+                    errorMessage += "Please enter discount percentage between 0 and 100.<br>";
+                    document.getElementById("discount-error").innerHTML = "Please enter  discount percentage between 1 and 99.";
+                } else if(typeof discount ==='float') {
+                    document.getElementById("discount-error").innerHTML = "can't add float value.";
+
+                }else{
+                    document.getElementById("discount-error").innerHTML = "";
+
+                }
+
+                if (validFrom.toString() === "Invalid Date") {
+                    errorMessage += "Please select a valid from date.<br>";
+                    document.getElementById("validFrom-error").innerHTML = "Please select a valid from date.";
+                } else if (validFrom < currentDate) {
+                    errorMessage += "Please select a valid date not earlier than the current date .<br>";
+                    document.getElementById("validFrom-error").innerHTML = "Please select a valid date not earlier than the current date '.";
+                } else {
+                    document.getElementById("validFrom-error").innerHTML = "";
+                }
+
+                if (validUntil.toString() === "Invalid Date") {
+                    errorMessage += "Please select a valid until date.<br>";
+                    document.getElementById("validUntil-error").innerHTML = "Please select a valid until date.";
+                } else if (validUntil < validFrom) {
+                    errorMessage += "Can't add validUntil date lesthan validFrom.<br>";
+                    document.getElementById("validUntil-error").innerHTML = "Can't add validUntil date lesthan validFrom.";
+                } else {
+                    document.getElementById("validUntil-error").innerHTML = "";
+
+                }
+
+                if (isNaN(minimumAmount) || minimumAmount < 1 || minimumAmount === "") {
+                    errorMessage += "";
+                    document.getElementById("minimum-error").innerHTML = "Please enter a valid minimum amount value.";
+                } else if(minimumAmount>100000) {
+                    document.getElementById("minimum-error").innerHTML = "minimum amout can't add greaterthan 100000.";
+                }else{
+                    document.getElementById("minimum-error").innerHTML = "";
+
+                }
+
+                if (isNaN(maximumAmout) || maximumAmout === "") {
+                    errorMessage += "";
+                    document.getElementById("maximum-error").innerHTML = "Please enter a valid maximum amount value.";
+                } else if (parseInt(maximumAmout) < parseInt(minimumAmount)) {
+                    alert('maximum ' + maximumAmout + " < minimum " + minimumAmount);
+                    errorMessage += '';
+                    document.getElementById("maximum-error").innerHTML = "Maximum amount should be greater than minimum value.";
+                } else  if(maximumAmout>100000){
+                    document.getElementById("maximum-error").innerHTML = "Maximum amount can't add greater than 100000 value.";
+                }else{
+                    document.getElementById("minimum-error").innerHTML = "";
+
+                }
+
+                if (errorMessage !== "") {
+                    document.getElementById("error-message").innerHTML = "<div style='color: red;'>" + errorMessage + "</div>";
+                    return false; // Return false to prevent form submission
+                }
+
+                return true;
+            }
+        </script>
+
+        <div id="error-message"></div>
+    </body>
+
+    </html>

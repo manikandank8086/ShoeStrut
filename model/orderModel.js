@@ -58,6 +58,7 @@ const orderSchema = new Schema({
     enum: ['Pending', 'Success', 'Failed'],
     default: 'Pending',
   },
+
   deliveryAddress: 
     {
       addressType: {
@@ -77,6 +78,28 @@ const orderSchema = new Schema({
   },
   cancellationReason:{
      type:String
+  },
+  netAmount :{
+    type:Number
+  },
+  discountPrice:{
+    type :Number,
+    default : 0
+  },
+  discount :{
+    type:Number
+  },
+  couponCode:{
+   type:String,
+   default:'No Coupon'
+  },
+  paymentOption :{
+    type:String,
+    default : 'Cash On Delivery'
+  },
+  deliveredDate :{
+    type:Date,
+    default:Date.now
   },
   status: {
     type: String,

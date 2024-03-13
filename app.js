@@ -5,7 +5,7 @@ const nocache = require("nocache");
 const mongoose = require("mongoose");
 const adminRouter = require("./router/admin");
 const userRouter = require("./router/user");
-const UserproductRouter = require("./router/UserProduct")
+const shopRouter = require("./router/shop")
 const AdminProductRouter = require("./router/AdminProduct")
 const nodemailer = require("nodemailer");
 const generateOTP = require("generate-otp");
@@ -15,20 +15,20 @@ const app = express();
 
 app.use(nocache());
 
-mongoose.connect("mongodb://127.0.0.1:27017/ShoeStrut");
+mongoose.connect(process.env.MONGO_URL);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MOngodb error"));
 db.once("open", () => {
   console.log("connected");
 });
-
+ 
 app.use(express.json());
 // session created
 app.use(
-  session({
+  session({ 
     name: "session",
-    secret: "password",
+    secret: "password", 
     resave: false,
     saveUninitialized: true,
   })
@@ -45,7 +45,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "Public")));
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
-app.use("/product",UserproductRouter)
+app.use("/product",shopRouter)
 app.use("/admin/product",AdminProductRouter)
 
 app.use((req, res, next) => {
@@ -53,8 +53,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("*", (req, res) => {
-//   res.render("404page");
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
 // });
+
+// app.use((error,req, res,next) => {
+//   console.log(error)
+//   console.log(error.message)
+//   res.status(error.status || 500);
+//   res.render("404page",{});
+// });
+
+
 
 app.listen(PORT, console.log(`server is running in ${PORT}`));

@@ -1,0 +1,202 @@
+<%- include('partials/header.ejs',{tab:'product'}) %>
+
+    <section class="content-main">
+        <div class="row justify-content-center">
+            <div class="content-header">
+                <h2 class="content-title fw-bold" style="margin: auto;">Edit category offer</h2>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+
+
+                        <div class="mb-4">
+                            <label for="product_name" class="form-label">Name</label>
+                            <input type="text" placeholder="Enter coupon name" id="catname" class="form-control"
+                                readonly value="<%= categoryName.name %>">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="form-label">Starting date</label>
+                                <input type="date" placeholder="Enter starting date" class="form-control"
+                                    id="startingDate" onclick="startclear()">
+                                <p class="text-danger text-center mb-15 " id="startingDateError"></p>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Ending date</label>
+                                <input type="date" placeholder="Enter starting date" class="form-control"
+                                    id="endingDate" onclick="endclear()">
+                                <p class="text-danger text-center mb-15 " id="endingDateError"></p>
+                            </div>
+                            <div class="col-lg-6" style="margin-top: 20px;">
+                                <label class="form-label">Offer available starting price</label>
+                                <input type="text" placeholder="Enter Offer available starting price eg: 5000 "
+                                    class="form-control" id="minimumAmount" onkeydown="minimclear()">
+                                <p class="text-danger text-center mb-15 " id="minmumError"></p>
+                            </div>
+                            <div class="col-lg-6" style="margin-top: 20px;">
+                                <label class="form-label">Discount amount</label>
+                                <input type="text" placeholder="Enter discount percentage" class="form-control"
+                                    id="discountamount" onkeydown="descountclear()">
+                                <p class="text-danger text-center mb-15 " id="discounterror"></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-50 text-center">
+               
+                <button class="custom-button2"   style="background-color: darkcyan;" onclick="validation()">Add</button>
+            </div>
+        </div>
+    </section>
+ 
+
+    <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+            <div class="col-sm-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> ©, ShoeStrut .
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end">
+                    All rights reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+    </main>
+
+    <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/asset/js/vendors/select2.min.js"></script>
+    <script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/asset/js/main.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+      
+    <script>
+        function validation() {
+
+            const name = document.getElementById("catname").value;
+            const currentDate = new Date();
+            const startingDate = document.getElementById("startingDate").value;
+            const endingDate = document.getElementById("endingDate").value;
+            const minimumAmount = document.getElementById("minimumAmount").value;
+            const discountamount = document.getElementById("discountamount").value;
+
+            const startError = document.getElementById("startingDateError");
+            const endError = document.getElementById("endingDateError");
+            const discounterror = document.getElementById("discounterror");
+            const minimumAmounterror = document.getElementById("minmumError");
+
+            startError.textContent = "";
+            endError.textContent = "";
+            discounterror.textContent = "";
+            minmumError.textContent = "";
+
+            // Discount percentage validation
+            if (discountamount.trim() === "") {
+                discounterror.textContent = "Discount amount is required";
+            } else if (!/^\d+$/.test(discountamount)) {
+                discounterror.textContent = "Discount percentage can only contain digits";
+            } else {
+                const percentage = parseInt(discountamount);
+                if (percentage < 0) {
+                    discounterror.textContent = "Discount amount must be need more than zero";
+                } else {
+                    const minAmount = parseInt(minimumAmount);
+                    const maxDiscount = minAmount * 0.5;
+                    if (percentage > maxDiscount) {
+                        discounterror.textContent = "Discount percentage cannot exceed 50% of the minimum order amount";
+                    } else {
+                        discounterror.textContent = "";
+                    }
+                }
+            }
+
+            // Starting date validation
+            const oneYearLater = new Date();
+            oneYearLater.setFullYear(oneYearLater.getFullYear() + 1); // Set date one year later
+
+            if (!startingDate) {
+                startError.textContent = "Starting date is required";
+            } else if (new Date(startingDate) < new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())) {
+                startError.textContent = "Starting date must be today or a future date";
+            } else if (new Date(startingDate) > oneYearLater) {
+                startError.textContent = "Starting date must be within the one year";
+            } else {
+                startError.textContent = "";
+            }
+
+
+            // Ending date validation
+            if (!endingDate) {
+                endError.textContent = "Ending date is required";
+            } else if (new Date(endingDate) < new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate())) {
+                endError.textContent = "Ending date must be today or a future date";
+            } else if (new Date(endingDate) > oneYearLater) {
+                endError.textContent = "Ending date must be within the one year";
+            } else if (new Date(endingDate) <= new Date(startingDate)) {
+                endError.textContent = "Ending date must be a future date after starting date";
+            } else {
+                endError.textContent = "";
+            }
+
+            // Minimum amount validation
+            if (minimumAmount.trim() === "") {
+                minimumAmounterror.textContent = "Minimum amount is required";
+            } else if (!/^\d+$/.test(minimumAmount)) {
+                minimumAmounterror.textContent = "Minimum amount can only contain digits";
+            } else {
+                const minAmount = parseInt(minimumAmount);
+                if (minAmount < 1000 || minAmount > 25000) {
+                    minimumAmounterror.textContent = "Minimum amount must be between 1000 and 25000";
+                } else {
+                    minimumAmounterror.textContent = "";
+                }
+            }
+
+            if (startError.textContent === "" && endError.textContent === "" && minmumError.textContent === "" && discounterror.textContent === "") {
+                
+fetch('/admin/editConfirm/', {
+    method: 'PATCH',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        name,
+        currentDate,
+        startingDate,
+        endingDate,
+        minimumAmount,
+        discountamount
+    })
+}).then(async (response) => {
+    if (response.ok) {
+        
+        const data = await response.json();
+        console.log(data);
+        if(data.status=='success'){
+            Swal.fire({
+                title : 'success',
+                text:'Offer Edit Successfull',
+                icon :'success',
+                confirmButtonText: 'OK'
+            })
+             
+        }
+    } else {
+        console.error('Response not okay:', response);
+    }
+}).catch((error) => {
+    console.error('Fetch error:', error);
+});
+            }
+
+        }
+
+    </script>

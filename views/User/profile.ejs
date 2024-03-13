@@ -77,7 +77,7 @@
                         <div class="header-action-right" style="margin-left: 750px;">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="/product/wishlist/">
                                         <img class="svgInject" alt="Evara"
                                             src="/assets/imgs/theme/icons/icon-heart.svg">
 
@@ -427,6 +427,14 @@
                                                 href="#account-detail" role="tab" aria-controls="account-detail"
                                                 aria-selected="true"><i class="fi-rs-user mr-10"></i>Account details</a>
                                         </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="wallet-tab-link" data-bs-toggle="tab"
+                                                href="#wallet-content" role="tab" aria-controls="wallet-content"
+                                                aria-selected="false">
+                                                </i> Wallet</a>
+                                        </li>
+
                                         <li class="nav-item">
                                             <a class="nav-link" href="/logout"><i
                                                     class="fi-rs-sign-out mr-10"></i>Logout</a>
@@ -716,6 +724,75 @@
 
                                         </div>
                                     </div>
+
+                                    <!--wallet  -->
+                                    <div class="tab-pane fade" id="wallet-content" role="tabpanel"
+                                        aria-labelledby="wallet-tab">
+
+
+                                        <main class="main">
+                                           
+                                            <section class="section-padding footer-mid container">
+                                                <div>
+                                                    <h2 class="my-4">My Wallet</h2>
+                                                </div>
+                                                <div class="btn btn-success-light p-4 d-flex justify-content-start " style="width: 100%">
+                                                    <div>
+                                                        <% if (locals.wallet && locals.wallet.length > 0) { %>
+                                                            <% let totalBalance = 0; %>
+                                                            <% locals.wallet.forEach(wallet => { %>
+                                                                <% totalBalance += wallet.walletAmount; %>
+                                                            <% }) %>
+                                                            <span class="h2">balance :</span>
+                                                            <span class="h3">₹ <%= totalBalance.toFixed(2) %></span>
+                                                            
+                                                        <% } else { %>
+                                                            <!-- Handle case when wallet is empty -->
+                                                            <span class="h1">₹ 0.00</span>
+                                                            <span class="h2">balance</span>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 class="my-4">Transaction History</h4>
+                                                </div>
+                                                <div>
+                                                    <table class="table">
+                                                        <thead class="table-success">
+                                                            <tr>
+                                                                <th scope="col">Transaction ID</th>
+                                                                <th scope="col">Date and Time </th>
+                                                                <th scope="col">Amount</th>
+                                                                <th scope="col">Transaction Type</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% if (locals.wallet && locals.wallet.length > 0) { %>
+                                                                <% locals.wallet.forEach(wallet => { %>
+                                                                    <tr>
+                                                                        <th scope="row">#<%= wallet.transationId %></th>
+                                                                        <td><%= wallet.createdAt.toLocaleString() %></td>
+                                                                        <!-- dbit or credit -->
+                                                                        <td><%= wallet.walletAmount %></td>
+                                                                        <td><%= wallet.transationType %></td>
+                                                                    </tr>
+                                                                <% }) %>
+                                                            <% } else { %>
+                                                                <tr>
+                                                                    <td colspan="4">No transactions found</td>
+                                                                </tr>
+                                                            <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </section>
+                                        </main>
+
+
+                                    </div>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -826,7 +903,7 @@
     <script src="./assets/js/main.js?v=3.4"></script>
 </body>
 
-</html>   
+</html>
 <!-- load each tab -->
 <script>
     $(document).ready(function () {
@@ -888,8 +965,8 @@
             if (!currentPasswordInput.value) {
                 currentPasswordError.textContent = "Current Password is required"
                 isValid = false
-            
-            }else{
+
+            } else {
                 currentPasswordError.textContent = ''
             }
         }
@@ -912,9 +989,9 @@
             isValid = false;
 
             // Clear error message if valid
-        }else{
+        } else {
             confirmPasswordError.textContent = "";
-            
+
         }
 
         return isValid; // Allow form submission if all fields are valid

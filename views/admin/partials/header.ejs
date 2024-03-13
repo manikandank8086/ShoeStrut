@@ -15,6 +15,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="/asset/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link href="/asset/css/main.css" rel="stylesheet" type="text/css" />
+
+
+    
+
 </head>
 
 <body>
@@ -63,30 +67,16 @@
              
 
 
-                <li class="menu-item has-submenu   <% if (tab=='orders') { %>
+                
+
+                  <li class="menu-item <% if (tab=='orders') { %>
                     active
                   <% } %> ">
-                      <a class="menu-link" href="/admin/product/list"> <i
-                              class="icon material-icons md-shopping_bag"></i>
-                          <span class="text">Orders</span>
-                      </a>
-                      <div class="submenu">
-                        <a href="/admin/product/orderList">Order List</a>
-                      </div>
-                  </li>
-                <!-- </li>
-                <li class="menu-item has-submenu ">
-                    <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                    <a class="menu-link" href="/admin/product/orderList"> <i class="icon material-icons md-person"></i>
                         <span class="text">Orders</span>
                     </a>
-                    <div class="submenu">
-                        <a href="page-orders-1.html">Order list 1</a>
-                        <a href="page-orders-2.html">Order list 2</a>
-                        <a href="page-orders-detail.html">Order detail</a>
-                        <a href="page-orders-tracking.html">Order tracking</a>
-                   <a href="page-invoice.html">Invoice</a>
-                    </div>
-                </li> -->
+                </li>
+              
 
                 <li class="menu-item <% if (tab=='addProduct') { %>
                     active
@@ -96,6 +86,31 @@
                     </a>
 
                 </li>
+
+               
+
+               
+
+                <li class="menu-item <% if (tab=='coupon') { %>
+                    active
+                  <% } %> ">
+                    <a class="menu-link" href="/admin/product/couponList"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+
+                </li>
+
+                <li class="menu-item <% if (tab=='salesReport') { %>
+                    active
+                  <% } %> ">
+                    <a class="menu-link" href="/admin/product/SalesReport"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Sales Report</span>
+                    </a>
+                </li>
+               
+
+                  
+           
                
             </ul>
             <br>

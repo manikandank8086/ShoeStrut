@@ -5,6 +5,7 @@ const { productPush } = require("../model/productModel");
 const { categoryModel } = require("../model/categoryModel");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const { Order } = require("../model/orderModel");
 
 const loginGet = async (req, res) => {
   try {
@@ -46,7 +47,89 @@ const loginPost = async (req, res) => {
 const homeGet = async (req, res) => {
   try {
     if (req.session.adminId) {
-      res.render("admin/adminHome");
+      const latestOrders = await Order.find()
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .populate("userId");
+
+      console.log("deleverd");
+      const deliveredOrder = await Order.find({ status: "Delivered" });
+      const deliveredRevenue = deliveredOrder.reduce(
+        (total, order) =>
+          total + parseFloat(order.billTotal.replace("₹", "").replace(",", "")),
+        0
+      );
+
+      const deliveredOrderCount = await Order.find({
+        status: "Delivered",
+      }).countDocuments();
+      const PendingOrderCount = await Order.find({
+        status: "Pending",
+      }).countDocuments();
+      const productCount = await productPush.find().countDocuments();
+      const categoryCount = await categoryModel.find().countDocuments();
+
+      const category = await categoryModel.find();
+
+      const today = new Date();
+      const currentMonth = today.getMonth() + 1; 
+      const currentYear = today.getFullYear();
+      
+      const monthlyEarnings = await Order.aggregate([
+        {
+          $match: {
+            status: 'Delivered', 
+            $expr: {
+              $and: [
+                { $eq: [{ $month: '$orderDate' }, currentMonth] },
+                { $eq: [{ $year: '$orderDate' }, currentYear] },
+              ]
+            }
+          },
+        },
+        {
+          $unwind: '$items', 
+        },
+        {
+          $addFields: {
+            billTotal: { $trim: { input: '$billTotal' } }, 
+          },
+        },
+        {
+          $group: {
+            _id: {
+              month: { $month: '$orderDate' }, 
+              year: { $year: '$orderDate' }, 
+            },
+            totalEarnings: { $sum: { $toDouble: '$billTotal' } }, 
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            month: '$_id.month',
+            year: '$_id.year',
+            totalEarnings: 1,
+          },
+        },
+        {
+          $sort: {
+            year: 1,
+            month: 1,
+          },
+        },
+      ]);
+      
+      res.render("admin/adminHome", {
+        latestOrders,
+        category,
+        deliveredRevenue,
+        deliveredOrderCount,
+        PendingOrderCount,
+        productCount,
+        categoryCount,
+        monthlyEarnings
+      });
     } else {
       res.redirect("/admin/");
     }

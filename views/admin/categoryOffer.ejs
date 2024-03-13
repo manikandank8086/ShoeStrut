@@ -1,0 +1,52 @@
+<%- include('partials/header.ejs',{tab:'product'}) %>
+<h2></h2>
+<div class="content-header">
+    
+    <div>
+
+        <h3 class="content-title card-title padding-top:30px"> Category Offer List </h3>
+    </div>
+    
+</div>
+
+<div id="searchResults" class="card mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Catogory Name</th>
+                        <th>Offer Starting Date</th>
+                        <th>Expiry Date</th>
+                        <th>Offer Starting Price</th>
+                        <th>Discount Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <% offerList.forEach(offer => { %>
+                      
+                    
+                    <tr>
+                        <td><%= offer.name %></td>
+                        <td> <%= offer.OfferStartDate %></td>
+                        <td><strong><%= offer.OfferEndDate %></strong></td>
+                        <td><%= offer.OfferStartingPrice %></td>
+                        <td><%= offer.OfferDiscountPrice %></td>
+                        <td style="color: green;"><%= offer.catOfferStatus %></td>
+                        <td>
+    
+                            <!-- Delete option with icon -->
+                          <a href="/admin/editCatOffer/<%= offer.id %>"> <button  style="background-color: darkcyan;" >
+                                <i  >Edit</i> <!-- Font Awesome trash icon -->
+                            </button> </a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</section>
