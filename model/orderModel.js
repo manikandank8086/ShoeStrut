@@ -55,7 +55,7 @@ const orderSchema = new Schema({
   },
   paymentStatus: {
     type: String,
-    enum: ['Pending', 'Success', 'Failed'],
+    enum: ['Pending', 'Success', 'Failed','Delivered'],
     default: 'Pending',
   },
 
@@ -103,8 +103,24 @@ const orderSchema = new Schema({
   },
   status: {
     type: String,
-    enum:['Pending','Processing', 'Shipped', 'Delivered','Canceled','Return','Request'],
+    enum:['Pending','Processing', 'Shipped','Failed', 'Delivered','Canceled','Return','Request'],
     default: 'Pending'
+},
+
+// return 
+
+returnRequest : {
+  type : Boolean,
+  default :false
+},
+returnReason : {
+  type :String,
+},
+returnStatus: {
+  type : String
+},
+returnDate : {
+  type: Date
 },
 
 },

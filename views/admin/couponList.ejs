@@ -16,7 +16,8 @@
                             <tr>
                                 <th>Coupon Name</th>
                                 <th >Code</th>
-                                <th >Purchase Price</th>
+                                <th >Start Price</th>
+                                <th> End Price</th>
                                 <th > Date Start</th>
                                 <th > Date End</th>
                                 <th >Status</th>
@@ -34,6 +35,7 @@
                                     </td>
                                    
                                         <td > <Strong>Rs.</Strong> <%= element.minimum %></td>
+                                        <td> <strong>Rs.</strong> <%= element.maximum %></td>
                                         <td>
                                         <%= element.validFrom.toLocaleString()%>
 

@@ -655,7 +655,7 @@
                                                                 <th>Total</th>
                                                                 <td colspan="2" class="product-subtotal">₹<span
                                                                         class="font-xl text-brand fw-900"
-                                                                        id="totalAmount"> 
+                                                                        id="totalAmount">
                                                                         <%= subtotal.toFixed(2) %>
                                                                     </span></td>
                                                             </tr>
@@ -680,7 +680,8 @@
                                                             <!-- Display available coupons here -->
                                                             <div class="available-coupons">
                                                                 <h5>Available Coupons</h5>
-                                                                 <input type="hidden" name="couponCode" value="" id="couponCodeInput" />
+                                                                <input type="hidden" name="couponCode" value=""
+                                                                    id="couponCodeInput" />
                                                                 <br>
                                                                 <% if (coupons.length> 0) { %>
                                                                     <% coupons.forEach(coupon=> { %>
@@ -1008,9 +1009,9 @@
 
 
     const totalAmount = document.getElementById('totalAmount').innerText;
-    
 
-    
+
+
 
     function payment(id) {
 
@@ -1025,8 +1026,6 @@
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const products = [];
-                
-
                 $('.table tbody tr').each(function () {
                     const product = {
                         productId: $(this).find('.product-thumbnail img').attr('alt'),
@@ -1034,7 +1033,6 @@
                         price: parseFloat($(this).find('td:nth-child(3)').text().trim().replace('₹', '').replace(/\s+/g, '')),
                         image: $(this).find('.product-thumbnail img').attr('src')
                     };
-
                     if (product.productId) {
                         console.log(product)
                         products.push(product);
@@ -1053,7 +1051,7 @@
                         products: products,
                         selectedAddressType: selectedAddressType || "work",
                         paymentOptionName: paymentOptionName || 'Cash on Delivery',
-                        couponCode : document.getElementById('couponCodeInput').value
+                        couponCode: document.getElementById('couponCodeInput').value
                     }),
                 })
                     .then(async (response) => {
@@ -1061,13 +1059,44 @@
 
                             if (response.ok) {
                                 const data = await response.json();
+                                console.log(data)
                                 if (data.status === 'Cash on Delivery') {
 
                                     window.location.href = '/successPage'; // Replace '/successPage' with the URL of your success page
+                                } else if (data.status === 'Above1000') {
+                                    Swal.fire({
+                                        text: 'Cash On dlivery cannot work above Rs.1000 ',
+                                        icon: 'warnin',
+                                        confirmButtonText: 'OK',
+                                    })
                                 } else {
-
                                     console.error(data.message);
+
                                 }
+
+                                if (data.status === 'Wallet') {
+                                    // Order was successfully placed using wallet balance
+                                    Swal.fire({
+                                        text: 'Your order was successfully placed using wallet balance.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // Redirect to success page
+                                            window.location.href = '/successPage';
+                                        }
+                                    });
+                                } else if (data.status === 'InsufficientBalance') {
+                                    // Insufficient wallet balance
+                                    Swal.fire({
+                                        text: 'Insufficient wallet balance. Please use a different payment method.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
+
+
+
                                 console.log(data)
                                 if (data.status === 'Razorpay') {
                                     console.log('working...')
@@ -1087,15 +1116,15 @@
                                     console.log(products)
                                     var options = {
                                         "key": "rzp_test_n7g5JocY6axwUD",
-                                        "amount": data.order.amount, 
+                                        "amount": data.order.amount,
                                         "currency": "INR",
                                         "name": "Acme Corp",
                                         "description": "Test Transaction",
                                         "image": "https://example.com/your_logo",
                                         "order_id": data.order.id,
                                         "handler": function (response) {
-                                           
-                                            verifyPaymet(response, index, address, totalAmount, products,couponCode,discountValue)
+
+                                            verifyPaymet(response, index, address, totalAmount, products, couponCode, discountValue)
                                         },
                                         "prefill": {
                                             "name": "Gaurav Kumar",
@@ -1110,9 +1139,13 @@
                                         }
                                     };
                                     var rzp1 = new Razorpay(options);
+                                    rzp1.on('payment.failed', function (response) {
+                                        CancelPayment(response, index, address, totalAmount, products, couponCode, discountValue)
+									});
                                     rzp1.open();
 
-                                    console.log('4')
+                                   
+
                                 }
                             } else {
                                 console.log(error)
@@ -1129,9 +1162,9 @@
     }
 
 
-    function verifyPaymet(paymentData, index,address , totalAmount, products,couponCode,discountValue) {
+    function verifyPaymet(paymentData, index, address, totalAmount, products, couponCode, discountValue) {
 
-       
+     
 
         fetch('/verify-payment/', {
             method: 'POST',
@@ -1155,6 +1188,43 @@
                     console.log(response)
                     if (response.ok) {
                         window.location.href = '/successPage';
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+
+
+    //   razorpay cancel payment
+
+    function CancelPayment(paymentData, index, address, totalAmount, products, couponCode, discountValue) {
+    alert('cancel option')
+        fetch('/cancel-payment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                paymentData,
+                address: address || 'work',
+                index,
+                totalAmount,
+                products,
+                couponCode,
+                discountValue
+            })
+        })
+            .then(async (response) => {
+                console.log('working')
+
+                try {
+                console.log('cancel response')
+                    console.log(response)
+                    if (response.ok) {
+                    
                     }
                 } catch (error) {
                     console.log(error)
@@ -1314,9 +1384,9 @@
 
     let total = document.getElementById('totalAmount').innerHTML
     function applyCoupon(code) {
-    
-   document.getElementById('couponCodeInput').value = code
-     
+
+        document.getElementById('couponCodeInput').value = code
+
 
         fetch('/product/apply-coupon/', {
             method: 'POST',
@@ -1423,7 +1493,7 @@
             .catch(error => {
                 // Error occurred during the fetch request
                 console.error('Error:', error);
-              
+
             });
     }
 

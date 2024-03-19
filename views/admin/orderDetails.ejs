@@ -18,9 +18,13 @@
                     <small class="text-muted">Order ID:<%= order._id%></small>
                 </div>
                 <div >
-                    <% if (order.cancellationReason) { %>
+                    <% if (order.cancellationReason && order.status !== 'Delivered' && order.status !== 'Return') { %>
                         <h5>Reason for cancelation</h5>
                         <p> <%= order.cancellationReason %></p>
+
+                        <% } else if(order.status === 'Return') { %>
+                            <h5>Reason for Return</h5>
+                            <p> <%= order.returnReason %></p>
                     <% } %>
                
             </div>

@@ -13,6 +13,15 @@ router.post("/login", adminController.loginPost);
 
 router.get("/adminHome", adminAuthentication, adminController.homeGet);
 
+router.get("/yearChart", adminAuthentication, adminController.yearlychart);
+
+router.get("/monthlyChart", adminAuthentication, adminController.monthlyChart);
+
+
+
+
+
+
 
 //sales Report
 

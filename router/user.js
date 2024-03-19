@@ -24,6 +24,8 @@ router.get('/resendOTP',userController.resendOTP)
 router.get('/home',userAuthentication,userController.homeGet)
 
 
+//profile
+
 router.get('/profile', userAuthentication,userController.profileGet)
 
 router.post('/addressSave',userAuthentication, userController.addressSave);
@@ -40,17 +42,28 @@ router.post('/addAddressProfile',userAuthentication,userController.AddaddressPro
 
 router.post('/profileNewPassword/:id',userAuthentication,userController.AddressDetails)
 
+
 router.get('/successPage', userAuthentication,userController.successPageGet)
+
+// order
 
 router.post('/orderCOD',userAuthentication,userController.orderCOD)
 
 router.post('/verify-payment/',userAuthentication,userController.verifyPayment)
 
+router.post('/cancel-payment/',userAuthentication,userController.razorpayCancel)
+
+router.get('/rePayment/:id',userAuthentication,userController.rePayment)
+
+router.post('/rePayverify-payment',userAuthentication,userController.rePayverifyPayment)
+
 router.get('/orderDetails/:id',userAuthentication,userController.ordreDetailsGet)
 
-
-
 router.post('/orderCancel/:id',userAuthentication,userController.orderCancel)
+
+router.post('/returnOrder/:id',userAuthentication,userController.returnOrder)
+
+router.get('/invoice/:id',userAuthentication,userController.invoice)
 
 
 

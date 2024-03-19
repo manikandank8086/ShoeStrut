@@ -154,39 +154,7 @@ const productListEditGet = async (req, res) => {
   }
 };
 
-// const productEditPost = async (req, res) => {
-//   try {
-//     console.log("hgh");
-//     const productId = req.params.id;
-//     const { title, description, brand, stock, Price, category } = req.body;
 
-//     const updatedProduct = await productPush.findOneAndUpdate(
-//       { _id: productId },
-//       { $set: { title, description, brand, stock, Price, category } },
-//       { new: true }
-//     );
-
-//     if (!updatedProduct) {
-//       return res.status(404).render("404page");
-//     }
-
-//     res.redirect("/admin/product/list");
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
-
-// const productDeleteGEt = async (req, res) => {
-//   console.log("hii");
-//   try {
-//     const id = req.params.id;
-//     const deleteUser = await User.findByIdAndDelete({ _id: id });
-//     res.status(200).json({ status: true });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
 
 
 const productEditPost = async (req, res) => {
@@ -411,6 +379,49 @@ const OrderDetails = async (req, res) => {
 };
 
 
+const confirmReturn = async(req,res)=>{
+  try{
+    console.log('working')
+    console.log(req.params.id)
+    const orderId = req.params.id
+    console.log(orderId)
+
+    const orderData = await Order.findOneAndUpdate(
+      { orderId: orderId },
+      { $set: { status: 'Return', returnRequest: false, returnStatus: 'Success' } },
+      { new: true }
+  );
+        res.status(200).json({message:'Success'})  
+  console.log(orderData)
+    
+
+  }catch(error){
+    res.status(500).json({error:'Internal Server Error'})
+  }
+}
+
+
+const rejectReturn = async(req,res)=>{
+  try{
+    console.log('working reject')
+    const orderId = req.params.id
+    console.log(orderId)
+   
+    const orderData = await Order.findOneAndUpdate(
+      {orderId : orderId},
+      {$set : {returnStatus : 'Rejected',returnRequest :false}},
+      {new : true}
+    )
+    console.log(orderData)
+    res.status(200).json({message:''})
+
+  }catch(error){
+    console.log(error)
+    res.status(500).json({error:'Internal Server Error'})
+  }
+}
+
+
 
 //wallet 
 
@@ -578,6 +589,8 @@ module.exports = {
   changeStatus,
   OrderDetails,
   OrderSearch,
+  confirmReturn,
+  rejectReturn,
   
   
   //sales report

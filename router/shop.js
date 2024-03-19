@@ -13,6 +13,10 @@ router.post('/ratings',userAuthentication,UserProductController.Ratings)
 
 router.post('/star',userAuthentication,UserProductController.Star)
 
+router.put('/editReview',userAuthentication,UserProductController.editReview)
+
+router.delete('/reviewDelete/:id',userAuthentication,UserProductController.deleteReview)
+
 //shop
 router.get('/shop',userAuthentication,UserProductController.shopGet)
 

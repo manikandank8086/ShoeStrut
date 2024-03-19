@@ -44,6 +44,8 @@ const loginPost = async (req, res) => {
   }
 };
 
+// dash bord
+
 const homeGet = async (req, res) => {
   try {
     if (req.session.adminId) {
@@ -72,43 +74,43 @@ const homeGet = async (req, res) => {
       const category = await categoryModel.find();
 
       const today = new Date();
-      const currentMonth = today.getMonth() + 1; 
+      const currentMonth = today.getMonth() + 1;
       const currentYear = today.getFullYear();
-      
+
       const monthlyEarnings = await Order.aggregate([
         {
           $match: {
-            status: 'Delivered', 
+            status: "Delivered",
             $expr: {
               $and: [
-                { $eq: [{ $month: '$orderDate' }, currentMonth] },
-                { $eq: [{ $year: '$orderDate' }, currentYear] },
-              ]
-            }
+                { $eq: [{ $month: "$orderDate" }, currentMonth] },
+                { $eq: [{ $year: "$orderDate" }, currentYear] },
+              ],
+            },
           },
         },
         {
-          $unwind: '$items', 
+          $unwind: "$items",
         },
         {
           $addFields: {
-            billTotal: { $trim: { input: '$billTotal' } }, 
+            billTotal: { $trim: { input: "$billTotal" } },
           },
         },
         {
           $group: {
             _id: {
-              month: { $month: '$orderDate' }, 
-              year: { $year: '$orderDate' }, 
+              month: { $month: "$orderDate" },
+              year: { $year: "$orderDate" },
             },
-            totalEarnings: { $sum: { $toDouble: '$billTotal' } }, 
+            totalEarnings: { $sum: { $toDouble: "$billTotal" } },
           },
         },
         {
           $project: {
             _id: 0,
-            month: '$_id.month',
-            year: '$_id.year',
+            month: "$_id.month",
+            year: "$_id.year",
             totalEarnings: 1,
           },
         },
@@ -119,7 +121,137 @@ const homeGet = async (req, res) => {
           },
         },
       ]);
-      
+
+      // best selling product
+
+      const bestSellingProducts = await Order.aggregate([
+        {
+          $group: {
+            _id: "$items.productId",
+            totalQuantity: { $sum: "$items.quantity" },
+          },
+        },
+        { $sort: { totalQuantity: -1 } },
+        { $limit: 8 },
+      ]);
+
+      const populatedProducts = await Promise.all(
+        bestSellingProducts.map(async (product) => {
+          const productDetails = await productPush.findById(product._id[0]);
+          if (productDetails) {
+            return {
+              _id: product._id[0],
+              image: productDetails.image,
+              title: productDetails.title,
+              type: productDetails.type,
+              offerPrice: productDetails.offerPrice,
+              Price: productDetails.Price,
+              brand: productDetails.brand,
+              rating: productDetails.rating,
+              discountPercentage: productDetails.discountPercentage,
+            };
+          } else {
+            console.log(
+              `Product details not found for product ID: ${product._id[0]}`
+            );
+            res.redirect("/admin/adminHome");
+          }
+        })
+      );
+
+      const bestSellingCategories = await Order.aggregate([
+        {
+          $unwind: "$items",
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "items.productId",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: "$product",
+        },
+        {
+          $group: {
+            _id: "$product.categoryId",
+            totalQuantity: { $sum: "$items.quantity" },
+          },
+        },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "_id",
+            foreignField: "_id",
+            as: "categoryDetails",
+          },
+        },
+        {
+          $sort: { totalQuantity: -1 },
+        },
+        {
+          $limit: 10,
+        },
+      ]);
+
+      // /top selling brand
+      const bestSellingBrand = await Order.aggregate([
+        {
+          $unwind: "$items",
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "items.productId",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: "$product",
+        },
+        {
+          $group: {
+            _id: "$product.brand",
+            totalQuantity: { $sum: "$items.quantity" },
+          },
+        },
+        {
+          $sort: { totalQuantity: -1 },
+        },
+        {
+          $limit: 10,
+        },
+      ]);
+
+//       const today = moment(); 
+// const sevenDaysAgo = moment().subtract(7, 'days'); 
+//     const revenuePerDate = await Orders.aggregate([
+//       {
+//         $match: {
+//           orderStatus: 'Downloaded',
+//           orderDate: { $gte: new Date(sevenDaysAgo), $lte: new Date(today) }, 
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$orderDate' } },
+//           totalRevenue: { $sum: '$totalAmount' },
+//         },
+//       },
+//       {
+//         $sort: { _id: 1 },
+//       },
+//     ]);
+
+//     const dates = revenuePerDate.map((item) => item._id);
+//     const revenueValues = revenuePerDate.map((item) => item.totalRevenue);
+    
+//     return { dates, revenueValues };
+     
+
       res.render("admin/adminHome", {
         latestOrders,
         category,
@@ -128,7 +260,11 @@ const homeGet = async (req, res) => {
         PendingOrderCount,
         productCount,
         categoryCount,
-        monthlyEarnings
+        monthlyEarnings,
+        populatedProducts,
+        bestSellingCategories,
+        bestSellingBrand,
+        
       });
     } else {
       res.redirect("/admin/");
@@ -137,6 +273,106 @@ const homeGet = async (req, res) => {
     console.log(error);
   }
 };
+
+const yearlychart = async (req,res)=>{
+  try{
+    try {
+      const startYear = 2019; // Set the start year
+      const endYear = 2024; // Set the end year
+  
+      const productCountPerYear = await Order.aggregate([
+        {
+          $match: {
+            createdAt: { $gte: new Date(`${startYear}-01-01`), $lte: new Date(`${endYear}-12-31`) },
+          },
+        },
+        {
+          $group: {
+            _id: { $year: '$createdAt' }, // Grouping by year of orderDate
+            count: { $sum: { $size: '$items' } }, // Counting the number of gameItems (games ordered)
+          },
+        },
+      ]);
+  
+      const productCount = {};
+      for (let year = startYear; year <= endYear; year++) {
+        productCount[year.toString()] = 0;
+      }
+  
+      productCountPerYear.forEach(item => {
+        const year = item._id;
+        productCount[year.toString()] = item.count;
+      });
+      console.log('product count' + productCount)
+      res.status(200).json({ productCount });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }catch(error){
+    console.log(error)
+  }
+}
+
+const monthlyChart = async(req,res)=>{
+  try {
+    const { year } = req.query;
+    console.log(year)
+
+    const startDate = new Date(`${year}-01-01`);
+    const endDate = new Date(`${year}-12-31`);
+    console.log(startDate)
+    console.log(endDate)
+    const orderDates = await Order.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+          status: 'Delivered', 
+        },
+      },
+      {
+        $group: {
+          _id: { $month: '$createdAt' },
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const monthlyOrderCounts = {
+      January: 0,
+      February: 0,
+      March: 0,
+      April: 0,
+      May: 0,
+      June: 0,
+      July: 0,
+      August: 0,
+      September: 0,
+      October: 0,
+      November: 0,
+      December: 0,
+    };
+
+    orderDates.forEach((monthData) => {
+      const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      const monthName = monthNames[monthData._id - 1];
+
+      // Populate the monthly order counts
+      monthlyOrderCounts[monthName] = monthData.count;
+    });
+    console.log(monthlyOrderCounts)
+    res.status(200).json({ monthlyOrderCounts });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+ 
 
 const categoryLisGet = async (req, res) => {
   try {
@@ -186,6 +422,8 @@ module.exports = {
   loginGet,
   loginPost,
   homeGet,
+  yearlychart,
+  monthlyChart,
   categoryLisGet,
   logoutGet,
 };

@@ -1,211 +1,297 @@
 <%- include('partials/header.ejs',{tab:"orders"}) %>
 
-<section class="content-main mb-5">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Order List </h2>
-        </div>
-        <form id="searchForm" class="searchform">
-            <div class="input-group">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search orders...">
-                <button type="submit" class="btn btn-light bg"><i class="material-icons md-search"></i></button>
+    <section class="content-main mb-5">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Order List </h2>
             </div>
-        </form>
-    </div>
-    <div id="searchResults" class="card mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            <th scope="col" class="text-end">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% orderData.forEach(element => { %>
+            <form id="searchForm" class="searchform">
+                <div class="input-group">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search orders...">
+                    <button type="submit" class="btn btn-light bg"><i class="material-icons md-search"></i></button>
+                </div>
+            </form>
+        </div>
+        <div id="searchResults" class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td># <%= element.orderId %></td>
-                                <td><%= element.userId.username %></td>
-                                <td><%= element.billTotal %></td>
-                                <td>
-                                    <span class="badge">
-                                        <select name="status" id="statusSelect_<%= element.orderId %>" onchange='statusChange("<%= element.orderId %>")'>
-                                            <option value="Pending" <%= element.status==='Pending' ? 'selected' : '' %>>Pending</option>
-                                            <option value="Processing" <%= element.status==='Processing' ? 'selected' : '' %>>Processing</option>
-                                            <option value="Shipped" <%= element.status==='Shipped' ? 'selected' : '' %>>Shipped</option>
-                                            <option value="Delivered" <%= element.status==='Delivered' ? 'selected' : '' %>>Delivered</option>
-                                            <option value="Canceled" <%= element.status==='Canceled' ? 'selected' : '' %>>Canceled</option>
-                                            <option value="Return" <%= element.status==='Return' ? 'selected' : '' %>>Return</option>
-                                            <option value="Request" <%= element.status==='Request' ? 'selected' : '' %>>Request</option>
-                                        </select>
-                                    </span>
-                                </td>
-                                <td><%= element.orderDate.toLocaleString() %></td>
-                                <td class="text-end">
-                                    <a href="/admin/product/orderDetails/<%= element.orderId %>" class="btn btn-md rounded font-sm">Detail</a>
-                                </td>
+                                <th>#ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col" class="text-end">Details</th>
                             </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div> 
-        </div> 
-        <div class="pagination-area pb-2 mx-2  mb-sm-5 mb-lg-0">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-start">
-                    <% for(let i=1; i <= totalPages && i <= 5; i++) { %>
-                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                            <a class="page-link" href="/admin/product/orderList?page=<%= i %>"><%= i %></a>
-                        </li>
-                    <% } %>
-                    <% if (currentPage < totalPages) { %>
-                        <li class="page-item">
-                            <a class="page-link" href="/admin/product/orderList?page=<%= currentPage + 1 %>">Next</a>
-                        </li>
-                    <% } %>
-                </ul>
-            </nav>
-        </div>
-    </div> 
-</section> 
+                        </thead>
+                        <tbody>
+                            <% orderData.forEach(element=> { %>
+                                <tr>
+                                    <td># <%= element.orderId %>
+                                    </td>
+                                    <td>
+                                        <%= element.userId.username %>
+                                    </td>
+                                    <td>
+                                        <%= element.billTotal %>
+                                    </td>
+                                    <td>
+                                        <span class="badge">
+                                            <select name="status" id="statusSelect_<%= element.orderId %>"
+                                                onchange='statusChange("<%= element.orderId %>")'>
+                                                <option value="Pending" <%=element.status==='Pending' ? 'selected' : ''
+                                                    %>>Pending</option>
+                                                <option value="Processing" <%=element.status==='Processing' ? 'selected'
+                                                    : '' %>>Processing</option>
+                                                <option value="Shipped" <%=element.status==='Shipped' ? 'selected' : ''
+                                                    %>>Shipped</option>
+                                                <option value="Delivered" <%=element.status==='Delivered' ? 'selected'
+                                                    : '' %>>Delivered</option>
+                                                <option value="Canceled" <%=element.status==='Canceled' ? 'selected'
+                                                    : '' %>>Canceled</option>
+                                                <option value="Return" <%=element.status==='Return' ? 'selected' : '' %>
+                                                    >Return</option>
+                                                <option value="Request" <%=element.status==='Request' ? 'selected' : ''
+                                                    %>>Request</option>
+                                            </select>
+                                        </span>
+                                    </td>
 
-<footer class="main-footer font-xs">
-    <div class="row pb-30 pt-15">
-        <div class="col-sm-6">
-            <script>
-                document.write(new Date().getFullYear())
-            </script> ©, ShoeStrut .
-        </div>
-        <div class="col-sm-6">
-            <div class="text-sm-end">
-                All rights reserved
+                                    <td>
+                                        <%= element.orderDate.toLocaleString() %>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="/admin/product/orderDetails/<%= element.orderId %>"
+                                            class="btn btn-md rounded font-sm">Detail</a>
+                                    </td>
+                                    <td>
+                                        <% if (element.returnRequest) { %>
+                                            <a href="#" onclick="toggleReturnActions('<%= element.orderId %>')">
+                                                <span style="color: #333; font-style: italic;">Return requested</span>
+                                            </a>
+                                            <div id="returnActions_<%= element.orderId %>" style="display: none;">
+                                                <div style="text-align: center;">
+                                                    <a href="#" style="max-width: 100px; max-height: 30px; display: inline-block; margin-right: 5px;"
+                                                        onclick='confirmReturn("<%= element.orderId %>")' class="btn btn-success">Accept </a>
+                                                    <a href="#" style="max-width: 100px; max-height: 30px; "
+                                                        onclick='cancelReturn("<%= element.orderId %>")' class="btn btn-danger">Reject</a>
+                                                </div>
+                                                
+
+                                            </div>
+                                            <% } %>
+                                    </td>
+
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pagination-area pb-2 mx-2  mb-sm-5 mb-lg-0">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <% for(let i=1; i <=totalPages && i <=5; i++) { %>
+                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                <a class="page-link" href="/admin/product/orderList?page=<%= i %>">
+                                    <%= i %>
+                                </a>
+                            </li>
+                            <% } %>
+                                <% if (currentPage < totalPages) { %>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                            href="/admin/product/orderList?page=<%= currentPage + 1 %>">Next</a>
+                                    </li>
+                                    <% } %>
+                    </ul>
+                </nav>
             </div>
         </div>
-    </div>
-</footer>
-</main>
+    </section>
 
-<script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
-<script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
-<script src="/asset/js/vendors/select2.min.js"></script>
-<script src="/asset/js/vendors/perfect-scrollbar.js"></script>
-<script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
-<!-- Main Script -->
-<script src="/asset/js/main.js" type="text/javascript"></script>
-</body>
-</html>
+    <footer class="main-footer font-xs">
+        <div class="row pb-30 pt-15">
+            <div class="col-sm-6">
+                <script>
+                    document.write(new Date().getFullYear())
+                </script> ©, ShoeStrut .
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end">
+                    All rights reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+    </main>
 
+    <script src="/asset/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="/asset/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="/asset/js/vendors/select2.min.js"></script>
+    <script src="/asset/js/vendors/perfect-scrollbar.js"></script>
+    <script src="/asset/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="/asset/js/main.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    </body>1    
 
-<script>
-    // async function statusChange(orderId) {
-    //     let status = document.querySelector(`#statusSelect_${orderId}`).value;
-    //     alert('working')
-
-    //     try {
-    //         const response = await fetch(`/admin/product/changeStatus`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 orderId: orderId,
-    //                 newStatus: status,
-    //             }),
-    //         });
-
-    //         const data = await response.json();
-    //         console.log(data); // Log the response data to the console
-    //     } catch (err) {
-    //         console.error(err); // Log any errors to the console
-    //     }
-    // }
+    </html>
 
 
-    async function statusChange(orderId) {
+
+
+    <!-- return -->
+    <script>
+        function toggleReturnActions(orderId) {
+            var actionsDiv = document.getElementById('returnActions_' + orderId);
+            actionsDiv.style.display = actionsDiv.style.display === 'none' ? 'block' : 'none';
+        }
+
+
+
+  function confirmReturn(orderId){
     
-    let status = document.querySelector(`#statusSelect_${orderId}`).value;
+      fetch('/admin/product/confirmReturn/'+orderId,{
+        method: 'post',
+        headers :{
+            'Content-Type':'application/json',
+        },
+      }).then(async(response)=>{
+         if(response.status=== 200){
+            const data = await response.json()
+            Swal.fire({
+                title: 'success',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+            location.reload()
+           
+         }
+         
+         
+      }).catch((error)=>{
+        console.log(error)
+      })
+  }
 
 
-    try {
-        const response = await fetch(`/admin/product/changeStatus`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderId: orderId,
-                newStatus: status,
-            }),
+
+
+  function cancelReturn (orderId){
+    
+      fetch('/admin/product/reject/'+orderId,{
+        method: 'get',
+        headers :{
+            'Content-Type':'application/json',
+        },
+      }).then(async(response)=>{
+         if(response.status=== 200){
+            const data = await response.json()
+            Swal.fire({
+                title: 'success',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            })
+            location.reload()
+         }
+      }).catch((error)=>{
+        console.log(error)
+      })
+  }
+
+
+
+    </script>
+
+    <script>
+
+
+
+        async function statusChange(orderId) {
+
+            let status = document.querySelector(`#statusSelect_${orderId}`).value;
+
+
+            try {
+                const response = await fetch(`/admin/product/changeStatus`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: orderId,
+                        newStatus: status,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update status');
+                }
+
+                const data = await response.json();
+                console.log(data); // Log the response data to the console
+            } catch (err) {
+                console.error(err); // Log any errors to the console
+                // Handle error display or retry logic here
+            }
+        }
+
+
+        document.getElementById("searchForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const query = document.getElementById("searchInput").value;
+            console.log(query)
+
+            try {
+                const response = await fetch(`/admin/product/OrderSearch?query=${query}`);
+                const data = await response.json();
+
+                if (data.status === "success") {
+                    displaySearchResults(data.data);
+                } else {
+                    alert("Error searching orders");
+                }
+            } catch (error) {
+                console.error("Error searching orders:", error);
+                alert("Internal Server Error");
+            }
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to update status');
-        }
-
-        const data = await response.json();
-        console.log(data); // Log the response data to the console
-    } catch (err) {
-        console.error(err); // Log any errors to the console
-        // Handle error display or retry logic here
-    }
-}
 
 
-    document.getElementById("searchForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
+        function displaySearchResults(results) {
+            const searchResultsDiv = document.getElementById("searchResults");
+            const tableBody = searchResultsDiv.querySelector('tbody');
+            tableBody.innerHTML = ""; // Clear previous search results
 
-        const query = document.getElementById("searchInput").value;
-        console.log(query)
-
-        try {
-            const response = await fetch(`/admin/product/OrderSearch?query=${query}`);
-            const data = await response.json();
-
-            if (data.status === "success") {
-                displaySearchResults(data.data);
-            } else {
-                alert("Error searching orders");
+            if (results.length === 0) {
+                tableBody.innerHTML = "<tr><td colspan='6'>No results found.</td></tr>";
+                return;
             }
-        } catch (error) {
-            console.error("Error searching orders:", error);
-            alert("Internal Server Error");
-        }
-    });
 
-    
-
-    function displaySearchResults(results) {
-        const searchResultsDiv = document.getElementById("searchResults");
-        const tableBody = searchResultsDiv.querySelector('tbody');
-        tableBody.innerHTML = ""; // Clear previous search results
-
-        if (results.length === 0) {
-            tableBody.innerHTML = "<tr><td colspan='6'>No results found.</td></tr>";
-            return;
-        }
-
-        results.forEach(result => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
+            results.forEach(result => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
                 <td># ${result.orderId}</td>
                 <td>${result.userId.username}</td>
                 <td>${result.billTotal}</td>
                 <td>
                     <span class="badge">
                         <select name="status" id="statusSelect_${result.orderId}" onchage="statusChange('${result.orderId}')">
-                            <option value="Pending" ${result.status==='Pending' ? 'selected' : ''}>Pending</option>
-                            <option value="Processing" ${result.status==='Processing' ? 'selected' : ''}>Processing</option>
-                            <option value="Shipped" ${result.status==='Shipped' ? 'selected' : ''}>Shipped</option>
-                            <option value="Delivered" ${result.status==='Delivered' ? 'selected' : ''}>Delivered</option>
-                            <option value="Canceled" ${result.status==='Canceled' ? 'selected' : ''}>Canceled</option>
-                            <option value="Return" ${result.status==='Return' ? 'selected' : ''}>Return</option>
-                            <option value="Request" ${result.status==='Request' ? 'selected' : ''}>Request</option>
+                            <option value="Pending" ${result.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Processing" ${result.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Shipped" ${result.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="Delivered" ${result.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="Canceled" ${result.status === 'Canceled' ? 'selected' : ''}>Canceled</option>
+                            <option value="Return" ${result.status === 'Return' ? 'selected' : ''}>Return</option>
+                            <option value="Request" ${result.status === 'Request' ? 'selected' : ''}>Request</option>
                         </select>
                     </span>
                 </td>
@@ -214,8 +300,7 @@
                     <a href="/admin/product/orderDetails/${result.orderId}" class="btn btn-md rounded font-sm">Detail</a>
                 </td>
             `;
-            tableBody.appendChild(row);
-        });
-    }
-</script>
-
+                tableBody.appendChild(row);
+            });
+        }
+    </script>

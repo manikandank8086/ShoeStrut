@@ -96,7 +96,7 @@
                                         <img src="/images/<%= product.image %>" alt="product image"
                                             style="width: 100%;">
                                     </figure>
-                                    
+
 
                                 </div>
                                 <!-- THUMBNAILS -->
@@ -599,7 +599,7 @@
                                         <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                                         <!-- MAIN SLIDES -->
                                         <div class="product-image-slider">
-                                            <figure class="border-radius-10" style="">
+                                            <figure class="border-radius-10" >
                                                 <img src="/images/<%= product.image %>" alt="product image">
                                             </figure>
 
@@ -614,18 +614,19 @@
                                             <div><img src="/images/<%=product.image %>" alt="product image"></div>
 
                                         </div>
-                                        
+
                                     </div>
                                     <!-- End Gallery -->
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div class="detail-info">
-                                        <h2  style="color: darkcyan;" class="title-detail" >
+                                        <h2 style="color: darkcyan;" class="title-detail">
                                             <%= product.title %>
                                         </h2>
                                         <div class="product-detail-rating">
                                             <div class="pro-details-brand">
-                                                <span> Brands: <a  style="color: black;font-weight: 700; " href="shop-grid-right.html">
+                                                <span> Brands: <a style="color: black;font-weight: 700; "
+                                                        href="shop-grid-right.html">
                                                         <%=product.brand %>
                                                     </a></span>
                                             </div>
@@ -643,105 +644,116 @@
                                                 </div>
                                             </div>
                                         </div>
-                                       
-                                            <% if (product.offerPrice > 0) { %>
-                                                    
-                                                  
-                                                <h5 class="offer-price"
-                                                    style="color: green; font-size: large;font-weight: 500; font-weight: 700; ">
-                                                    <%= product.discountPercentage.toFixed(2)%> %Off
-                                                </h5>
+
+                                        <% if (product.offerPrice> 0) { %>
 
 
-                                                <span style="text-decoration: line-through; color: brown;"><strong>
-                                                        ₹</strong>
-                                                    <%= product.Price %>
-                                                </span>
+                                            <h5 class="offer-price"
+                                                style="color: green; font-size: large;font-weight: 500; font-weight: 700; ">
+                                                <%= product.discountPercentage.toFixed(2)%> %Off
+                                            </h5>
 
-                                                
 
-                                                    <small class="offer-price"
-                                                        style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
-                                                            ₹</strong>
-                                                        <%= product.offerPrice %>
-                                                    </small>
-                                                    <% } else { %> 
-                                                     
-                                                    
-                                        <div class="product-price" >
-                                            <span style="font-size: x-large; color: darkcyan; font-weight: 700;" > <strong> ₹</strong>
-                                                <%=product.Price %>
+                                            <span style="text-decoration: line-through; color: brown;"><strong>
+                                                    ₹</strong>
+                                                <%= product.Price %>
                                             </span>
-                                            <!-- <span class="old-price">10999.8</span> -->
-                                        </div>
-                                        <% } %>
-                                        
-                                        <div class="bt-1 border-color-1 mt-15 mb-15"></div>
-                                        <div class="short-desc mb-30">
-                                            <p>
-                                                <%=product.description %>
-                                            </p>
-                                        </div>
-                                        <div class="product_sort_info font-xs mb-30">
-                                            <ul>
-                                                <li style="color: darkgreen;" class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year <%=
-                                                        product.brand %> Brand Warranty</li>
-                                                <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return
-                                                    Policy</li>
-                                                <% if (product.stock>0) { %>
 
 
-                                                    <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> Available Stock
-                                                        <strong style="color: rgb(29, 65, 29);font-weight: 700; " >
-                                                            <%= product.stock %>
-                                                        </strong>
-                                                    </li>
-                                                    <% } else { %>
-                                                        <span style="color: red;">Out of Stock</span>
-                                                        <% } %>
 
-                                                            <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery
-                                                                available</li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="attr-detail attr-size">
-                                            <strong class="mr-10">Size</strong>
-                                            <ul class="list-filter size-filter font-small">
-                                                <li><a href="#">7</a></li>
-                                                <li class="active"><a href="#%>">8</a></li>
-                                                <li><a href="#">9</a></li>
-                                                <li><a
-                                                        href="/product/addToCartSize/?size=10&productId=<%= product.id %>">10</a>
-                                                </li>
-                                                <li><a
-                                                        href="/product/addToCartSize/?size=11&productId=<%= product.id %>">11</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-                                        <div class="detail-extralink">
-
-                                            <div class="product-extra-link2">
-                                                <% if (product.stock> 0) { %>
-                                                    <button type="submit" onclick="addToCart('<%= product._id %>')"
-                                                        class="button button-add-to-cart">Add to cart</button>
-                                                    <% } else { %>
-                                                        <button type="button" disabled
-                                                            class="button button-add-to-cart">Out of stock</button>
-                                                        <% } %>
+                                            <small class="offer-price"
+                                                style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
+                                                    ₹</strong>
+                                                <%= product.offerPrice %>
+                                            </small>
+                                            <% } else { %>
 
 
-                                                            <a aria-label="Add To Wishlist" class="action-btn hover-up"
-                                                                onclick="WhislistAdd('<%= product._id %>')"><i
-                                                                    class="fi-rs-heart"></i></a>
-                                                            <!-- <a aria-label="Compare" class="action-btn hover-up"
+                                                <div class="product-price">
+                                                    <span
+                                                        style="font-size: x-large; color: darkcyan; font-weight: 700;">
+                                                        <strong> ₹</strong>
+                                                        <%=product.Price %>
+                                                    </span>
+                                                    <!-- <span class="old-price">10999.8</span> -->
+                                                </div>
+                                                <% } %>
+
+                                                    <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+                                                    <div class="short-desc mb-30">
+                                                        <p>
+                                                            <%=product.description %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="product_sort_info font-xs mb-30">
+                                                        <ul>
+                                                            <li style="color: darkgreen;" class="mb-10"><i
+                                                                    class="fi-rs-crown mr-5"></i> 1 Year <%=
+                                                                    product.brand %> Brand Warranty</li>
+                                                            <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day
+                                                                Return
+                                                                Policy</li>
+                                                            <% if (product.stock>0) { %>
+
+
+                                                                <li class="mb-10"><i class="fi-rs-refresh mr-5"></i>
+                                                                    Available Stock
+                                                                    <strong
+                                                                        style="color: rgb(29, 65, 29);font-weight: 700; ">
+                                                                        <%= product.stock %>
+                                                                    </strong>
+                                                                </li>
+                                                                <% } else { %>
+                                                                    <span style="color: red;">Out of Stock</span>
+                                                                    <% } %>
+
+                                                                        <li><i class="fi-rs-credit-card mr-5"></i> Cash
+                                                                            on Delivery
+                                                                            available</li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="attr-detail attr-size">
+                                                        <strong class="mr-10">Size</strong>
+                                                        <ul class="list-filter size-filter font-small">
+                                                            <li><a href="#">7</a></li>
+                                                            <li class="active"><a href="#%>">8</a></li>
+                                                            <li><a href="#">9</a></li>
+                                                            <li><a
+                                                                    href="/product/addToCartSize/?size=10&productId=<%= product.id %>">10</a>
+                                                            </li>
+                                                            <li><a
+                                                                    href="/product/addToCartSize/?size=11&productId=<%= product.id %>">11</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <div class="bt-1 border-color-1 mt-30 mb-30"></div>
+                                                    <div class="detail-extralink">
+
+                                                        <div class="product-extra-link2">
+                                                            <% if (product.stock> 0) { %>
+                                                                <button type="submit"
+                                                                    onclick="addToCart('<%= product._id %>')"
+                                                                    class="button button-add-to-cart">Add to
+                                                                    cart</button>
+                                                                <% } else { %>
+                                                                    <button type="button" disabled
+                                                                        class="button button-add-to-cart">Out of
+                                                                        stock</button>
+                                                                    <% } %>
+
+
+                                                                        <a aria-label="Add To Wishlist"
+                                                                            class="action-btn hover-up"
+                                                                            onclick="WhislistAdd('<%= product._id %>')"><i
+                                                                                class="fi-rs-heart"></i></a>
+                                                                        <!-- <a aria-label="Compare" class="action-btn hover-up"
                                                                 href="shop-compare.html"><i
                                                                     class="fi-rs-shuffle"></i></a> -->
-                                            </div>
-                                        </div>
-                                        <!-- <ul class="product-meta font-xs color-grey mt-50">
+                                                        </div>
+                                                    </div>
+                                                    <!-- <ul class="product-meta font-xs color-grey mt-50">
                                             <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
                                             <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>
                                             <li>Availability:<span class="in-stock text-success ml-5">8 Items In Stock</span></li>
@@ -763,7 +775,7 @@
 
                                     </div>
 
-                                    <h3 class="section-title style-1 mb-30 mt-30">Reviews (3)</h3>
+                                    <h3 class="section-title style-1 mb-30 mt-30">Reviews </h3>
                                     <!--Comments-->
                                     <div class="comments-area style-2">
                                         <div class="row">
@@ -777,7 +789,8 @@
                                                         <div class="single-comment justify-content-between d-flex">
                                                             <div class="user justify-content-between d-flex">
                                                                 <div class="thumb text-center">
-                                                                    <img src="/assets/imgs/page/avatar-6.jpg" alt="">
+                                                                    <img src="/image"
+                                                                        alt="">
                                                                     <h6><a href="">
                                                                             <%= review.userId.username%>
                                                                         </a></h6>
@@ -798,20 +811,33 @@
                                                                         </div>
 
                                                                     </div>
-                                                                    <p>
+                                                                    <p id="reviewComment">
                                                                         <%= review.comment %>
-
                                                                     </p>
+
                                                                     <div class="d-flex justify-content-between">
                                                                         <div class="d-flex align-items-center">
                                                                             <p class="font-xs mr-30">
                                                                                 <%= review.createdAt.toLocaleString() %>
                                                                             </p>
-                                                                            <a href="#"
-                                                                                class="text-brand btn-reply">Reply
-                                                                                <i class="fi-rs-arrow-right"></i> </a>
+                                                                            <% if (userId === review.userId._id.toString()) {
+                                                                                %>
+                                                                                <a href="#" class="text-brand btn-reply"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#exampleModal"
+                                                                                    onclick="editReview('<%= review.comment %>','<%= review._id %>')">Edit
+                                                                                    <i class="fi-rs-edit"></i>
+                                                                                </a>
+                                                                                <a class="text-brand btn-reply"
+                                                                                    onclick="deleteReview('<%= review._id %>')">Delete
+                                                                                    <i class="fi-rs-delete"></i>
+                                                                                </a>
+                                                                                <% } %>
+                                                                                
+                                                                               
                                                                         </div>
                                                                     </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -953,7 +979,7 @@
                                                         <div class="product-action-1">
                                                             <a aria-label="Quick view" class="action-btn small hover-up"
                                                                 data-bs-toggle="modal" data-bs-target="#quickViewModal
-"><i class="fi-rs-search"></i></a>
+                                                               "><i class="fi-rs-search"></i></a>
                                                             <a aria-label="Add To Wishlist"
                                                                 class="action-btn small hover-up"
                                                                 href="shop-wishlist.html" tabindex="0"><i
@@ -1005,6 +1031,31 @@
                 </div>
             </div>
         </section>
+
+
+
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Review</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea id="editReviewTextarea" class="form-control" rows="5"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" onclick="saveChanges()" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
     </main>
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
@@ -1110,6 +1161,135 @@
 
 </html>
 
+
+<script>
+    let reviewId
+    function editReview(comment, id) {
+
+        document.getElementById('editReviewTextarea').value = comment;
+        reviewId = id
+
+    }
+
+    //   save changes
+    function saveChanges() {
+
+        var editedReview = document.getElementById('editReviewTextarea').value;
+        var data = {
+            review: editedReview
+        };
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                data: data,
+                reviewId: reviewId
+            })
+        };
+
+        fetch('/product/editReview', requestOptions)
+            .then(async (response) => {
+                if (response.status === 200) {
+                    const responseData = await response.json();
+                    const updatedComment = responseData.updatedComment;
+                    document.getElementById('editReviewTextarea').value = updatedComment;
+                    location.reload()
+                } else {
+
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                alert('There was a problem with updating the review');
+            })
+            .finally(() => {
+                // Close the modal regardless of success or failure
+                $('#exampleModal').modal('hide');
+            });
+    }
+
+
+
+    function deleteReview(id) {
+        console.log('working ' + id);
+        try {
+            fetch('/product/reviewDelete/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(async (response) => {
+                    if (response.ok) {
+                        console.log("response" + response)
+                        const data = await response.json();
+                        console.log(data);
+                        if (data.statusCode === 200) {
+                            console.log('ok')
+                            Swal.fire({
+                                title: 'success',
+                                text: data.message,
+                                icon: 'Success',
+
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000)
+                        } else {
+                            console.log('ooooooo')
+                            Swal.fire({
+                                title: 'success',
+                                text: data.message,
+                                icon: 'Success',
+
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000)
+                        }
+                    } else if (data.status === 404) {
+                        const errorData = await response.json();
+                        console.error(errorData);
+                        Swal.fire({
+                            text: errorData.message || 'Review not found',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        const errorData = await response.json();
+                        console.error(errorData);
+                        Swal.fire({
+                            text: errorData.message || 'Failed to delete review',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    Swal.fire({
+                        text: 'Failed to delete review',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        } catch (error) {
+            console.error(error);
+            Swal.fire({
+                text: 'Failed to delete review',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    }
+
+
+
+
+</script>
 
 
 <script>

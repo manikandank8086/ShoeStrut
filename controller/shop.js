@@ -53,6 +53,7 @@ const productDetailsGet = async (req, res) => {
     console.log(orderedProduct);
 
     const cartData = await cartModel.find({ userId: req.session.userId });
+    const userId = req.session.userId
 
     const reviewCount = reviewModel.length - 1;
     console.log("review count " + reviewCount);
@@ -65,6 +66,8 @@ const productDetailsGet = async (req, res) => {
       reviewData,
       reviewCount,
       orderedProduct,
+      userId
+      
     });
   } catch (error) {
     console.log(error);
@@ -191,6 +194,62 @@ const Star = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
+const editReview = async(req,res)=>{
+  try {
+    const userId = req.session.userId; // Assuming you have a session with userId
+    console.log(req.body)
+    const  data =req.body.data.review
+    const reviewId = req.body.reviewId
+    console.log(data,reviewId)
+
+    const updatedReview = await reviewModel.findOneAndUpdate(
+        { _id : reviewId },
+        { comment: data },
+        { new: true }
+    );
+    console.log(updatedReview)
+
+    if (!updatedReview) {
+        return res.status(404).json({ message: 'Review not found' });
+    }
+
+    return res.status(200).json({ updatedComment: updatedReview.comment });
+} catch (error) {
+    console.error('Error updating review:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+}
+}
+
+
+
+const deleteReview = async(req,res)=>{
+  try {
+    console.log('working');
+    const reviewId = req.params.id;
+    console.log(reviewId);
+    const result = await reviewModel.deleteOne({ _id: reviewId });
+  
+    if (result.deletedCount === 1) {
+      console.log('sucess')
+      return res.status(200).json({ message: 'Review deleted successfully' });
+    } else {
+      return res.status(404).json({ message: 'Review not found' });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+
+
+
+
+
+
 
 const shopGet = async (req, res) => {
   const PAGE_SIZE = 6;
@@ -542,6 +601,8 @@ module.exports = {
   productDetailsGet,
   Ratings,
   Star,
+  editReview,
+  deleteReview,
   shopGet,
   CategoryFilter,
   ShopSort,

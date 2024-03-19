@@ -121,11 +121,20 @@
                                         <td style="color: #28a745;"> <strong>
                                                 <%= items.discount? '%' +items.discount : '%' +0 %>
                                             </strong> </td>
-                                        <td class="text-end">
-                                            <strong>
-                                               Rs.<%= items.netAmount %> %>
-                                            </strong>
-                                        </td>
+                                            <% if (items.netAmount > 0) { %>
+                                                <td class="text-end">
+                                                    <strong>
+                                                       Rs.<%= items.netAmount %> %>
+                                                    </strong>
+                                                </td>
+                                                <% } else { %>
+                                                    <td class="text-end">
+                                                        <strong>
+                                                           Rs.<%= items.billTotal %> %>
+                                                        </strong>
+                                                    </td>
+                                            <% } %>
+                                       
                                     </tr>
                                     <% }) %>
                             </tbody>

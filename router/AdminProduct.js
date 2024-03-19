@@ -40,6 +40,11 @@ router.get("/orderDelete/:id",adminAuthentication, AdminProductController.orderD
 
 router.get("/orderDetails/:id", adminAuthentication,AdminProductController.OrderDetails);
 
+router.post('/confirmReturn/:id', adminAuthentication, AdminProductController.confirmReturn);
+
+router.get('/reject/:id', adminAuthentication, AdminProductController.rejectReturn);
+
+
 
 // coupon 
 

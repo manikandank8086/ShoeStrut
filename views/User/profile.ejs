@@ -558,9 +558,14 @@
                                                                         <td>
                                                                             <%= order.orderDate.toLocaleString() %>
                                                                         </td>
-                                                                        <td>
-                                                                            <%= order.status %>
-                                                                        </td>
+                                                                         <% if (order.status === 'Failed') { %>
+                                                                          <td style="color: red;" ><%= order.status %></td>
+                                                                          <% } else { %>
+                                                                            <td>
+                                                                                <%= order.status %>
+                                                                            </td>
+                                                                         <% } %>
+                                                                       
                                                                         <td>
                                                                             <%= order.billTotal %>
                                                                         </td>
@@ -739,12 +744,15 @@
                                                 <div class="btn btn-success-light p-4 d-flex justify-content-start " style="width: 100%">
                                                     <div>
                                                         <% if (locals.wallet && locals.wallet.length > 0) { %>
-                                                            <% let totalBalance = 0; %>
-                                                            <% locals.wallet.forEach(wallet => { %>
-                                                                <% totalBalance += wallet.walletAmount; %>
-                                                            <% }) %>
+                                                    
+                                                          
+                                                            
                                                             <span class="h2">balance :</span>
-                                                            <span class="h3">₹ <%= totalBalance.toFixed(2) %></span>
+                                                            <% wallet.forEach(element => { %>
+                                                             
+                                                           
+                                                            <span class="h3">₹ <%=  element.totalWallet %></span>
+                                                            <% }) %>
                                                             
                                                         <% } else { %>
                                                             <!-- Handle case when wallet is empty -->
@@ -767,14 +775,23 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <% if (locals.wallet && locals.wallet.length > 0) { %>
-                                                                <% locals.wallet.forEach(wallet => { %>
+                                                            <% if (locals.transaction && locals.transaction.length > 0) { %>
+                                                                <% locals.transaction.forEach(wallet => { %>
                                                                     <tr>
                                                                         <th scope="row">#<%= wallet.transationId %></th>
                                                                         <td><%= wallet.createdAt.toLocaleString() %></td>
                                                                         <!-- dbit or credit -->
-                                                                        <td><%= wallet.walletAmount %></td>
-                                                                        <td><%= wallet.transationType %></td>
+                                                                        <% if (wallet.transactionType === "Credit") { %>
+                                                                        <td style="color: green;" ><%= wallet.amount %></td>
+                                                                        <% } else { %>
+                                                                            <td style="color:red" > <strong>-</strong> <%= wallet.amount %></td>
+                                                                            <% } %>
+                                                                         <% if (wallet.transactionType === "Credit") { %>
+                                                                            <td style="color: green;" ><%= wallet.transactionType %></td>
+                                                                          <% } else { %>
+                                                                           
+                                                                        <td style="color: brown;">  <%= wallet.transactionType %></td>
+                                                                        <% } %>
                                                                     </tr>
                                                                 <% }) %>
                                                             <% } else { %>
