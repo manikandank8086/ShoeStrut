@@ -15,7 +15,7 @@ const { reviewModel } = require("../model/ReviewModel");
 const { Coupon } = require("../model/coupon");
 const { Wallet } = require("../model/wallet");
 const { WalletTransaction } = require("../model/transactionModel");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 const Razorpay = require("razorpay");
 
@@ -50,6 +50,8 @@ const loginGet = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
@@ -64,6 +66,8 @@ const forgotGet = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
@@ -108,6 +112,8 @@ const forgotPost = async (req, res) => {
     return res.redirect("/forgotPassword");
   } catch (error) {
     console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
@@ -121,7 +127,8 @@ const resetGet = async (req, res) => {
       res.redirect("/");
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+    
   }
 };
 
@@ -142,7 +149,8 @@ const resetPost = async (req, res) => {
     req.session.e = null;
     res.redirect("/");
   } catch (error) {
-    console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+    
   }
 };
 
@@ -175,7 +183,9 @@ const loginPost = async (req, res) => {
       return res.redirect("/");
     }
   } catch (error) {
-    console.log(error);
+    
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
@@ -188,16 +198,18 @@ const signupGet = async (req, res) => {
       res.render("User/signup", { error: null });
     }
   } catch (error) {
-    console.log(error);
+
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
 const signupPost = async (req, res) => {
   try {
     const { Email, password, username, phoneNumber } = req.body;
-    console.log(req.body);
+    
     const userDetails = await User.findOne({ Email: Email });
-    console.log(userDetails);
+  
     if (!userDetails) {
       const hashedpassword = await bcrypt.hash(password, 10);
 
@@ -214,7 +226,8 @@ const signupPost = async (req, res) => {
       res.redirect("/signup");
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+    
   }
 };
 
@@ -226,7 +239,8 @@ const otpGet = async (req, res) => {
       res.redirect("/signup");
     }
   } catch (error) {
-    console.log(error);
+    
+    res.status(500).json({error:'Internal Server Error'})
   }
 };
 
@@ -246,18 +260,13 @@ const otpPost = (req, res) => {
         });
         res.status(200).json({ success: "Valid" });
       } else {
-        // Redirect with message indicating incorrect OTP
-        console.log("dfssd");
+        
         res.render("User/otp");
       }
     } else {
-      // Return error JSON response indicating invalid OTP
-      console.log("incorrect");
       res.status(400).json({ error: "Invalid OTP", status: false });
     }
   } catch (error) {
-    console.log(error.message);
-    // Return error JSON response for internal server error
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -265,22 +274,19 @@ const otpPost = (req, res) => {
 const resendOTP = (req, res) => {
   try {
     req.session.send = null;
-    console.log("keri keri");
-    console.log(req.session.userData);
-    console.log("and");
-    console.log(req.session.userData.Email);
+
     if (req.session.userData) {
       console.log("kereeela");
       const recipientEmail = req.session.userData.Email;
-      const newOTP = sendOtpEmail(recipientEmail); // Resend OTP
-      req.session.send = newOTP; // Update session with new OTP
-      console.log("New Otp is " + newOTP);
+      const newOTP = sendOtpEmail(recipientEmail);
+      req.session.send = newOTP;
+
       res.status(200).send("OTP Resent Successfully");
     } else {
       res.status(400).send("Failed to resend OTP");
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -314,7 +320,6 @@ const homeGet = async (req, res) => {
       res.status(404).redirect("/");
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send("Internal Server Error");
   }
 };
@@ -387,7 +392,7 @@ const addressSave = async (req, res) => {
       landmark,
       alternatePhone,
     } = req.body;
-    console.log(req.body);
+
     const existingAddresses = await addressModel.findOne({ userId: userId });
     if (userId && existingAddresses) {
       const newAddress = {
@@ -433,7 +438,7 @@ const addressSave = async (req, res) => {
 };
 const addressEditPost = async (req, res) => {
   try {
-    const { id } = req.params; // Assuming you have both document ID and nested address ID
+    const { id } = req.params;
     const {
       name,
       phone,
@@ -446,7 +451,7 @@ const addressEditPost = async (req, res) => {
     } = req.body;
 
     const updateAddress = await addressModel.findOneAndUpdate(
-      { userId: req.session.userId, "Address._id": id }, // Query to find the document by ID and the nested address by its ID
+      { userId: req.session.userId, "Address._id": id },
       {
         $set: {
           "Address.$.name": name,
@@ -517,8 +522,6 @@ const addressEditGet = async (req, res) => {
 
 const AddaddressProfile = async (req, res) => {
   try {
-    console.log("working");
-
     res.status(200).render("User/addAddressProfile");
   } catch (error) {
     console.log(error);
@@ -528,8 +531,7 @@ const AddaddressProfile = async (req, res) => {
 const AddaddressProfileSave = async (req, res) => {
   try {
     const userId = req.session.userId;
-    console.log(userId);
-    console.log("done");
+
     const {
       name,
       phone,
@@ -541,7 +543,7 @@ const AddaddressProfileSave = async (req, res) => {
       landmark,
       alternatePhone,
     } = req.body;
-    console.log(req.body);
+
     const existingAddresses = await addressModel.findOne({ userId: userId });
     if (userId && existingAddresses && existingAddresses.Address.length < 3) {
       const newAddress = {
@@ -559,7 +561,7 @@ const AddaddressProfileSave = async (req, res) => {
       existingAddresses.Address.push(newAddress);
 
       await existingAddresses.save();
-      console.log("jsfdsfsf");
+
       res.status(200).redirect("/profile");
     } else {
       const newAddress = {
@@ -595,38 +597,26 @@ const AddressDetails = async (req, res) => {
 
     const { name, email, phoneNumber, password, npassword, cpassword } =
       req.body;
-    console.log(npassword);
     if (password) {
-      // console.log( "cuurent" +password)
-      // console.log('old pass' +userData.password)
-      // console.log('3')
-
       const check = await bcrypt.compare(password, userData.password);
-      console.log(check);
+
       if (check) {
-        console.log("1");
         const hashedpassword = await bcrypt.hash(npassword, 10);
-        console.log(hashedpassword + "ui6k8ilo8ol89");
+
         userData.password = hashedpassword;
         userData.save();
-        console.log(userData.password);
       } else {
         req.session.mess = true;
         return res.redirect("/profile?tab=account-detail");
       }
     }
 
-    console.log("working");
-    console.log(password, cpassword, npassword);
-    console.log(req.body);
     const updatedUserDetails = await User.findOneAndUpdate(
       { _id: id },
       { $set: { email, phoneNumber, name } },
       { new: true }
     );
-    console.log(updatedUserDetails.phoneNumber);
-    console.log("ok working");
-    console.log("updated" + updatedUserDetails);
+
     if (!updatedUserDetails) {
       return res.status(404).render("404page");
     }
@@ -637,6 +627,86 @@ const AddressDetails = async (req, res) => {
   }
 };
 
+
+const addWallet = async(req,res)=>{
+  try{
+    console.log('working add Wallet ')
+    const userId = req.session.userId
+    const addAmount = req.body.amount
+    console.log(addAmount)
+
+    const wallet = await Wallet.findOne({userId:userId})
+    
+    if (wallet) {
+      wallet.totalWallet += parseInt(addAmount);
+      console.log(wallet.totalWallet)
+      await wallet.save()
+
+    //transaction
+    const transaction = await WalletTransaction.findOne({userId:userId})
+
+    const generateOrderId = () => {
+      const randomNum = Math.floor(100000 + Math.random() * 600000);
+
+      return randomNum;
+    };
+  
+      
+          if(transaction){
+         
+            const newTransaction = new WalletTransaction({
+              userId: userId,
+              transationId: generateOrderId(), 
+              transactionType : 'Credit',
+              amount : addAmount,
+          });
+          await newTransaction.save();
+          }  else {
+            const newTransaction = new WalletTransaction({
+                userId: userId,
+                transationId: generateOrderId(), 
+                transactionType : 'Credit',
+                amount : addAmount,
+            });
+            await newTransaction.save();
+        }
+
+      return res.status(200).json({message:'success',amount:wallet.totalWallet})
+  } else {
+      
+      const newWallet = new Wallet({
+          userId: userId,
+          totalWallet: parseInt(addAmount)
+      });
+      await newWallet.save();
+
+      if(transaction){
+        const newTransaction = new WalletTransaction({
+          userId: userId,
+          transationId: generateOrderId(), 
+          transactionType : 'Credit',
+          amount : addAmount,
+      });
+      await newTransaction.save();
+      }  else {
+        const newTransaction = new WalletTransaction({
+            userId: userId,
+            transationId: generateOrderId(), 
+            transactionType : 'Credit',
+            amount : addAmount,
+        });
+        await newTransaction.save();
+    }
+      return res.status(200).json({message:'success',amount:wallet.totalWallet})
+
+  }
+  }catch(error){
+    res.status(500).json({error: 'Internal Server Error'})
+  }
+}
+
+
+
 const successPageGet = async (req, res) => {
   try {
     req.session.order = null;
@@ -644,17 +714,14 @@ const successPageGet = async (req, res) => {
     const index = req.session.address;
 
     const deliveryAddress = await addressModel.findOne({ userId: userId });
-    console.log("All address : ", deliveryAddress);
+
     const currentAddress = deliveryAddress.Address[index];
-    console.log(userId);
 
     const orderId = req.session.orderId;
 
     const items = await Order.findOne({ _id: orderId }).populate(
       "items.productId"
     );
-    console.log("items ...............");
-    console.log(items);
 
     res
       .status(200)
@@ -689,8 +756,6 @@ const orderCOD = async (req, res) => {
       totalAmount = discountTotal;
     }
 
-    console.log(totalAmount);
-
     const cartData = await cartModel.findOne({ userId: userId });
 
     const address = await addressModel.findOne({
@@ -711,7 +776,6 @@ const orderCOD = async (req, res) => {
       };
 
       instance.orders.create(options, async (err, order) => {
-        console.log(order);
         if (!err) {
           console.log(order);
           return res.status(200).json({
@@ -728,13 +792,10 @@ const orderCOD = async (req, res) => {
           console.log(err);
         }
       });
-      console.log("cant wallet aded");
     } else if (paymentOptionName === "Wallet") {
-      console.log("wallet");
-
       const generateOrderId = () => {
         const randomNum = Math.floor(100000 + Math.random() * 600000);
-        console.log(randomNum + "ghghghjghg");
+
         return randomNum;
       };
 
@@ -746,8 +807,6 @@ const orderCOD = async (req, res) => {
         State: address.Address[index].state,
       };
       const cartTotal = await cartModel.findOne({ userId: userId });
-      console.log("Cart Total" + cartTotal);
-      console.log(cartTotal.total);
       const coupon = await Coupon.findOne({ code: couponCode });
       let newOrder;
 
@@ -756,10 +815,6 @@ const orderCOD = async (req, res) => {
       if (!userWallet) {
         return res.status(200).json({ status: "InsufficientBalance" });
       }
-
-      console.log("userWallet", userWallet);
-      console.log(userWallet.totalWallet);
-      console.log("totalAmount" + totalAmount);
 
       if (userWallet && userWallet.totalWallet >= Number(totalAmount)) {
         console.log("Sufficient balance in wallet");
@@ -833,23 +888,17 @@ const orderCOD = async (req, res) => {
 
         return res.status(200).json({ status: "Wallet" });
       } else {
-        console.log("Insufficient balance");
         return res.status(200).json({ status: "InsufficientBalance" });
       }
-      
-        // cash on delivery
 
-
+      // cash on delivery
     } else if (paymentOptionName === "Cash on Delivery") {
-      console.log("cash on delivery");
-      console.log(totalAmount)
-        if(totalAmount > 1000){
-          return  res.status(200).json({status :'Above1000'})
-
-        }
+      if (totalAmount > 1000) {
+        return res.status(200).json({ status: "Above1000" });
+      }
       const generateOrderId = () => {
         const randomNum = Math.floor(100000 + Math.random() * 600000);
-        console.log(randomNum + "ghghghjghg");
+
         return randomNum;
       };
 
@@ -861,8 +910,7 @@ const orderCOD = async (req, res) => {
         State: address.Address[index].state,
       };
       const cartTotal = await cartModel.findOne({ userId: userId });
-      console.log("Cart Total" + cartTotal);
-      console.log(cartTotal.total);
+
       const coupon = await Coupon.findOne({ code: couponCode });
       let newOrder;
       if (coupon) {
@@ -920,7 +968,7 @@ const orderCOD = async (req, res) => {
 
       return res.status(200).json({ status: "Cash on Delivery" });
     }
-  
+
     console.log("not working");
   } catch (error) {
     console.log(error);
@@ -1037,13 +1085,11 @@ const verifyPayment = async (req, res) => {
   }
 };
 
-
-
 // razorpay cancel
 
-const razorpayCancel = async(req,res)=>{
+const razorpayCancel = async (req, res) => {
   try {
-    console.log('razorpay Cancel is working .......')
+    console.log("razorpay Cancel is working .......");
     let userId = req.session.userId;
     userId = new ObjectId(userId);
     console.log("req.body");
@@ -1065,248 +1111,214 @@ const razorpayCancel = async(req,res)=>{
       "Address.type": address,
     });
 
+    const generateOrderId = () => {
+      const randomNum = Math.floor(100000 + Math.random() * 600000);
+      console.log(randomNum + "ghghghjghg");
+      return randomNum;
+    };
 
-      const generateOrderId = () => {
-        const randomNum = Math.floor(100000 + Math.random() * 600000);
-        console.log(randomNum + "ghghghjghg");
-        return randomNum;
-      };
+    const deliveryAddress = {
+      addressType: RazorpayAddress.Address[index].type,
+      Landmark: RazorpayAddress.Address[index].landmark,
+      pincode: RazorpayAddress.Address[index].pincode,
+      city: RazorpayAddress.Address[index].city,
+      State: RazorpayAddress.Address[index].state,
+    };
+    const cartTotal = await cartModel.findOne({ userId: userId });
+    console.log("Cart Total" + cartTotal);
+    console.log(cartTotal.total);
+    const coupon = await Coupon.findOne({ code: couponCode });
+    let newOrder;
+    if (coupon) {
+      newOrder = new Order({
+        userId,
+        orderId: generateOrderId(),
+        items: products.map((product) => ({
+          productId: product.productId,
+          quantity: product.quantity,
+          price: product.price,
+          image: product.image,
+        })),
 
-      const deliveryAddress = {
-        addressType: RazorpayAddress.Address[index].type,
-        Landmark: RazorpayAddress.Address[index].landmark,
-        pincode: RazorpayAddress.Address[index].pincode,
-        city: RazorpayAddress.Address[index].city,
-        State: RazorpayAddress.Address[index].state,
-      };
-      const cartTotal = await cartModel.findOne({ userId: userId });
-      console.log("Cart Total" + cartTotal);
-      console.log(cartTotal.total);
-      const coupon = await Coupon.findOne({ code: couponCode });
-      let newOrder;
-      if (coupon) {
-        newOrder = new Order({
-          userId,
-          orderId: generateOrderId(),
-          items: products.map((product) => ({
-            productId: product.productId,
-            quantity: product.quantity,
-            price: product.price,
-            image: product.image,
-          })),
+        billTotal: cartTotal.total,
+        deliveryAddress: deliveryAddress,
+        netAmount: totalAmount,
+        discount: coupon.discount,
+        discountPrice: discountValue,
+        couponCode: couponCode,
+        paymentOption: "RazorPay",
+        status: "Failed",
+      });
 
-          billTotal: cartTotal.total,
-          deliveryAddress: deliveryAddress,
-          netAmount: totalAmount,
-          discount: coupon.discount,
-          discountPrice: discountValue,
-          couponCode: couponCode,
-          paymentOption: "RazorPay",
-          status :'Failed'
-        });
+      await newOrder.save();
+    } else {
+      newOrder = new Order({
+        userId,
+        orderId: generateOrderId(),
+        items: products.map((product) => ({
+          productId: product.productId,
+          quantity: product.quantity,
+          price: product.price,
+          image: product.image,
+        })),
 
-        await newOrder.save();
-      } else {
-        newOrder = new Order({
-          userId,
-          orderId: generateOrderId(),
-          items: products.map((product) => ({
-            productId: product.productId,
-            quantity: product.quantity,
-            price: product.price,
-            image: product.image,
-          })),
+        billTotal: totalAmount,
+        deliveryAddress: deliveryAddress,
+        paymentOption: "RazorPay",
+        status: "Failed",
+      });
 
-          billTotal: totalAmount,
-          deliveryAddress: deliveryAddress,
-          paymentOption: "RazorPay",
-          status :'Failed'
-        });
+      await newOrder.save();
+    }
 
-        await newOrder.save();
-      }
+    req.session.orderId = newOrder._id;
 
-      
-
-      req.session.orderId = newOrder._id;
-
-      res.status(200).json({message:'success'})
-    
+    res.status(200).json({ message: "success" });
   } catch (error) {
     console.log(error);
   }
-}
-
-
+};
 
 //rePayment
 
-  const rePayment = async(req,res)=>{
-    try{
-      console.log('working')
-      const currentOrderId = req.params.id
-      console.log(currentOrderId)
-      let userId = req.session.userId;
-      const orderData = await Order.findOne({_id:currentOrderId})
-      console.log('orderData' + orderData)
-      userId = new ObjectId(userId);
-      let totalAmount = orderData.billTotal;
-      let couponCode = orderData.couponCode;
-      let products = orderData.items
-      let selectedAddressType = orderData.deliveryAddress.addressType
-      let paymentOption = orderData.paymentOption
-      let index = 0
-      console.log(index)
+const rePayment = async (req, res) => {
+  try {
+    const currentOrderId = req.params.id;
 
-      console.log( "total amount" + totalAmount)
-      console.log("couponcode"+couponCode)
-      console.log('products'+products)
-      console.log('selecetAddressType'+selectedAddressType)
-      console.log("paymengOption"+paymentOption)
-      
-  
-      const coupon = await Coupon.findOne({ code: couponCode });
-  
-      let discountValue;
-      if (coupon) {
-        const discount = coupon.discount;
-  
-        discountValue = (totalAmount * discount) / 100;
-  
-        const discountTotal = totalAmount - discountValue;
-  
-        totalAmount = discountTotal;
-      }
-  
-      console.log(totalAmount);
-  
-      const cartData = await cartModel.findOne({ userId: userId });
-  
-      const address = await addressModel.findOne({
-        userId: userId,
-        "Address.type": selectedAddressType,
-      });
-      req.session.address = index;
+    let userId = req.session.userId;
+    const orderData = await Order.findOne({ _id: currentOrderId });
 
+    userId = new ObjectId(userId);
+    let totalAmount = orderData.billTotal;
+    let couponCode = orderData.couponCode;
+    let products = orderData.items;
+    let selectedAddressType = orderData.deliveryAddress.addressType;
+    let paymentOption = orderData.paymentOption;
+    let index = 0;
 
-      
-        const total = parseInt(totalAmount);
-  
-        var options = {
-          amount: total * 100,
-          currency: "INR",
-          receipt: "" + cartData._id,
-        };
-  
-        instance.orders.create(options, async (err, order) => {
-          console.log(order);
-          if (!err) {
-            console.log(order);
-            return res.status(200).json({
-              status: "Razorpay",
-              order: order,
-              index,
-              selectedAddressType,
-              totalAmount,
-              products,
-              couponCode,
-              discountValue,
-              currentOrderId,
-            });
-          } else {
-            console.log(err);
-          }
+    const coupon = await Coupon.findOne({ code: couponCode });
+
+    let discountValue;
+    if (coupon) {
+      const discount = coupon.discount;
+
+      discountValue = (totalAmount * discount) / 100;
+
+      const discountTotal = totalAmount - discountValue;
+
+      totalAmount = discountTotal;
+    }
+
+    console.log(totalAmount);
+
+    const cartData = await cartModel.findOne({ userId: userId });
+
+    const address = await addressModel.findOne({
+      userId: userId,
+      "Address.type": selectedAddressType,
+    });
+    req.session.address = index;
+
+    const total = parseInt(totalAmount);
+
+    var options = {
+      amount: total * 100,
+      currency: "INR",
+      receipt: "" + cartData._id,
+    };
+
+    instance.orders.create(options, async (err, order) => {
+      if (!err) {
+        console.log(order);
+        return res.status(200).json({
+          status: "Razorpay",
+          order: order,
+          index,
+          selectedAddressType,
+          totalAmount,
+          products,
+          couponCode,
+          discountValue,
+          currentOrderId,
         });
-    }catch(error){
-      console.log(error)
-      res.status(500).json({error:'Internal Server Error'})
-    }
+      } else {
+        console.log(err);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-
-
-
-
-
-const rePayverifyPayment = async (req, res) => {
-    try {
-      console.log('workinrepay')
-        console.log('rePayment');
-        let userId = new ObjectId(req.session.userId);
-        const {
-            paymentData,
-            totalAmount,
-            index,
-            products,
-            address,
-            couponCode,
-            discountValue,
-            currentOrderId
-        } = req.body;
-
-        console.log("Coupon code: " + couponCode);
-        console.log(currentOrderId)
-
-        let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
-        hmac.update(paymentData.razorpay_order_id + "|" + paymentData.razorpay_payment_id);
-        hmac = hmac.digest("hex");
-
-        let existingOrder = null;
-      
-
-        if (hmac == paymentData.razorpay_signature) {
-            const RazorpayAddress = await addressModel.findOne({
-                userId: userId,
-                "Address.type": address,
-            });
-
-                existingOrder = await Order.findOne({ _id:currentOrderId});
-                console.log('order is ' + existingOrder)
-                if (existingOrder) {
-                    // Update existing order properties
-                    existingOrder.status = "Pending";
-
-                    if (couponCode) {
-                        const coupon = await Coupon.findOne({ code: couponCode });
-                        if (coupon) {
-                            existingOrder.discount = coupon.discount;
-                            existingOrder.discountPrice = discountValue;
-                            existingOrder.couponCode = couponCode;
-                        }
-                    }
-
-                    await existingOrder.save();
-
-                    console.log("Updated Order Status:", existingOrder.status);
-                } else {
-                    console.log("No existing order found with orderId:", currentOrderId);
-                    // Handle the case where no existing order is found
-                }
-          
-
-            let items = existingOrder.items
-            console.log('items is ' + items)
-
-            await cartModel.findOneAndUpdate({ userId }, { $set: { products: [] } });
-            for (const item of items) {
-                const productId = item.productId;
-                const quantity = item.quantity;
-                await productPush.findOneAndUpdate(
-                    { _id: productId },
-                    { $inc: { stock: -quantity } },
-                    { new: true }
-                );
-            }
-
-            req.session.orderId = existingOrder ? existingOrder._id : newOrder._id;
-            res.redirect("/successPage");
-        }
-    } catch (error) {
-        console.log(error);
-    }
 };
 
+const rePayverifyPayment = async (req, res) => {
+  try {
+    let userId = new ObjectId(req.session.userId);
+    const {
+      paymentData,
+      totalAmount,
+      index,
+      products,
+      address,
+      couponCode,
+      discountValue,
+      currentOrderId,
+    } = req.body;
 
+    let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+    hmac.update(
+      paymentData.razorpay_order_id + "|" + paymentData.razorpay_payment_id
+    );
+    hmac = hmac.digest("hex");
 
+    let existingOrder = null;
+
+    if (hmac == paymentData.razorpay_signature) {
+      const RazorpayAddress = await addressModel.findOne({
+        userId: userId,
+        "Address.type": address,
+      });
+
+      existingOrder = await Order.findOne({ _id: currentOrderId });
+      console.log("order is " + existingOrder);
+      if (existingOrder) {
+        existingOrder.status = "Pending";
+
+        if (couponCode) {
+          const coupon = await Coupon.findOne({ code: couponCode });
+          if (coupon) {
+            existingOrder.discount = coupon.discount;
+            existingOrder.discountPrice = discountValue;
+            existingOrder.couponCode = couponCode;
+          }
+        }
+
+        await existingOrder.save();
+      } else {
+        console.log("No existing order found with orderId:", currentOrderId);
+      }
+
+      let items = existingOrder.items;
+      console.log("items is " + items);
+
+      await cartModel.findOneAndUpdate({ userId }, { $set: { products: [] } });
+      for (const item of items) {
+        const productId = item.productId;
+        const quantity = item.quantity;
+        await productPush.findOneAndUpdate(
+          { _id: productId },
+          { $inc: { stock: -quantity } },
+          { new: true }
+        );
+      }
+
+      req.session.orderId = existingOrder ? existingOrder._id : newOrder._id;
+      res.redirect("/successPage");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const ordreDetailsGet = async (req, res) => {
   try {
@@ -1324,19 +1336,12 @@ const ordreDetailsGet = async (req, res) => {
       userId: req.session.userId,
     });
     let userRated = userRating?.rating ? userRating.rating : 0;
-    console.log("Rating : ", userRated);
-
-    console.log("user rated is ..............");
-    console.log(userRated);
 
     //
 
     const reviewData = await reviewModel
       .find({ productId: productId })
       .populate("userId", "username");
-
-    console.log("review data isss..........");
-    console.log(reviewData);
 
     const reviewCount = reviewModel.length - 1;
     console.log("review count " + reviewCount);
@@ -1363,11 +1368,7 @@ const ordreDetailsGet = async (req, res) => {
 
 const orderCancel = async (req, res) => {
   try {
-    console.log("Hey this is working...............");
-    console.log(req.body);
     const cancelationReason = req.body.reason;
-    console.log("Cancelation reason");
-    console.log(cancelationReason);
     const orderId = req.params.id;
     const userData = await User.findOne({ _id: req.session.userId });
 
@@ -1386,15 +1387,12 @@ const orderCancel = async (req, res) => {
 
     console.log("working 1");
     order.cancellationReason = cancelationReason;
-    console.log("working 2");
-    console.log(order);
 
     for (const item of order.items) {
       const product = item.productId;
       if (!product) {
         continue;
       }
-      console.log(item.quantity);
 
       product.stock += item.quantity;
 
@@ -1402,14 +1400,9 @@ const orderCancel = async (req, res) => {
     }
 
     order.status = "Canceled";
-    console.log("paymentr method");
-    console.log(order.paymentOption);
 
     if (order.paymentOption === "RazorPay") {
-      console.log("Working payment method (RazorPay)");
-
       //wallet
-
       const walletExa = await Wallet.findOne({ userId: order.userId });
 
       if (walletExa) {
@@ -1423,9 +1416,8 @@ const orderCancel = async (req, res) => {
           transactionType: "Credit",
           transationId: order.orderId,
         });
-        console.log("working");
+
         await transation.save();
-        console.log(transation);
       } else {
         const wallet = new Wallet({
           userId: order.userId,
@@ -1440,11 +1432,8 @@ const orderCancel = async (req, res) => {
           transactionType: "Credit",
           transationId: order.orderId,
         });
-        console.log("working");
-        await transation.save();
-        console.log(transation);
 
-        console.log("No wallet found for the user.");
+        await transation.save();
       }
     }
 
@@ -1461,57 +1450,47 @@ const orderCancel = async (req, res) => {
   }
 };
 
-
- const returnOrder = async(req,res)=>{
+const returnOrder = async (req, res) => {
   try {
-    console.log('wokrin return')
-    console.log(req.body)
-    const  orderId   = req.params.id
-    const  returnReason  = req.body.reason
-    console.log(orderId)
-    console.log(returnReason)
-      const order = await Order.findById(orderId);
-      if (!order) {
-          return res.status(404).json({ error: 'Order not found' });
-      }
+    const orderId = req.params.id;
+    const returnReason = req.body.reason;
 
-      // Update order return details
-      order.returnRequest = true;
-      order.returnReason = returnReason;    
-      order.returnStatus = 'Requested';  
-      order.returnDate = new Date();
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
 
-      await order.save();
+    // Update order return details
+    order.returnRequest = true;
+    order.returnReason = returnReason;
+    order.returnStatus = "Requested";
+    order.returnDate = new Date();
 
-      // Notify user and admin about the return request
+    await order.save();
 
-      return res.status(200).json({ message: 'Return request submitted successfully' });
+    return res
+      .status(200)
+      .json({ message: "Return request submitted successfully" });
   } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal Server Error' });
-  }
- }
-
-
-
- const invoice = async (req, res) => {
-  try {
-    const orderId = req.params.id
-    const randomId = uuidv4(); 
-    const orderData = await Order.findOne({_id:orderId}).populate('userId').populate('items.productId')
-    console.log(orderData)
-
-    res.status(200).render('User/invoice', { randomId,orderData });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
-  
 
+const invoice = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const randomId = uuidv4();
+    const orderData = await Order.findOne({ _id: orderId })
+      .populate("userId")
+      .populate("items.productId");
 
-
-
+    res.status(200).render("User/invoice", { randomId, orderData });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 const Logout = (req, res) => {
   try {
@@ -1544,7 +1523,7 @@ module.exports = {
   AddaddressProfile,
   AddaddressProfileSave,
   AddressDetails,
-  // orderDetailsSuccess,
+  addWallet,
   orderCOD,
   verifyPayment,
   razorpayCancel,
@@ -1554,5 +1533,5 @@ module.exports = {
   ordreDetailsGet,
   orderCancel,
   returnOrder,
-  invoice
+  invoice,
 };

@@ -35,7 +35,6 @@ router.get('/addToCartWishlist/:id',userAuthentication,UserProductController.add
 
 router.delete('/remove-wishlist/:id/',userAuthentication,UserProductController.removeWishlist)
 
-// router.delete('/remove-wishlist/:id',()=>console.log('1working'),userAuthentication,UserProductController.removeWishlist)
 
 //cart
 router.get('/cart',userAuthentication,UserCartController.cartGet)

@@ -20,7 +20,9 @@
                     <th>
                         <h4>Brand</h4>
                     </th>
-                    <th> <h4>Offer</h4></th>
+                    <th>
+                        <h4>Offer</h4>
+                    </th>
                     <th>
                         <h4>Price</h4>
                     </th>
@@ -67,9 +69,10 @@
                         <td>
                             <%= element.brand %>
                         </td>
-                        <td style="color: darkgreen;"> Rs.<%= element.offerPrice %></td>
+                        <td style="color: darkgreen;"> Rs.<%= element.offerPrice %>
+                        </td>
                         <td>
-                           Rs. <%= element.Price %>
+                            Rs. <%= element.Price %>
                         </td>
 
                         <td>
@@ -90,7 +93,7 @@
                                         class="btn btn-danger">
                                         <%= (element.isblock===true)?'List':'Unlist'%>
                                     </button>
-                                    <% } %> 
+                                    <% } %>
                         </td>
 
                         <td><a href="/admin/product/productListEdit/<%= element._id %>"><button
@@ -103,31 +106,34 @@
         <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-start">
-                    <% for(let i=1; i <= totalPages && i <= 2; i++) { %>
-                        <li class="page-item <%= currentPage === i ? 'active' : '' %>" style="width: 50px; height: 35px;">
-                            <a class="page-link" style="width: 100%; height: 100%;" href="/admin/product/list?page=<%= i %>">
+                    <% for(let i=1; i <=totalPages && i <=2; i++) { %>
+                        <li class="page-item <%= currentPage === i ? 'active' : '' %>"
+                            style="width: 50px; height: 35px;">
+                            <a class="page-link" style="width: 100%; height: 100%;"
+                                href="/admin/product/list?page=<%= i %>">
                                 <%= i %>
                             </a>
                         </li>
-                    <% } %>
-                    <% if (currentPage < totalPages) { %>
-                        <li class="page-item">
-                            <a class="page-link" style="width: 50px; height: 35px;" href="/admin/product/list?page=<%= currentPage + 1 %>">Next</a>
-                        </li>
-                    <% } %>
+                        <% } %>
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="page-link" style="width: 50px; height: 35px;"
+                                        href="/admin/product/list?page=<%= currentPage + 1 %>">Next</a>
+                                </li>
+                                <% } %>
                 </ul>
             </nav>
         </div>
-        
+
     </div> <!-- card-body end// -->
-    
+
     </div>
     <!-- card-body end// -->
     </div> <!-- card end// -->
-   
-   
+
+
     </section> <!-- content-main end// -->
-   
+
     </main>
     <footer class="main-footer font-xs">
         <div class="row pb-30 pt-15">
@@ -170,7 +176,7 @@
 
 
         async function Listproduct(id) {
-    
+
             Swal.fire({
                 title: 'Warning',
                 text: 'Are you sure',

@@ -28,19 +28,16 @@ const cartAdd = async (req, res) => {
     const productId = req.params.id;
     const product = await productPush.findOne({ _id: productId });
     if (product) {
-      const { title,  image,offerPrice } = product;
-      let Price = product.Price
-      console.log(Price)
-      console.log(offerPrice , "const")
+      const { title, image, offerPrice } = product;
+      let Price = product.Price;
+     
       const userId = req.session.userId;
       const existingCart = await cartModel.findOne({ userId: userId });
-      console.log('offer price')
-      console.log(product.offerPrice)
-      if(product.offerPrice > 0){
-        console.log(offerPrice)
-        console.log(Price)
-        Price =product.offerPrice
-        console.log(Price)
+     
+      if (product.offerPrice > 0) {
+        
+        Price = product.offerPrice;
+        
       }
       if (existingCart) {
         const existingProductIndex = existingCart.products.findIndex(
@@ -101,14 +98,14 @@ const calculateTotal = (products) => {
 const qtyUp = async (req, res) => {
   const { action } = req.body;
   let productId = req.params.id;
-  console.log("halaaaa", productId);
+  
 
   try {
     productId = new ObjectId(productId);
     const product = await cartModel.findOne({ "products._id": productId });
-    console.log("Product : ",product);
+  
     if (!product) {
-      console.log("404");
+     
       return res.status(404).send("Product not found");
     }
 
@@ -116,59 +113,48 @@ const qtyUp = async (req, res) => {
     const productData = await productPush.findOne({
       _id: matchedProduct.productId,
     });
-    console.log("quantity");
-    console.log(matchedProduct.quantity);
-    console.log("stock");
-    console.log(productData.stock);
+   
 
     if (action === "increment") {
-      console.log("inc");
-      console.log("qty" + "  " + matchedProduct.quantity);
-      console.log("stock" + "  " + productData.stock);
+    
 
       if (matchedProduct.quantity < 5) {
-        console.log('its why worki')
+      
         if (matchedProduct.quantity < productData.stock) {
           matchedProduct.quantity += 1;
-          console.log("increment :",matchedProduct.quantity);
-          //upadate
+         
+          
           matchedProduct.total = matchedProduct.quantity * matchedProduct.Price;
-          //  product.save()
-          console.log('matched product')
-          console.log(product)
+        
 
           product.total = calculateTotal(product.products);
-          // return res.json({ status: "", quantity: matchedProduct.quantity });
         } else {
           return res
             .status(200)
             .json({ status: "exceeded", quantity: matchedProduct.quantity });
         }
       } else {
-        console.log("matchdeproduct.quantity<5");
+        
         return res
           .status(200)
           .json({ status: "minimum", quantity: matchedProduct.quantity });
       }
     } else if (action === "decrement" && matchedProduct.quantity > 1) {
-      console.log("dec");
+    
       matchedProduct.quantity -= 1;
       matchedProduct.total = matchedProduct.quantity * matchedProduct.Price;
       product.total = calculateTotal(product.products);
     }
     await product.save();
-    console.log('haloooo')
-    console.log(matchedProduct)
-     res
-      .status(200)
-      .json({
-         matchedProduct,
-         product,
-        quantity: matchedProduct.quantity,
-      });
+   
+    res.status(200).json({
+      matchedProduct,
+      product,
+      quantity: matchedProduct.quantity,
+    });
   } catch (error) {
     console.error(error);
-       res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal Server Error");
   }
 };
 
@@ -213,8 +199,7 @@ const checkoutGet = async (req, res) => {
       const products = cartData.products;
 
       products.forEach((Element) => {
-        console.log("price is");
-        console.log(Element.Price);
+        
       });
 
       const subtotal = products.reduce(
@@ -222,10 +207,9 @@ const checkoutGet = async (req, res) => {
         0
       );
 
+      const coupons = await Coupon.find({});
 
-      const coupons = await Coupon.find({})
-
-      res.render("User/checkout", { products, subtotal, userAddress,coupons });
+      res.render("User/checkout", { products, subtotal, userAddress, coupons });
     } else {
       res.redirect("/product/cart");
     }
@@ -244,39 +228,27 @@ const checkVerify = async (req, res) => {
   }
 };
 
-const qtyUpdation = async(req,res) =>{
+const qtyUpdation = async (req, res) => {
   let productId = req.params.id;
-  console.log("halaaaa", productId);
-    productId = new ObjectId(productId);
-    const product = await cartModel.findOne({ "products._id": productId });
-    console.log("Product : ",product);
-    if (!product) {
-      console.log("404");
-      return res.status(404).send("Product not found");
-    }
+ 
+  productId = new ObjectId(productId);
+  const product = await cartModel.findOne({ "products._id": productId });
 
-    let matchedProduct = product.products.find((p) => p._id.equals(productId));
-    const productData = await productPush.findOne({
-      _id: matchedProduct.productId,
-    });
-    console.log("quantity");
-    console.log(matchedProduct.quantity);
-    console.log("stock");
-    console.log(productData.stock);
-
-    res.status(200)
-      .json({
-        quantity: matchedProduct.quantity,
-      })
+  if (!product) {
+    console.log("404");
+    return res.status(404).send("Product not found");
   }
 
-
-
-
-
+  let matchedProduct = product.products.find((p) => p._id.equals(productId));
+  const productData = await productPush.findOne({
+    _id: matchedProduct.productId,
+  });
   
 
-
+  res.status(200).json({
+    quantity: matchedProduct.quantity,
+  });
+};
 
 module.exports = {
   cartAdd,
@@ -286,5 +258,4 @@ module.exports = {
   checkoutGet,
   checkVerify,
   qtyUpdation,
-  
 };

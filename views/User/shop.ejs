@@ -19,7 +19,7 @@
 
 <body>
     <!-- Quick view -->
-   
+
     <header class="header-area header-style-1 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
@@ -186,7 +186,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
                                     <span class="burger-icon-top"></span>
@@ -199,7 +199,7 @@
                 </div>
             </div>
         </div>
-    </header> 
+    </header>
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
             <div class="mobile-header-top">
@@ -215,8 +215,8 @@
             </div>
             <div class="mobile-header-content-area">
                 <div class="mobile-search search-style-3 mobile-header-border">
-                    <form action="#" id="searchForm" >
-                        <input type="text"  id="searchInput" placeholder="Search for items…">
+                    <form action="#" id="searchForm">
+                        <input type="text" id="searchInput" placeholder="Search for items…">
                         <button type="submit"><i class="fi-rs-search"></i></button>
                     </form>
                 </div>
@@ -288,7 +288,7 @@
                                         <ul class="dropdown">
                                             <li><a href="shop-product-right.html">Dresses</a></li>
                                             <li><a href="shop-product-right.html">Blouses & Shirts</a></li>
-                                             <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
+                                            <li><a href="shop-product-right.html">Hoodies & Sweatshirts</a></li>
                                             <li><a href="shop-product-right.html">Women's Sets</a></li>
                                         </ul>
                                     </li>
@@ -378,126 +378,90 @@
     <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
-                <div class="breadcrumb">   
+                <div class="breadcrumb">
 
                     <a style="padding-right: 10px;" href="/home" rel="nofollow"> Home </a>
                     <a style="padding-right: 10px;" href="/product/shop" rel="nofollow"> Shop </a>
                     <a style="padding-right: 10px;" href="/product/cart" rel="nofollow"> Cart </a>
 
                 </div>
-                <div style="margin-left: 70%;" >
+                <div style="margin-left: 70%;">
                     <form id="searchForm" class="search-form" style="width: 400px; display: flex; align-items: center;">
-                        <input type="text" id="searchInput" class="form-control" style="flex: 1;" onkeyup="submitForm(this.form)" placeholder="Search orders...">
-                        <button type="button" id="searchButton" class="btn btn-primary" onclick="submitForm(this.form)" >Search</button>
+                        <input type="text" id="searchInput" class="form-control" style="flex: 1;"
+                            onkeyup="submitForm(this.form)" placeholder="Search orders...">
+                        <button type="button" id="searchButton" class="btn btn-primary"
+                            onclick="submitForm(this.form)">Search</button>
                     </form>
-                    
-                    
-                    
-                    
+                </div>
             </div>
-        </div>
-        
-        <section class="mt-50 mb-50">
-            <div class="container">
-                <div class="row flex-row-reverse">
-                    <div class="col-lg-9">
-                        <div class="shop-product-fillter">
-                            <div class="totall-product">
-                                <!-- <p> We found <strong class="text-brand">4</strong> items for you!</p> -->
-                            </div>
-                            <div class="sort-by-product-area">
-                                <div class="sort-by-cover mr-10">
-                                    <!-- <div class="sort-by-product-wrap">
-                                        <div class="sort-by">
-                                            <span><i class="fi-rs-apps"></i>Show:</span>
-                                        </div>
-                                        <div class="sort-by-dropdown-wrap">
-                                            <span> 50 <i class="fi-rs-angle-small-down"></i></span>
-                                        </div>
-                                    </div> -->
-                                    <!-- <div class="sort-by-dropdown">
-                                        <ul>
-                                            <li><a class="active" href="#">50</a></li>
-                                            <li><a href="#">100</a></li>
-                                            <li><a href="#">150</a></li>
-                                            <li><a href="#">200</a></li>
-                                            <li><a href="#">All</a></li>
-                                        </ul>
-                                    </div> -->
-                                </div>
-                                <!-- <div class="sort-by-cover">
-                                    <div class="sort-by-product-wrap">
-                                        <div class="sort-by">
-                                            <span><i class="fi-rs-apps-sort"></i>Sort by:</span>
-                                        </div>
-                                        <div class="sort-by-dropdown-wrap">
-                                            <span> Featured <i class="fi-rs-angle-small-down"></i></span>
-                                        </div>
-                                    </div>
-                                    <div class="sort-by-dropdown">
-                                        <ul>
-                                            <li><a class="active" href="#">Featured</a></li>
-                                            <li><a href="#">Price: Low to High</a></li>
-                                            <li><a href="#">Price: High to Low</a></li>
-                                            <li><a href="#">Release Date</a></li>
-                                            <li><a href="#">Avg. Rating</a></li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="row product-grid-4">
-                            <% product.forEach(element=> { %>
-                                
 
-                                <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                    <div class="product-cart-wrap mb-30">
-                                        <div class="product-img-action-wrap" style="height: 500px;">
-                                            <div class="product-img product-img-zoom">
-                                                <a href="/product/details/<%= element._id %>">
-                                                    <img class="default-img" src="/images/<%=element.image %>" alt=""
-                                                        style="height: 300px;">
-                                                    <img class="hover-img" src="/images/<%=element.image %>" alt=""
-                                                        style="height: 300px;">
-                                                </a>
+            <section class="mt-50 mb-50">
+                <div class="container">
+                    <div class="row flex-row-reverse">
+                        <div class="col-lg-9">
+                            <div class="shop-product-fillter">
+                                <div class="totall-product">
+                                </div>
+                                <div class="sort-by-product-area">
+                                    <div class="sort-by-cover mr-10">
+                                      
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row product-grid-4">
+                                <% product.forEach(element=> { %>
+
+
+                                    <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <div class="product-img-action-wrap" style="height: 500px;">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="/product/details/<%= element._id %>">
+                                                        <img class="default-img" src="/images/<%=element.image %>"
+                                                            alt="" style="height: 300px;">
+                                                        <img class="hover-img" src="/images/<%=element.image %>" alt=""
+                                                            style="height: 300px;">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Quick view" class="action-btn hover-up"
+                                                        data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
+                                                            class="fi-rs-eye"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                                        href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn hover-up"
+                                                        href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="hot">Hot</span>
+                                                </div>
                                             </div>
-                                            <div class="product-action-1">
-                                                <a aria-label="Quick view" class="action-btn hover-up"
-                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
-                                                        class="fi-rs-eye"></i></a>
-                                                <a aria-label="Add To Wishlist" class="action-btn hover-up"
-                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                                <a aria-label="Compare" class="action-btn hover-up"
-                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                            </div>
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="hot">Hot</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-wrap">
-                                            <div class="product-category">
-                                                <a href="">
-                                                    <%=element.title %>
-                                                </a>
-                                            </div>
-                                            <h2><a href="/product/details">
-                                                    <%=element.brand %>
-                                                </a></h2>
-                                               
-                                                 
-                                               
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="">
+                                                        <%=element.title %>
+                                                    </a>
+                                                </div>
+                                                <h2><a href="/product/details">
+                                                        <%=element.brand %>
+                                                    </a></h2>
+
+
+
                                                 <div class=" d-inline-block">
                                                     <div class="" style="width:90%; color: #f49507; font-size: 20px;">
                                                         <% function generateStarRating(starLength) { %>
-                                                            <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                                          <% } %>
-                                                          <%= generateStarRating(element.rating) %>
+                                                            <%= new Array(5).fill(null).map((star, i)=> star = i >=
+                                                                starLength ? '☆' : '★').join('') %>
+                                                                <% } %>
+                                                                    <%= generateStarRating(element.rating) %>
                                                     </div>
                                                 </div>
 
-                                                <% if (element.offerPrice > 0) { %>
-                                                    
-                                                  
+                                                <% if (element.offerPrice> 0) { %>
+
+
                                                     <h5 class="offer-price"
                                                         style="color: green; font-size: large;font-weight: 500; ">
                                                         <%= element.discountPercentage.toFixed(2)%> %Off
@@ -509,194 +473,191 @@
                                                         <%= element.Price %>
                                                     </span>
 
-                                                    
-
-                                                        <small class="offer-price"
-                                                            style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
-                                                                ₹</strong>
-                                                            <%= element.offerPrice %>
-                                                        </small>
-                                                        <% } else { %>
-                                                         
-                                                        
-                                            <div class="product-price">
-                                                <span> <strong> ₹</strong>
-                                                    <%=element.Price %>
-                                                </span>
-                                                <!-- <span class="old-price">10999.8</span> -->
-                                            </div>
-                                            <% } %>
-                                               
-                                                <br>
-                                            <% if (element.stock>0) { %>
 
 
-                                                <span>Only <%= element.stock %> Stock Available</span>
-                                                <% } else { %>
-                                                    <span style="color: red;">Out of Stock</span>
+                                                    <small class="offer-price"
+                                                        style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
+                                                            ₹</strong>
+                                                        <%= element.offerPrice %>
+                                                    </small>
+                                                    <% } else { %>
 
-                                                    <% } %>
-                                                        <div class="product-price">   
-                                                            <span> <strong>₹</strong>
+
+                                                        <div class="product-price">
+                                                            <span> <strong> ₹</strong>
                                                                 <%=element.Price %>
                                                             </span>
-                                                         
+                                                            <!-- <span class="old-price">10999.8</span> -->
                                                         </div>
-                                                        <div class="product-action-1 show">
-                                                            <% if (element.stock > 0) { %>
-                                                                <a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('<%= element._id %>')">
-                                                                    <i class="fi-rs-shopping-bag-add"></i>
-                                                                </a>
-                                                            <% } else { %>
-                                                                <a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
-                                                                    <i class="fi-rs-shopping-bag-add"></i>
-                                                                </a>
-                                                            <% } %>
-                                                            
-                                                            
-                                                        </div>
+                                                        <% } %>
+
+                                                            <br>
+                                                            <% if (element.stock>0) { %>
+
+
+                                             <span>Only <%= element.stock %> Stock Available</span>
+                                            <% } else { %>
+                                               <span style="color: red;">Out of Stock</span>
+
+                                                 <% } %>
+                                                  <div class="product-price">
+                                               <span> <strong>₹</strong>
+                                              <%=element.Price %>
+                                                </span>
+
+                                                  </div>
+                                              <div class="product-action-1 show">
+                                             <% if (element.stock> 0) { %>
+                                            <a aria-label="Add To Cart"
+                                             class="action-btn hover-up"
+                                            onclick="productAdd('<%= element._id %>')">
+                                           
+                                            <i  class="fi-rs-shopping-bag-add"></i>
+                                               </a>
+                                                <% } else { %>
+                                                <a aria-label="Out of Stock"
+                                                class="action-btn hover-up"
+                                                onclick="event.preventDefault();">
+                                             <i  class="fi-rs-shopping-bag-add"></i>
+                                                     </a>
+                                                  <% } %>
+                                              </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <% }) %>
+                                    <% }) %>
 
 
-                        </div> --
-                        <!--pagination-->
+                            </div> --
+                            <!--pagination-->
 
 
-                        <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-start">
-                                    <% for(let i=1; i <= totalPages; i++) { %>
-                                        <li class="page-item <%= currentPage === i ? 'active' : '' %>">
-                                            <a class="page-link" href="/product/shop?page=<%= i %>">
-                                                <%= i %>
-                                            </a>
-                                        </li>
-                                    <% } %>
-                                </ul>
-                            </nav>    
-                        </div>
-                        <!-- <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-start">
-                                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                                    <li class="page-item"><a class="page-link" href="#"><i
-                                                class="fi-rs-angle-double-small-right"></i></a></li>
-                                </ul>
-                            </nav>
-                        </div> -->
-                    </div>
-                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
-                             
-                            <ul class="categories">
-                                <% categories.forEach(category => { %>
-                                 
-                               
-                                    <li><a onclick="filterProducts('<%= category._id %>')"><%= category.name %></a></li>
-
-                                <% }) %>
-                               
-                            </ul>
-                        </div>
-                        <!-- Fillter By Price -->
-                        <div class="widget-category mb-30">
-                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort</h5>
-                            <ul class="categories">
-                                <li><a  onclick="Sort('High to Low')">Price High to Low</a></li>
-                                <li><a  onclick="Sort('Low to High')" >Price Low to High</a></li>
-                                <li><a  onclick="Sort('Ratings')">Ratings</a></li>
-                                <li><a onclick="Sort('Featured')" >Featured</a></li>
-                                <li><a  onclick="Sort('New newArrivals')" >New Arrivals</a></li>
-                                <li><a  onclick="Sort('aA-zZ')">aA-zZ</a></li>
-                                <li><a  onclick="Sort('zZ-aA')">zZ-aA</a></li>
-                            </ul>
-                        </div>
-                        <!-- Product sidebar Widget -->
-                        <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
-                            <div class="widget-header position-relative mb-20 pb-10">
-                                <h5 class="widget-title mb-10">New products</h5>
-                                <div class="bt-1 border-color-1"></div>
+                            <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-start">
+                                        <% for(let i=1; i <=totalPages; i++) { %>
+                                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                <a class="page-link" href="/product/shop?page=<%= i %>">
+                                                    <%= i %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                    </ul>
+                                </nav>
                             </div>
-                            <% newArrivals.forEach(newArrieve => { %>
-                            <div class="single-post clearfix">
-                                
-                                 
-                                 
-                                <div class="image">
-                                    <img src="/images/<%= newArrieve.image %>" alt="#">
+
+                        </div>
+                        <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                            <div class="widget-category mb-30">
+                                <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+
+                                <ul class="categories">
+                                    <% categories.forEach(category=> { %>
+
+
+                                        <li><a onclick="filterProducts('<%= category._id %>')">
+                                                <%= category.name %>
+                                            </a></li>
+
+                                        <% }) %>
+
+                                </ul>
+                            </div>
+                            <!-- Fillter By Price -->
+                            <div class="widget-category mb-30">
+                                <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort</h5>
+                                <ul class="categories">
+                                    <li><a onclick="Sort('High to Low')">Price High to Low</a></li>
+                                    <li><a onclick="Sort('Low to High')">Price Low to High</a></li>
+                                    <li><a onclick="Sort('Ratings')">Ratings</a></li>
+                                    <li><a onclick="Sort('Featured')">Featured</a></li>
+                                    <li><a onclick="Sort('New newArrivals')">New Arrivals</a></li>
+                                    <li><a onclick="Sort('aA-zZ')">aA-zZ</a></li>
+                                    <li><a onclick="Sort('zZ-aA')">zZ-aA</a></li>
+                                </ul>
+                            </div>
+                            <!-- Product sidebar Widget -->
+                            <div class="sidebar-widget product-sidebar  mb-30 p-30 bg-grey border-radius-10">
+                                <div class="widget-header position-relative mb-20 pb-10">
+                                    <h5 class="widget-title mb-10">New products</h5>
+                                    <div class="bt-1 border-color-1"></div>
                                 </div>
-                                <div class="content pt-10">
-                                    <h5><a href="/product/details/<%= newArrieve._id %>"><%= newArrieve.brand %></a></h5>
-                                    <p class="price mb-0 mt-5"><%= newArrieve.Price %></p>
-                                    <div class=" d-inline-block">
-                                        <div class="" style="width:90%; color: #f49507; font-size: 10px;">
-                                            <% function generateStarRating(starLength) { %>
-                                                <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                              <% } %>
-                                              <%= generateStarRating(newArrieve.rating) %>
-                                             
+                                <% newArrivals.forEach(newArrieve=> { %>
+                                    <div class="single-post clearfix">
+
+
+
+                                        <div class="image">
+                                            <img src="/images/<%= newArrieve.image %>" alt="#">
                                         </div>
-                                        <% if (newArrieve.offerPrice > 0) { %>
-                                                    
-                                                  
-                                            <!-- <h5 class="offer-price"
-                                                style="  width:90%; green; font-size: large;font-weight: 100; font-size: 10px;">
+                                        <div class="content pt-10">
+                                            <h5><a href="/product/details/<%= newArrieve._id %>">
+                                                    <%= newArrieve.brand %>
+                                                </a></h5>
+                                            <p class="price mb-0 mt-5">
+                                                <%= newArrieve.Price %>
+                                            </p>
+                                            <div class=" d-inline-block">
+                                                <div class="" style="width:90%; color: #f49507; font-size: 10px;">
+                                                    <% function generateStarRating(starLength) { %>
+                                                        <%= new Array(5).fill(null).map((star, i)=> star = i >=
+                                                            starLength ? '☆' : '★').join('') %>
+                                                            <% } %>
+                                                                <%= generateStarRating(newArrieve.rating) %>
+
+                                                </div>
+                                                <% if (newArrieve.offerPrice> 0) { %>
+
+
+                                                    <!-- <h5 class="offer-price"
                                                 <%= newArrieve.discountPercentage.toFixed(2)%> %Off
                                             </h5> -->
 
 
-                                            <span style="text-decoration: line-through; color: brown;"><strong>
-                                                    ₹</strong>
-                                                <%= newArrieve.Price %>
-                                            </span>
+                                                    <span style="text-decoration: line-through; color: brown;"><strong>
+                                                            ₹</strong>
+                                                        <%= newArrieve.Price %>
+                                                    </span>
 
-                                            
 
-                                                <small class="offer-price"
-                                                    style="color:rgb(48, 50, 50); font-size: small;  font-weight: 100;"><strong>
-                                                        ₹</strong>
-                                                    <%= newArrieve.offerPrice %>
-                                                </small>
-                                                <% } else { %>
-                                                 
-                                                
-                                    <div class="product-price">
-                                        <span> <strong> ₹</strong>
-                                            <%=newArrieve.Price %>
-                                        </span>
-                                        <!-- <span class="old-price">10999.8</span> -->
+
+                                                    <small class="offer-price"
+                                                        style="color:rgb(48, 50, 50); font-size: small;  font-weight: 100;"><strong>
+                                                            ₹</strong>
+                                                        <%= newArrieve.offerPrice %>
+                                                    </small>
+                                                    <% } else { %>
+
+
+                                                        <div class="product-price">
+                                                            <span> <strong> ₹</strong>
+                                                                <%=newArrieve.Price %>
+                                                            </span>
+                                                            <!-- <span class="old-price">10999.8</span> -->
+                                                        </div>
+                                                        <% } %>
+                                            </div>
+
+                                        </div>
+                                        <h1></h1>
+
+                                        <% }) %>
+
+
                                     </div>
-                                    <% } %>
-                                    </div>
-                               
+
+
                             </div>
-                            <h1></h1>
-                            
-                            <% }) %>
-                           
-                            
                         </div>
-                       
-
                     </div>
-                </div>
-            </div>
-        </section>
+            </section>
     </main>
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
-           
+
         </section>
         <section class="section-padding footer-mid " style="margin-right: 50px;">
-            <div class="container pt-15 pb-20" >
+            <div class="container pt-15 pb-20">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
@@ -707,7 +668,7 @@
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
-                                <strong>Address: </strong> MG  Road, Street 32, Ernakulam
+                                <strong>Address: </strong> MG Road, Street 32, Ernakulam
                             </p>
                             <p class="wow fadeIn animated">
                                 <strong>Phone: </strong>(+91) 8086136588
@@ -717,10 +678,13 @@
                             </p>
                             <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
                             <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                              
-                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
-                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
-                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+
+                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img
+                                        src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img
+                                        src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img
+                                        src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -746,11 +710,11 @@
                             <li><a href="/profile?tab=orders">Order</a></li>
                         </ul>
                     </div>
-                    
+
                 </div>
             </div>
         </section>
-       
+
     </footer>
 
     <script>
@@ -792,10 +756,8 @@
                 alert('Product Added to Cart successfully')
                 return "success";
             }
-            //create scope variable options that has 'Low Price to High' and 'High Price to Low' values.
             $scope.options = ['Low Price to High', 'High Price to Low'];
 
-            //add selectPriceFilter function that assign scope priceFilter to true / false based on condition
             $scope.selectPriceFilter = function (priceFilter) {
 
                 if (priceFilter == 'Low Price to High') {
@@ -835,7 +797,7 @@
 
 </html>
 
-  
+
 
 <script>
 
@@ -869,42 +831,37 @@
     }
 </script>
 
- <script>
-function filterProducts(categoryName) {
-    fetch(`/product/categoryFiltering?category=${encodeURIComponent(categoryName)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            displayFilteredProducts(data);
-            console.log('Filtered products:', data);  
-            // You can update the UI with the filtered products here
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            // Handle errors or display a message to the user
-        });
-}
-
-
-              
-function displayFilteredProducts(products) {
-    const productGrid = document.querySelector('.product-grid-4');
-    productGrid.innerHTML = ''; // Clear previous products
-    
-    // Define the generateStarRating function
-    function generateStarRating(starLength) { 
-        return new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('');
+<script>
+    function filterProducts(categoryName) {
+        fetch(`/product/categoryFiltering?category=${encodeURIComponent(categoryName)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayFilteredProducts(data);
+                console.log('Filtered products:', data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
     }
 
-    // Iterate through each product and generate HTML dynamically
-    
 
-products.forEach(product => {
-    const productHTML = `
+
+    function displayFilteredProducts(products) {
+        const productGrid = document.querySelector('.product-grid-4');
+        productGrid.innerHTML = '';
+
+
+        function generateStarRating(starLength) {
+            return new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('');
+        }
+
+        products.forEach(product => {
+            const productHTML = `
         <div class="col-lg-4 col-md-4 col-12 col-sm-6">
             <div class="product-cart-wrap mb-30">
                 <div class="product-img-action-wrap" style="height: 500px; position: relative; overflow: hidden;">
@@ -919,10 +876,10 @@ products.forEach(product => {
                     </div>
                     <div class="product-action-1">
                         ${product.stock > 0 ?
-                            `<a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
+                    `<a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
                                 <i class="fi-rs-shopping-bag-add"></i>
                             </a>` :
-                            `<a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
+                    `<a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
                                 <i class="fi-rs-shopping-bag-add"></i>
                             </a>`}
                         <!-- Add other product actions (e.g., quick view, wishlist, compare) here -->
@@ -939,12 +896,12 @@ products.forEach(product => {
                     </div>
                     <!-- Offer Price -->
                     ${product.offerPrice > 0 ?
-                        `<h5 class="offer-price" style="color: green; font-size: large;font-weight: 500;">
+                    `<h5 class="offer-price" style="color: green; font-size: large;font-weight: 500;">
                             ${product.discountPercentage.toFixed(2)} %Off
                         </h5>
                         <span style="text-decoration: line-through; color: brown;"><strong>₹</strong>${product.Price}</span>
                         <small class="offer-price" style="color:rgb(48, 50, 50); font-size: x-large; font-weight: 100;"><strong>₹</strong>${product.offerPrice}</small>` :
-                        `<div class="product-price">
+                    `<div class="product-price">
                             <span> <strong> ₹</strong>${product.Price}</span>
                         </div>`}
                     <p>${product.stock > 0 ? `Only ${product.stock} Stock Available` : '<span style="color: red;">Out of Stock</span>'}</p>
@@ -954,117 +911,103 @@ products.forEach(product => {
                     </div>
                     <div class="product-action-1 show">
                         ${product.stock > 0 ?
-                            `<a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
+                    `<a aria-label="Add To Cart" class="action-btn hover-up" onclick="productAdd('${product._id}')">
                                 <i class="fi-rs-shopping-bag-add"></i>
                             </a>` :
-                            `<a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
+                    `<a aria-label="Out of Stock" class="action-btn hover-up" onclick="event.preventDefault();">
                                 <i class="fi-rs-shopping-bag-add"></i>
                             </a>`}
                     </div>
                 </div>
             </div>
         </div>`;
-    // Append the generated product HTML to the product grid
-    productGrid.insertAdjacentHTML('beforeend', productHTML);
-});
-}
-
-
-
-
-  // Sorting
-
-  function Sort(sortOption) {
-    
-    fetch(`/product/ShopPageSort`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ sortOption: sortOption })
-    })
-    .then(response => {
-        console.log('55')
-        if (!response.ok) {
-            console.log('xxx')
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('working')
-        displayFilteredProducts(data)
-       
-    })
-    .catch(error => {
-        console.log('not working')
-        console.error('Error:', error);
-        // Handle errors here
-    });
-}
-
-
-
-
-
-
-
-
-//Search Orders
-
-
-
-
-
-
-
-let typingTimer; 
-const typingInterval = 1000;
-
-function submitForm(form) {
-    try {
-        const query = form.searchInput.value.trim(); 
-        console.log('Search query:', query);
-
-        
-        clearTimeout(typingTimer);
-
-    
-        typingTimer = setTimeout(() => {
-            
-            fetchDataFromBackend(query);
-        }, typingInterval);
-    } catch (error) {
-        console.error('Error:', error);
+            // Append the generated product HTML to the product grid
+            productGrid.insertAdjacentHTML('beforeend', productHTML);
+        });
     }
-}
 
-function fetchDataFromBackend(query) {
 
-    fetch('/product/shopSearch', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ search: query })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
+
+
+    // Sorting
+
+    function Sort(sortOption) {
+
+        fetch(`/product/ShopPageSort`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ sortOption: sortOption })
+        })
+            .then(response => {
+                console.log('55')
+                if (!response.ok) {
+                    console.log('xxx')
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('working')
+                displayFilteredProducts(data)
+
+            })
+            .catch(error => {
+                console.log('not working')
+                console.error('Error:', error);
+                // Handle errors here
+            });
+    }
+
+    //Search Orders
+    let typingTimer;
+    const typingInterval = 1000;
+
+    function submitForm(form) {
+        try {
+            const query = form.searchInput.value.trim();
+            console.log('Search query:', query);
+
+
+            clearTimeout(typingTimer);
+
+
+            typingTimer = setTimeout(() => {
+
+                fetchDataFromBackend(query);
+            }, typingInterval);
+        } catch (error) {
+            console.error('Error:', error);
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Data received:', data);
-        
-        displayFilteredProducts(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        
-        console.log('Failed to fetch data. Please try again later.');
-    });
-}
+    }
+
+    function fetchDataFromBackend(query) {
+
+        fetch('/product/shopSearch', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ search: query })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok. Status: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data received:', data);
+
+                displayFilteredProducts(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+
+                console.log('Failed to fetch data. Please try again later.');
+            });
+    }
 
 
 

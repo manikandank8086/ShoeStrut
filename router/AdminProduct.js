@@ -20,7 +20,6 @@ router.get("/productList", adminAuthentication,AdminProductController.productLis
 
 router.get("/productListEdit/:id",adminAuthentication, AdminProductController.productListEditGet);
 
-// router.get("/delete/:id", adminAuthentication,AdminProductController.productDeleteGEt);
 
 router.post('/productEdit/:id', upload.single('image'),AdminProductController.productEditPost);
 

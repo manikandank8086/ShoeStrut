@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,13 @@
   <style>
     /* Custom styles can be added here */
     .product-image {
-      max-width: 100px; /* Adjust the max-width as needed */
+      max-width: 100px;
+      /* Adjust the max-width as needed */
       height: auto;
     }
   </style>
 </head>
+
 <body>
   <div id="pdf" class="container">
     <div class="row">
@@ -23,10 +26,14 @@
     </div>
     <div class="row">
       <div class="col">
-        <strong>Invoice Number:</strong> <%= randomId %><br>
-        <strong>Date:</strong> <%= orderData.createdAt.toLocaleString() %> <br>
-        <strong>Customer:</strong> <%= orderData.userId.username %><br>
-        <strong>Email:</strong> <%= orderData.userId.Email %><br>
+        <strong>Invoice Number:</strong>
+        <%= randomId %><br>
+          <strong>Date:</strong>
+          <%= orderData.createdAt.toLocaleString() %> <br>
+            <strong>Customer:</strong>
+            <%= orderData.userId.username %><br>
+              <strong>Email:</strong>
+              <%= orderData.userId.Email %><br>
       </div>
     </div>
     <div class="row mt-3">
@@ -42,43 +49,51 @@
             </tr>
           </thead>
           <tbody>
-            <% orderData.items.forEach(item => { %>
+            <% orderData.items.forEach(item=> { %>
               <tr>
                 <td><img src="<%= item.image %>" alt="Product Image" class="product-image"></td>
-                <td><%= item.productId.title %></td>
-                <td><%= item.quantity %></td>
-                <td>Rs.<%= item.price %></td>
-                <td>Rs.<%= orderData.billTotal %></td>
+                <td>
+                  <%= item.productId.title %>
+                </td>
+                <td>
+                  <%= item.quantity %>
+                </td>
+                <td>Rs.<%= item.price %>
+                </td>
+                <td>Rs.<%= orderData.billTotal %>
+                </td>
               </tr>
-            <% }) %>
+              <% }) %>
           </tbody>
           <tfoot>
             <tr>
               <td colspan="3" class="text-right"><strong>Total:</strong></td>
-              <td>Rs.<%= orderData.billTotal %></td>
+              <td>Rs.<%= orderData.billTotal %>
+              </td>
             </tr>
           </tfoot>
         </table>
       </div>
     </div>
-   
+
   </div>
-  <div  style="margin-left: 10%;" class="row mt-3">
-    <div  class="col">
-      <button  id="btn" class="btn btn-primary">Download</button>
+  <div style="margin-left: 10%;" class="row mt-3">
+    <div class="col">
+      <button id="btn" class="btn btn-primary">Download</button>
     </div>
   </div>
   <!-- Bootstrap JS (optional) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 </body>
+
 </html>
 
 <script>
-    document.getElementById('btn').addEventListener('click',function(){
-        const element = document.getElementById('pdf')
-        html2pdf().from(element).save()
-    })
+  document.getElementById('btn').addEventListener('click', function () {
+    const element = document.getElementById('pdf')
+    html2pdf().from(element).save()
+  })
 </script>

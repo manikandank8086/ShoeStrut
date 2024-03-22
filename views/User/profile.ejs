@@ -558,19 +558,22 @@
                                                                         <td>
                                                                             <%= order.orderDate.toLocaleString() %>
                                                                         </td>
-                                                                         <% if (order.status === 'Failed') { %>
-                                                                          <td style="color: red;" ><%= order.status %></td>
-                                                                          <% } else { %>
-                                                                            <td>
+                                                                        <% if (order.status==='Failed' ) { %>
+                                                                            <td style="color: red;">
                                                                                 <%= order.status %>
                                                                             </td>
-                                                                         <% } %>
-                                                                       
-                                                                        <td>
-                                                                            <%= order.billTotal %>
-                                                                        </td>
-                                                                        <td><a href="/orderDetails/<%= order._id %>"
-                                                                                class="btn-small d-block">View</a></td>
+                                                                            <% } else { %>
+                                                                                <td>
+                                                                                    <%= order.status %>
+                                                                                </td>
+                                                                                <% } %>
+
+                                                                                    <td>
+                                                                                        <%= order.billTotal %>
+                                                                                    </td>
+                                                                                    <td><a href="/orderDetails/<%= order._id %>"
+                                                                                            class="btn-small d-block">View</a>
+                                                                                    </td>
                                                                     </tr>
 
                                                                 </tbody>
@@ -731,35 +734,37 @@
                                     </div>
 
                                     <!--wallet  -->
-                                    <div class="tab-pane fade" id="wallet-content" role="tabpanel"
-                                        aria-labelledby="wallet-tab">
-
-
+                                    <div class="tab-pane fade" id="wallet-content" role="tabpanel" aria-labelledby="wallet-tab">
                                         <main class="main">
-                                           
                                             <section class="section-padding footer-mid container">
                                                 <div>
                                                     <h2 class="my-4">My Wallet</h2>
                                                 </div>
-                                                <div class="btn btn-success-light p-4 d-flex justify-content-start " style="width: 100%">
+                                                <div class="btn btn-success-light p-4 d-flex justify-content-start" style="width: 100%">
                                                     <div>
                                                         <% if (locals.wallet && locals.wallet.length > 0) { %>
-                                                    
-                                                          
-                                                            
-                                                            <span class="h2">balance :</span>
-                                                            <% wallet.forEach(element => { %>
-                                                             
-                                                           
-                                                            <span class="h3">₹ <%=  element.totalWallet %></span>
-                                                            <% }) %>
-                                                            
+                                                        <span class="h2">balance :</span>
+                                                        <% wallet.forEach(element => { %>
+                                                        <span   id="wallet" class="h3">₹ <%= element.totalWallet %></span>
+                                                        <% }) %>
                                                         <% } else { %>
-                                                            <!-- Handle case when wallet is empty -->
-                                                            <span class="h1">₹ 0.00</span>
-                                                            <span class="h2">balance</span>
+                                                        <!-- Handle case when wallet is empty -->
+                                                        <span class="h1">₹ 0.00</span>
+                                                        <span class="h2">balance</span>
                                                         <% } %>
                                                     </div>
+                                                </div>
+
+                                                 <!-- Add Wallet Form -->
+                                                 <div style="margin-left: 30%;" >
+                                                    <h4 style="color: darkgray;  font-weight: 700;" class="my-4">Add Wallet</h4>
+                                                    <form>
+                                                        <div style="width: 30%;" class="mb-3">
+                                                            <label for="amount" class="form-label">Amount to Add</label>
+                                                            <input type="number" class="form-control" id="amount" name="amount" required>
+                                                        </div>
+                                                        <button type="button" id="addWalletBtn" class="btn btn-primary">Add to Wallet</button>
+                                                    </form>
                                                 </div>
                                                 <div>
                                                     <h4 class="my-4">Transaction History</h4>
@@ -776,36 +781,34 @@
                                                         </thead>
                                                         <tbody>
                                                             <% if (locals.transaction && locals.transaction.length > 0) { %>
-                                                                <% locals.transaction.forEach(wallet => { %>
-                                                                    <tr>
-                                                                        <th scope="row">#<%= wallet.transationId %></th>
-                                                                        <td><%= wallet.createdAt.toLocaleString() %></td>
-                                                                        <!-- dbit or credit -->
-                                                                        <% if (wallet.transactionType === "Credit") { %>
-                                                                        <td style="color: green;" ><%= wallet.amount %></td>
-                                                                        <% } else { %>
-                                                                            <td style="color:red" > <strong>-</strong> <%= wallet.amount %></td>
-                                                                            <% } %>
-                                                                         <% if (wallet.transactionType === "Credit") { %>
-                                                                            <td style="color: green;" ><%= wallet.transactionType %></td>
-                                                                          <% } else { %>
-                                                                           
-                                                                        <td style="color: brown;">  <%= wallet.transactionType %></td>
-                                                                        <% } %>
-                                                                    </tr>
-                                                                <% }) %>
+                                                            <% locals.transaction.forEach(wallet => { %>
+                                                            <tr>
+                                                                <th scope="row">#<%= wallet.transationId %></th>
+                                                                <td><%= wallet.createdAt.toLocaleString() %></td>
+                                                                <!-- dbit or credit -->
+                                                                <% if (wallet.transactionType === "Credit") { %>
+                                                                <td style="color: green;"><%= wallet.amount %></td>
+                                                                <% } else { %>
+                                                                <td style="color:red"><strong>-</strong><%= wallet.amount %></td>
+                                                                <% } %>
+                                                                <% if (wallet.transactionType === "Credit") { %>
+                                                                <td style="color: green;"><%= wallet.transactionType %></td>
+                                                                <% } else { %>
+                                                                <td style="color: brown;"><%= wallet.transactionType %></td>
+                                                                <% } %>
+                                                            </tr>
+                                                            <% }) %>
                                                             <% } else { %>
-                                                                <tr>
-                                                                    <td colspan="4">No transactions found</td>
-                                                                </tr>
+                                                            <tr>
+                                                                <td colspan="4">No transactions found</td>
+                                                            </tr>
                                                             <% } %>
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                               
                                             </section>
                                         </main>
-
-
                                     </div>
 
 
@@ -918,10 +921,64 @@
     <script src="assets/js/plugins/jquery.theia.sticky.js"></script>
     <!-- Template  JS -->
     <script src="./assets/js/main.js?v=3.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </body>
 
 </html>
 <!-- load each tab -->
+
+
+  <!-- add wallet -->
+<script>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('addWalletBtn').addEventListener('click', addWallet);
+});
+
+function addWallet() {
+    const addAmount = document.getElementById('amount').value;
+    alert(addAmount);
+    
+    fetch('/addWallet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: addAmount })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);
+        if(data.message === 'success') {
+            Swal.fire({
+                title: 'Wallet Added',
+                icon: 'success',
+                confirmButtonText: 'OK',
+            });
+           alert(data.amount)
+           document.getElementById('wallet').innerText = '₹ ' + data.amount;
+            document.getElementById('amount').value = ''
+
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Handle errors here
+    });
+}
+
+</script>
+
+
+
+
 <script>
     $(document).ready(function () {
         $('.nav a[href="#<%if(locals.openTab) { %><%= openTab %><% } else { %>profile<% } %>"]').tab('show');

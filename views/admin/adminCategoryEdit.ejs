@@ -19,14 +19,16 @@
                 <label for="categoryName">Category Name:</label>
                 <input type="text" class="form-control" id="categoryName" name="name" value="<%= category.name %>"
                     placeholder="Enter category name">
-                <span id="categoryNameError" class="text-danger" style="display: none;">Category name must be string</span>
+                <span id="categoryNameError" class="text-danger" style="display: none;">Category name must be
+                    string</span>
             </div>
 
             <div class="form-group">
                 <label for="categoryDescription">Category Description:</label>
                 <textarea class="form-control" id="categoryDescription" name="description" rows="3"
                     placeholder="Enter category description"><%= category.description %></textarea>
-                <span id="categoryDescriptionError" class="text-danger" style="display: none;">Wrong discripton formate.</span>
+                <span id="categoryDescriptionError" class="text-danger" style="display: none;">Wrong discripton
+                    formate.</span>
             </div>
 
             <button type="button" onclick="validateForm()" class="btn btn-primary">Save Changes</button>

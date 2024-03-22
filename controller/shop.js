@@ -27,7 +27,7 @@ const productDetailsGet = async (req, res) => {
       userId: req.session.userId,
     });
     let userRated = userRating?.rating ? userRating.rating : 0;
-    console.log("Rating : ", userRated);
+    
 
     const product = await productPush.findOne({ _id: id });
     const relatedProducts = await productPush
@@ -49,11 +49,10 @@ const productDetailsGet = async (req, res) => {
       userId: req.session.userId,
       "items.productId": id,
     });
-    console.log("product ind");
-    console.log(orderedProduct);
+    
 
     const cartData = await cartModel.find({ userId: req.session.userId });
-    const userId = req.session.userId
+    const userId = req.session.userId;
 
     const reviewCount = reviewModel.length - 1;
     console.log("review count " + reviewCount);
@@ -66,43 +65,16 @@ const productDetailsGet = async (req, res) => {
       reviewData,
       reviewCount,
       orderedProduct,
-      userId
-      
+      userId,
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
-// const sizeAdd = async (req, res) => {
-//   try {
-//       const size = req.query.size;
-//       const productId = req.query.productId;
-//       console.log('working')
 
-//       // Find the product by its ID and update its size attribute
-//       const updatedProduct = await productPush.findByIdAndUpdate(
-//           {_id:productId}, // Filter by product ID
-//           { size: size }, // Set the size field to the new value
-//           { new: true } // Return the updated document
-//       );
-
-//       console.log('perfect working')
-
-//       console.log(updatedProduct)
-
-//       if (!updatedProduct) {
-//         console.log('not working')
-//           return res.status(404).json( "Product not found" );
-//       }
-
-//       console.log(updatedProduct);
-//       return res.json(updatedProduct);
-//   } catch (error) {
-//       console.error(error);
-//       return res.status(500).json({ message: "Internal Server Error" });
-//   }
-// }
 
 const Ratings = async (req, res) => {
   try {
@@ -185,8 +157,7 @@ const Star = async (req, res) => {
     });
 
     const productsUpdated = await productPush.find({});
-    console.log("working  aaaanu");
-    console.log(productsUpdated);
+   
 
     return res.json({ status: true });
   } catch (error) {
@@ -195,61 +166,50 @@ const Star = async (req, res) => {
   }
 };
 
-
-
-const editReview = async(req,res)=>{
+const editReview = async (req, res) => {
   try {
     const userId = req.session.userId; // Assuming you have a session with userId
-    console.log(req.body)
-    const  data =req.body.data.review
-    const reviewId = req.body.reviewId
-    console.log(data,reviewId)
+    console.log(req.body);
+    const data = req.body.data.review;
+    const reviewId = req.body.reviewId;
+    console.log(data, reviewId);
 
     const updatedReview = await reviewModel.findOneAndUpdate(
-        { _id : reviewId },
-        { comment: data },
-        { new: true }
+      { _id: reviewId },
+      { comment: data },
+      { new: true }
     );
-    console.log(updatedReview)
+    console.log(updatedReview);
 
     if (!updatedReview) {
-        return res.status(404).json({ message: 'Review not found' });
+      return res.status(404).json({ message: "Review not found" });
     }
 
     return res.status(200).json({ updatedComment: updatedReview.comment });
-} catch (error) {
-    console.error('Error updating review:', error);
-    return res.status(500).json({ error: 'Internal server error' });
-}
-}
+  } catch (error) {
+    console.error("Error updating review:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
-
-
-const deleteReview = async(req,res)=>{
+const deleteReview = async (req, res) => {
   try {
-    console.log('working');
+    console.log("working");
     const reviewId = req.params.id;
     console.log(reviewId);
     const result = await reviewModel.deleteOne({ _id: reviewId });
-  
+
     if (result.deletedCount === 1) {
-      console.log('sucess')
-      return res.status(200).json({ message: 'Review deleted successfully' });
+      console.log("sucess");
+      return res.status(200).json({ message: "Review deleted successfully" });
     } else {
-      return res.status(404).json({ message: 'Review not found' });
+      return res.status(404).json({ message: "Review not found" });
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-}
-
-
-
-
-
-
-
+};
 
 const shopGet = async (req, res) => {
   const PAGE_SIZE = 6;
@@ -279,8 +239,6 @@ const shopGet = async (req, res) => {
         },
       },
     ]);
-
-    
 
     const newArrivals = await productPush.find({}).sort({ _id: -1 }).limit(5);
 
@@ -443,12 +401,10 @@ const whislistGet = async (req, res) => {
 
     if (!wishlist) {
       console.log("no wishlist");
-      return res
-        .status(200)
-        .render("User/whislist", {
-          products: [],
-          message: "User have no wishlist product",
-        });
+      return res.status(200).render("User/whislist", {
+        products: [],
+        message: "User have no wishlist product",
+      });
     }
 
     const productIds = wishlist.products;
@@ -502,7 +458,6 @@ const addWhislist = async (req, res) => {
 };
 
 const addToCartWislist = async (req, res) => {
-  console.log("addTo Wishlist is working");
   try {
     const productId = req.params.id;
     const product = await productPush.findOne({ _id: productId });

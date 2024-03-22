@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/assets/css/main.css?v=3.4">
 </head>
 
-<body>   
+<body>
 
 
     <header class="header-area header-style-1 header-height-2">
@@ -56,7 +56,7 @@
                         </a>
                     </div>
                     <div class="header-right">
-                    
+
 
 
                         <div class="header-action-right" style="margin-left: 750px;">
@@ -210,7 +210,7 @@
                         <img src="/assets/imgs/shop/headers/HomePage_4.webp" class="d-block w-100" alt="...">
 
                     </div>
-                   
+
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
                     data-bs-slide="prev">
@@ -235,55 +235,59 @@
                     <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows">
                     </div>
                     <div class="carausel-6-columns carausel-arrow-center" id="carausel-6-columns-2">
-                        <% newArrivals.forEach(element => { %>
-                         
-                       
-                        <div class="product-cart-wrap small hover-up">
-                            <div class="product-img-action-wrap">
-                                <div class="product-img product-img-zoom">
-                                    <a href="/product/details/<%= element.id %>">
-                                        <img class="default-img" src="/images/<%=element.image %>" alt=""  style="height:200px; width: 250px ;">
-                                        <img class="hover-img" src="/images/<%=element.image %>" alt="">
-                                    </a>
-                                </div>
-                                <div class="product-action-1">
-                                    <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal"
-                                        data-bs-target="#quickViewModal">
-                                        <i class="fi-rs-eye"></i></a>
-                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up"
-                                        href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
-                                    <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html"
-                                        tabindex="0"><i class="fi-rs-shuffle"></i></a>
-                                </div>
-                                <div class="product-badges product-badges-position product-badges-mrg">
-                                    <span class="hot">Hot</span>
-                                </div>
-                            </div>
-                            <div class="product-content-wrap">
-                                <h2><a href="/product/details/<%= element.id %>"><%= element.title %></a></h2>
-                                <div class=" d-inline-block">
-                                    <div class="" style="width:90%; color: #f49507; font-size: 16px;">
-                                        <% function generateStarRating(starLength) { %>
-                                            <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                          <% } %>
-                                          <%= generateStarRating(element.rating) %>
-                                         
+                        <% newArrivals.forEach(element=> { %>
+
+
+                            <div class="product-cart-wrap small hover-up">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="/product/details/<%= element.id %>">
+                                            <img class="default-img" src="/images/<%=element.image %>" alt=""
+                                                style="height:200px; width: 250px ;">
+                                            <img class="hover-img" src="/images/<%=element.image %>" alt="">
+                                        </a>
                                     </div>
-                                    <% if (element.offerPrice > 0) { %>
-                                                    
-                                                  
-                                        <h5 class="offer-price"
-                                            style="color: green; font-size: large;font-weight: 100; font-size: 12px; ">
-                                            <%= element.discountPercentage.toFixed(2)%> %Off
-                                        </h5>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn small hover-up"
+                                            data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                            <i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                            href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn small hover-up"
+                                            href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">Hot</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <h2><a href="/product/details/<%= element.id %>">
+                                            <%= element.title %>
+                                        </a></h2>
+                                    <div class=" d-inline-block">
+                                        <div class="" style="width:90%; color: #f49507; font-size: 16px;">
+                                            <% function generateStarRating(starLength) { %>
+                                                <%= new Array(5).fill(null).map((star, i)=> star = i >= starLength ? '☆'
+                                                    : '★').join('') %>
+                                                    <% } %>
+                                                        <%= generateStarRating(element.rating) %>
+
+                                        </div>
+                                        <% if (element.offerPrice> 0) { %>
 
 
-                                        <span style="text-decoration: line-through; color: brown;"><strong>
-                                                ₹</strong>
-                                            <%= element.Price %>
-                                        </span>
+                                            <h5 class="offer-price"
+                                                style="color: green; font-size: large;font-weight: 100; font-size: 12px; ">
+                                                <%= element.discountPercentage.toFixed(2)%> %Off
+                                            </h5>
 
-                                        
+
+                                            <span style="text-decoration: line-through; color: brown;"><strong>
+                                                    ₹</strong>
+                                                <%= element.Price %>
+                                            </span>
+
+
 
                                             <small class="offer-price"
                                                 style="color:rgb(48, 50, 50); font-size: small;  font-weight: 100;"><strong>
@@ -291,25 +295,25 @@
                                                 <%= element.offerPrice %>
                                             </small>
                                             <% } else { %>
-                                             
-                                            
-                                <div class="product-price">
-                                    <span> <strong> ₹</strong>
-                                        <%=element.Price %>
-                                    </span>
-                                    <!-- <span class="old-price">10999.8</span> -->
+
+
+                                                <div class="product-price">
+                                                    <span> <strong> ₹</strong>
+                                                        <%=element.Price %>
+                                                    </span>
+                                                    <!-- <span class="old-price">10999.8</span> -->
+                                                </div>
+                                                <% } %>
+                                    </div>
+
                                 </div>
-                                <% } %>
-                                </div>   
-                               
                             </div>
-                        </div>
-                        <% }) %>
+                            <% }) %>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <section class="featured section-padding position-relative  ">
             <div class="container">
                 <div class="row">
@@ -352,7 +356,7 @@
             </div>
             </div>
         </section>
-     
+
         <section class="product-tabs section-padding position-relative wow fadeIn animated">
             <div class="bg-square"></div>
             <div class="container">
@@ -415,59 +419,63 @@
                                                 <h2><a href="/product/details/<%= element.id %>">
                                                         <%=element.brand %>
                                                     </a></h2>
-                                                    <div class=" d-inline-block">
-                                                        <div class="" style="width:90%; color: #f49507; font-size: 20px;">
-                                                            <% function generateStarRating(starLength) { %>
-                                                                <%= new Array(5).fill(null).map((star, i) => star = i >= starLength ? '☆' : '★').join('') %>
-                                                              <% } %>
-                                                              <%= generateStarRating(element.rating) %>
-                                                              
-                                                        </div>
+                                                <div class=" d-inline-block">
+                                                    <div class="" style="width:90%; color: #f49507; font-size: 20px;">
+                                                        <% function generateStarRating(starLength) { %>
+                                                            <%= new Array(5).fill(null).map((star, i)=> star = i >=
+                                                                starLength ? '☆' : '★').join('') %>
+                                                                <% } %>
+                                                                    <%= generateStarRating(element.rating) %>
+
                                                     </div>
-                                                    <% if (element.offerPrice > 0) { %>
-                                                    
-                                                  
-                                                        <h5 class="offer-price"
-                                                            style="color: green; font-size: large;font-weight: 500; ">
-                                                            <%= element.discountPercentage.toFixed(2)%> %Off
-                                                        </h5>
-    
-    
-                                                        <span style="text-decoration: line-through; color: brown;"><strong>
-                                                                ₹</strong>
-                                                            <%= element.Price %>
-                                                        </span>
-    
-                                                        
-    
-                                                            <small class="offer-price"
-                                                                style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
-                                                                    ₹</strong>
-                                                                <%= element.offerPrice %>
-                                                            </small>
-                                                            <% } else { %>
-                                                             
-                                                            
-                                                <div class="product-price">
-                                                    <span> <strong> ₹</strong>
-                                                        <%=element.Price %>
+                                                </div>
+                                                <% if (element.offerPrice> 0) { %>
+
+
+                                                    <h5 class="offer-price"
+                                                        style="color: green; font-size: large;font-weight: 500; ">
+                                                        <%= element.discountPercentage.toFixed(2)%> %Off
+                                                    </h5>
+
+
+                                                    <span style="text-decoration: line-through; color: brown;"><strong>
+                                                            ₹</strong>
+                                                        <%= element.Price %>
                                                     </span>
-                                                    <!-- <span class="old-price">10999.8</span> -->
-                                                </div>
-                                                <% } %>
-                                                <div class="product-action-1 show">
-                                                    <% if (element.stock > 0) { %>
-                                                        <a aria-label="Add To Cart" class="action-btn hover-up"
-                                                            onclick="productAdd('<%= element._id %>')">
-                                                            <i class="fi-rs-shopping-bag-add"></i>
-                                                        </a>
+
+
+
+                                                    <small class="offer-price"
+                                                        style="color:rgb(48, 50, 50); font-size: x-large;  font-weight: 100;"><strong>
+                                                            ₹</strong>
+                                                        <%= element.offerPrice %>
+                                                    </small>
                                                     <% } else { %>
-                                                        <a aria-label="Out of Stock" class="action-btn hover-up" onclick="return false;">
-                                                            <i class="fi-rs-shopping-bag-add"></i>
-                                                        </a>
-                                                    <% } %>
-                                                    
-                                                </div>
+
+
+                                                        <div class="product-price">
+                                                            <span> <strong> ₹</strong>
+                                                                <%=element.Price %>
+                                                            </span>
+                                                            <!-- <span class="old-price">10999.8</span> -->
+                                                        </div>
+                                                        <% } %>
+                                                            <div class="product-action-1 show">
+                                                                <% if (element.stock> 0) { %>
+                                                                    <a aria-label="Add To Cart"
+                                                                        class="action-btn hover-up"
+                                                                        onclick="productAdd('<%= element._id %>')">
+                                                                        <i class="fi-rs-shopping-bag-add"></i>
+                                                                    </a>
+                                                                    <% } else { %>
+                                                                        <a aria-label="Out of Stock"
+                                                                            class="action-btn hover-up"
+                                                                            onclick="return false;">
+                                                                            <i class="fi-rs-shopping-bag-add"></i>
+                                                                        </a>
+                                                                        <% } %>
+
+                                                            </div>
                                             </div>
                                         </div>
                                     </div>
@@ -482,22 +490,22 @@
                     </div>
         </section>
 
-       
 
-        
-        
-       
-       
-           
-        
-       
+
+
+
+
+
+
+
+
     </main>
     <footer class="main">
         <section class="newsletter p-30 text-white wow fadeIn animated">
-           
+
         </section>
         <section class="section-padding footer-mid " style="margin-right: 50px;">
-            <div class="container pt-15 pb-20" >
+            <div class="container pt-15 pb-20">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
                         <div class="widget-about font-md mb-md-5 mb-lg-0">
@@ -508,7 +516,7 @@
                             </div>
                             <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
                             <p class="wow fadeIn animated">
-                                <strong>Address: </strong> MG  Road, Street 32, Ernakulam
+                                <strong>Address: </strong> MG Road, Street 32, Ernakulam
                             </p>
                             <p class="wow fadeIn animated">
                                 <strong>Phone: </strong>(+91) 8086136588
@@ -518,10 +526,13 @@
                             </p>
                             <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
                             <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
-                              
-                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
-                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
-                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
+
+                                <a href="https://x.com/manikandanvfc11?t=hBoj9BGy8wVjC3sjPcsOSw&s=09"><img
+                                        src="/assets/imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="https://www.instagram.com/m_a_k_i_n_?igsh=cTFxcGx3dDhydnlo"><img
+                                        src="/assets/imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="https://youtube.com/@FitlifeFusion5890?si=DYKz5LtTBiplO4ZF"><img
+                                        src="/assets/imgs/theme/icons/icon-youtube.svg" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -547,11 +558,11 @@
                             <li><a href="/profile?tab=orders">Order</a></li>
                         </ul>
                     </div>
-                    
+
                 </div>
             </div>
         </section>
-       
+
     </footer>
 
     <!-- Preloader Start -->

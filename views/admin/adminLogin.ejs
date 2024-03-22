@@ -47,14 +47,16 @@
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" class="form-control" id="password" name="password">
-                    <p  class="text-danger"><%=message %></p>
+                    <p class="text-danger">
+                        <%=message %>
+                    </p>
                     <span id="passwordErrorElement" class="text-danger"></span>
                 </div>
 
                 <button type="button" class="btn btn-primary btn-block" onclick="validateAndLogin()">Login</button>
             </form>
             <p></p>
-       
+
         </div>
     </div>
 
@@ -96,19 +98,19 @@
 
             // if both email and password are valid, perform login
             performLogin(email, password);
-        } 
-       
+        }
+
         function performLogin(email, password) {
             fetch('/admin/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email,
-                        password
-                    }),
-                })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                }),
+            })
                 .then(response => {
                     if (response.ok) {
                         return response.json(); // return parsed json data

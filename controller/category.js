@@ -9,11 +9,10 @@ const { findOne } = require("../model/whislist");
 
 const categoryGet = async (req, res) => {
   try {
-    console.log("working");
-    console.log(req.session.duplicateCategory);
+  
     let message = "";
     if (req.session.duplicateCategory) {
-      console.log("2");
+    
       message = "Cannot add multiple  category";
       req.session.duplicateCategory = null;
     }
@@ -22,15 +21,17 @@ const categoryGet = async (req, res) => {
     const category = await categoryModel.find({});
     res.render("admin/category", { category, message });
   } catch (error) {
-    console.log("3");
+  
     console.log(error);
+    res.status(500).json({error:'Internal Server Error'})
+
   }
 };
 
 const categoryListGet = async (req, res) => {
   try {
     const id = req.query.id;
-    console.log("Category ID:", id);
+  
     const data = await categoryModel.findById(id);
 
     if (!data) {
@@ -40,7 +41,7 @@ const categoryListGet = async (req, res) => {
     }
 
     const publish = !data.isblock;
-    console.log(publish);
+  
 
     const updatedCategory = await categoryModel.findByIdAndUpdate(id, {
       $set: {
@@ -80,8 +81,7 @@ const categoryEditPost = async (req, res) => {
   try {
     const categoryId = req.params.id;
     const { name, description } = req.body;
-    console.log(req.body);
-    console.log(name);
+   
 
     const categoryName = await categoryModel.findOne({ name: name });
 
@@ -138,11 +138,11 @@ const OfferListGet = async (req, res) => {
 
 const createOffer = async (req, res) => {
   try {
-    console.log("workingdsfsfs");
+
     const categoryId = req.params.id;
     console.log(categoryId);
     const categoryName = await categoryModel.findOne({ _id: categoryId });
-    console.log(categoryName);
+  
     res.status(200).render("admin/categoryEditOffer", { categoryName });
   } catch (error) {
     console.log(error);
@@ -152,8 +152,7 @@ const createOffer = async (req, res) => {
 
 const editPatch = async (req, res) => {
   try {
-    console.log("patch working");
-    console.log(req.body)
+   
     const {
       name,
       currentDate,
@@ -163,26 +162,21 @@ const editPatch = async (req, res) => {
       discountamount,
     } = req.body;
 
-   let status
-   
-    console.log('working')
-      
-    console.log(currentDate)
-    if(currentDate <startingDate){
-       status = 'Coming'
-    }else if(currentDate>startingDate  && currentDate <endingDate){
-           status = 'Active'
-    }else{
-      status='Expire'
-    }
+    let status;
 
+    
+    if (currentDate < startingDate) {
+      status = "Coming";
+    } else if (currentDate > startingDate && currentDate < endingDate) {
+      status = "Active";
+    } else {
+      status = "Expire";
+    }
 
     const percentageDiscount = parseInt((discountamount / minimumAmount) * 100);
 
-    console.log('percentage' + percentageDiscount)
-
-
     
+
     const updatedData = await categoryModel.findOneAndUpdate(
       { name: name },
       {
@@ -191,34 +185,23 @@ const editPatch = async (req, res) => {
         OfferEndDate: endingDate,
         minimumAmount: minimumAmount,
         OfferDiscountPrice: discountamount,
-        OfferStartingPrice:minimumAmount,
-        isActive :true,
+        OfferStartingPrice: minimumAmount,
+        isActive: true,
         catOfferStatus: status,
-        discount :percentageDiscount
-
+        discount: percentageDiscount,
       },
-      { new: true } 
+      { new: true }
     );
-    console.log('after ')
-    console.log(updatedData)
+    
 
     const updateProductData = await productPush.findOneAndUpdate(
-      {categoryId :updatedData._id},
-       {offerPrice : discountamount,
-       discountPercentage : percentageDiscount
-       },
-       {new : true}
+      { categoryId: updatedData._id },
+      { offerPrice: discountamount, discountPercentage: percentageDiscount },
+      { new: true }
     );
-    console.log(updateProductData)
-     
-    
-    
-     console.log('oke')
-     res.status(200).json({status:'success'})
-    
-      
+   
+    res.status(200).json({ status: "success" });
   } catch (error) {
-    
     console.error("Error updating data:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }

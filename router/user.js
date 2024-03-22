@@ -42,6 +42,10 @@ router.post('/addAddressProfile',userAuthentication,userController.AddaddressPro
 
 router.post('/profileNewPassword/:id',userAuthentication,userController.AddressDetails)
 
+// wallet
+router.post('/addWallet', userAuthentication,userController.addWallet)
+
+
 
 router.get('/successPage', userAuthentication,userController.successPageGet)
 

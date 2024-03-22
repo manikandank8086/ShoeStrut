@@ -1141,10 +1141,10 @@
                                     var rzp1 = new Razorpay(options);
                                     rzp1.on('payment.failed', function (response) {
                                         CancelPayment(response, index, address, totalAmount, products, couponCode, discountValue)
-									});
+                                    });
                                     rzp1.open();
 
-                                   
+
 
                                 }
                             } else {
@@ -1164,7 +1164,7 @@
 
     function verifyPaymet(paymentData, index, address, totalAmount, products, couponCode, discountValue) {
 
-     
+
 
         fetch('/verify-payment/', {
             method: 'POST',
@@ -1201,7 +1201,7 @@
     //   razorpay cancel payment
 
     function CancelPayment(paymentData, index, address, totalAmount, products, couponCode, discountValue) {
-    alert('cancel option')
+        alert('cancel option')
         fetch('/cancel-payment/', {
             method: 'POST',
             headers: {
@@ -1221,10 +1221,10 @@
                 console.log('working')
 
                 try {
-                console.log('cancel response')
+                    console.log('cancel response')
                     console.log(response)
                     if (response.ok) {
-                    
+
                     }
                 } catch (error) {
                     console.log(error)

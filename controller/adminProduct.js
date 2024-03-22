@@ -6,8 +6,7 @@ const { categoryModel } = require("../model/categoryModel");
 const { Order } = require("../model/orderModel");
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
-const XLSX = require('xlsx');
-
+const XLSX = require("xlsx");
 
 const session = require("express-session");
 const { Wallet } = require("../model/wallet");
@@ -67,18 +66,18 @@ const productPushPost = async (req, res) => {
         stock,
         status,
         tag,
-        OfferPrice
+        OfferPrice,
       } = productData;
-    
+
       if (req.file) {
         var image = req.file.filename;
       }
-      console.log('offer price is working')
+      console.log("offer price is working");
 
-      if(OfferPrice){
+      if (OfferPrice) {
         const discountAmount = Price - OfferPrice;
         discountPercentage = (discountAmount / Price) * 100;
-          }
+      }
 
       productPush.insertMany({
         title,
@@ -92,9 +91,9 @@ const productPushPost = async (req, res) => {
         stock,
         status,
         tag,
-        offerPrice :OfferPrice,
+        offerPrice: OfferPrice,
         image,
-        discountPercentage : discountPercentage
+        discountPercentage: discountPercentage,
       });
 
       res.redirect("/admin/product/add");
@@ -154,31 +153,37 @@ const productListEditGet = async (req, res) => {
   }
 };
 
-
-
-
 const productEditPost = async (req, res) => {
   try {
-    console.log('req.body', req.body);
-    console.log('req.file', req.file);
-    let  discountPercentage
+    console.log("req.body", req.body);
+    console.log("req.file", req.file);
+    let discountPercentage;
 
     const productId = req.params.id;
-    const { title, description, brand, stock, Price, category,offerPrice } = req.body;
+    const { title, description, brand, stock, Price, category, offerPrice } =
+      req.body;
 
-      // Calculate the discount percentage
-      if(offerPrice){
-    const discountAmount = Price - offerPrice;
-    discountPercentage = (discountAmount / Price) * 100;
-      }
-
-
-    let updatedProductData = { title, description, brand, stock, Price, category ,offerPrice,discountPercentage};
-    if (req.file) {
-      updatedProductData.image = req.file.filename; 
+    // Calculate the discount percentage
+    if (offerPrice) {
+      const discountAmount = Price - offerPrice;
+      discountPercentage = (discountAmount / Price) * 100;
     }
 
-    console.log('updatedProductData', updatedProductData);
+    let updatedProductData = {
+      title,
+      description,
+      brand,
+      stock,
+      Price,
+      category,
+      offerPrice,
+      discountPercentage,
+    };
+    if (req.file) {
+      updatedProductData.image = req.file.filename;
+    }
+
+    console.log("updatedProductData", updatedProductData);
 
     const updatedProduct = await productPush.findOneAndUpdate(
       { _id: productId },
@@ -186,7 +191,7 @@ const productEditPost = async (req, res) => {
       { new: true }
     );
 
-    console.log('update Product data', updatedProductData);
+    console.log("update Product data", updatedProductData);
 
     if (!updatedProduct) {
       return res.status(404).render("404page");
@@ -199,13 +204,9 @@ const productEditPost = async (req, res) => {
   }
 };
 
-
-
-
-
 const editDeleteImg = async (req, res) => {
   try {
-    console.log('working' + req.params.id)
+    console.log("working" + req.params.id);
     const id = req.params.id;
     const product = await productPush.findById(id);
     if (product.image) {
@@ -214,16 +215,19 @@ const editDeleteImg = async (req, res) => {
 
     const deletedProduct = await productPush.findByIdAndDelete(id);
     if (!deletedProduct) {
-      return res.status(404).json({ status: false, message: "Product not found" });
+      return res
+        .status(404)
+        .json({ status: false, message: "Product not found" });
     }
 
-    res.status(200).json({ status: true, message: "Product deleted successfully" });
+    res
+      .status(200)
+      .json({ status: true, message: "Product deleted successfully" });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ status: false, message: "Internal Server Error" });
   }
 };
-
 
 const userListGet = async (req, res) => {
   try {
@@ -284,7 +288,6 @@ const orderList = async (req, res) => {
   }
 };
 
-
 const OrderSearch = async (req, res) => {
   try {
     const query = req.query.query;
@@ -313,21 +316,20 @@ const changeStatus = async (req, res) => {
     console.log("Working 2");
     let { orderId, newStatus } = req.body;
     console.log(orderId, newStatus);
-    let deliveredDate
-      if(newStatus === 'Delivered'){
-        console.log('deliverd date')
-         deliveredDate = new Date()
-        console.log(deliveredDate)
-        
-      }
+    let deliveredDate;
+    if (newStatus === "Delivered") {
+      console.log("deliverd date");
+      deliveredDate = new Date();
+      console.log(deliveredDate);
+    }
     console.log("working", newStatus);
 
     const updatedOrder = await Order.findOneAndUpdate(
       { orderId: orderId },
-      { status: newStatus,deliveredDate : deliveredDate },
+      { status: newStatus, deliveredDate: deliveredDate },
       { new: true }
     );
-    console.log(updatedOrder)
+    console.log(updatedOrder);
 
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found" });
@@ -378,75 +380,64 @@ const OrderDetails = async (req, res) => {
   }
 };
 
-
-const confirmReturn = async(req,res)=>{
-  try{
-    console.log('working')
-    console.log(req.params.id)
-    const orderId = req.params.id
-    console.log(orderId)
+const confirmReturn = async (req, res) => {
+  try {
+    console.log("working");
+    console.log(req.params.id);
+    const orderId = req.params.id;
+    console.log(orderId);
 
     const orderData = await Order.findOneAndUpdate(
       { orderId: orderId },
-      { $set: { status: 'Return', returnRequest: false, returnStatus: 'Success' } },
+      {
+        $set: {
+          status: "Return",
+          returnRequest: false,
+          returnStatus: "Success",
+        },
+      },
       { new: true }
-  );
-        res.status(200).json({message:'Success'})  
-  console.log(orderData)
-    
-
-  }catch(error){
-    res.status(500).json({error:'Internal Server Error'})
+    );
+    res.status(200).json({ message: "Success" });
+    console.log(orderData);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
+const rejectReturn = async (req, res) => {
+  try {
+    console.log("working reject");
+    const orderId = req.params.id;
+    console.log(orderId);
 
-const rejectReturn = async(req,res)=>{
-  try{
-    console.log('working reject')
-    const orderId = req.params.id
-    console.log(orderId)
-   
     const orderData = await Order.findOneAndUpdate(
-      {orderId : orderId},
-      {$set : {returnStatus : 'Rejected',returnRequest :false}},
-      {new : true}
-    )
-    console.log(orderData)
-    res.status(200).json({message:''})
-
-  }catch(error){
-    console.log(error)
-    res.status(500).json({error:'Internal Server Error'})
+      { orderId: orderId },
+      { $set: { returnStatus: "Rejected", returnRequest: false } },
+      { new: true }
+    );
+    console.log(orderData);
+    res.status(200).json({ message: "" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
-
-
-//wallet 
-
-
-
-
-
-
-
-
-
-
+//wallet
 
 const salesReport = async (req, res) => {
   try {
     const PAGE_SIZE = 8;
-  //pagination
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || PAGE_SIZE;
-  const startIndex = (page - 1) * limit;
+    //pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || PAGE_SIZE;
+    const startIndex = (page - 1) * limit;
 
-  const totalDocuments = await Order.find({status:'Delivered'}).countDocuments({});
-  const totalPages = Math.ceil(totalDocuments / limit);
-
-  
+    const totalDocuments = await Order.find({
+      status: "Delivered",
+    }).countDocuments({});
+    const totalPages = Math.ceil(totalDocuments / limit);
 
     const latestOrders = await Order.find({ status: "Delivered" })
       .sort({ _id: -1 })
@@ -468,111 +459,104 @@ const salesReport = async (req, res) => {
     const discounts = await Order.find({ status: "Delivered" });
 
     const totalDiscountValue = discounts.reduce((total, order) => {
-    
-      if (order && typeof order.discountPrice !== 'undefined') {
-    
-        if (typeof order.discountPrice === 'number') {
-          
+      if (order && typeof order.discountPrice !== "undefined") {
+        if (typeof order.discountPrice === "number") {
           return total + order.discountPrice;
-        } else if (typeof order.discountPrice === 'string') {
+        } else if (typeof order.discountPrice === "string") {
           const discountAmount = parseInt(order.discountPrice);
-          
-    
+
           if (!isNaN(discountAmount)) {
             return total + discountAmount;
           }
         }
       }
-     
-    
-      
+
       return total;
     }, 0);
-  
+
     const totalDiscount = parseInt(totalDiscountValue);
 
-    res
-      .status(200)
-      .render("admin/salesReport", {
-        latestOrders,
-        deliveredOrderCount,
-        deliveredRevenue,
-        totalDiscount,
-        totalPages,
-        currentPage: page,
-      });
+    res.status(200).render("admin/salesReport", {
+      latestOrders,
+      deliveredOrderCount,
+      deliveredRevenue,
+      totalDiscount,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-
-
 const dateSearch = async (req, res) => {
   try {
-    
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server error' });
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server error" });
   }
 };
-
 
 const excelDownload = async (req, res) => {
   const salesDataArray = req.body.salesDataArray;
 
-// Create a new workbook
-const workbook = XLSX.utils.book_new();
+  // Create a new workbook
+  const workbook = XLSX.utils.book_new();
 
-// Convert the JSON data to a worksheet
-const worksheet = XLSX.utils.json_to_sheet(salesDataArray);
+  // Convert the JSON data to a worksheet
+  const worksheet = XLSX.utils.json_to_sheet(salesDataArray);
 
-// Adjust column widths dynamically based on content length and header length
-const columnWidths = [];
-const headerNames = Object.keys(salesDataArray[0]);
-for (let i = 0; i < headerNames.length; i++) {
+  // Adjust column widths dynamically based on content length and header length
+  const columnWidths = [];
+  const headerNames = Object.keys(salesDataArray[0]);
+  for (let i = 0; i < headerNames.length; i++) {
     const col = XLSX.utils.encode_col(i);
     const headerLength = headerNames[i].length;
     const contentLength = salesDataArray.reduce((max, row) => {
-        const cellContent = row[headerNames[i]] ? row[headerNames[i]].toString() : '';
-        return Math.max(max, cellContent.length);
+      const cellContent = row[headerNames[i]]
+        ? row[headerNames[i]].toString()
+        : "";
+      return Math.max(max, cellContent.length);
     }, headerLength);
     const columnWidth = { wch: Math.max(headerLength, contentLength) + 2 }; // Add extra padding for better visibility
     columnWidths.push(columnWidth);
-}
-worksheet['!cols'] = columnWidths;
+  }
+  worksheet["!cols"] = columnWidths;
 
-// Apply header styles
-const headerStyle = {
+  // Apply header styles
+  const headerStyle = {
     font: { bold: true },
-    alignment: { horizontal: 'center', vertical: 'center' },
-    fill: { type: 'pattern', patternType: 'solid', fgColor: { rgb: 'CCCCCC' } }
-};
-const headerRange = XLSX.utils.decode_range(worksheet['!ref']);
-for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+    alignment: { horizontal: "center", vertical: "center" },
+    fill: { type: "pattern", patternType: "solid", fgColor: { rgb: "CCCCCC" } },
+  };
+  const headerRange = XLSX.utils.decode_range(worksheet["!ref"]);
+  for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
     const cellAddress = XLSX.utils.encode_cell({ r: headerRange.s.r, c: col });
     if (worksheet[cellAddress]) {
-        worksheet[cellAddress].s = headerStyle;
+      worksheet[cellAddress].s = headerStyle;
     }
-}
+  }
 
-// Add the worksheet to the workbook
-XLSX.utils.book_append_sheet(workbook, worksheet, 'Sales Report');
+  // Add the worksheet to the workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Report");
 
-// Convert the workbook to a buffer
-const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
+  // Convert the workbook to a buffer
+  const excelBuffer = XLSX.write(workbook, {
+    bookType: "xlsx",
+    type: "buffer",
+  });
 
-// Set headers for the HTTP response
-res.setHeader('Content-Disposition', 'attachment; filename=sales_report.xlsx');
-res.setHeader('Content-Type', 'application/octet-stream');
+  // Set headers for the HTTP response
+  res.setHeader(
+    "Content-Disposition",
+    "attachment; filename=sales_report.xlsx"
+  );
+  res.setHeader("Content-Type", "application/octet-stream");
 
-// Send the Excel buffer as the response
-res.send(excelBuffer);
-}
-
-
-
+  // Send the Excel buffer as the response
+  res.send(excelBuffer);
+};
 
 module.exports = {
   productGet,
@@ -591,11 +575,9 @@ module.exports = {
   OrderSearch,
   confirmReturn,
   rejectReturn,
-  
-  
+
   //sales report
   salesReport,
   dateSearch,
-  excelDownload
-  
+  excelDownload,
 };

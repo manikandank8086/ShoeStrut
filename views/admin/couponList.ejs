@@ -14,54 +14,62 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Coupon Name</th>
-                                <th >Code</th>
-                                <th >Start Price</th>
-                                <th> End Price</th>
-                                <th > Date Start</th>
-                                <th > Date End</th>
-                                <th >Status</th>
+                               
+                                <th>Code</th>
+                                <th>Minimum Price</th>
+                                <th> Maximum Price</th>
+                                <th>Discount</th>
+                                <th> Date Start</th>
+                                <th> Date End</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% CouponData.forEach(element=> { %>
                                 <tr>
-                                    <td>
-                                        <%= element.discount %>% discount
-                                    </td>
+                                    
                                     <td>
                                         <%= element.code %>
                                     </td>
-                                   
-                                        <td > <Strong>Rs.</Strong> <%= element.minimum %></td>
-                                        <td> <strong>Rs.</strong> <%= element.maximum %></td>
-                                        <td>
+
+                                    <td> <Strong>Rs.</Strong>
+                                        <%= element.minimum %>
+                                    </td>
+                                    <td> <strong>Rs.</strong>
+                                        <%= element.maximum %>
+                                    </td>
+                                    <td>
+                                        <%= element.discount %>% 
+                                    </td>
+                                    <td>
                                         <%= element.validFrom.toLocaleString()%>
 
                                     </td>
                                     <td>
                                         <%= element.validUntil.toLocaleString() %>
                                     </td>
-                                   <% if (element.isActive) { %>
-                                    <td style="color: green;" >Active</td>
-                                    <% } else { %>
-                                     <td style="color: red;" >Inactive</td>
-                                   <% } %>
-
-                                   <td>
-                                    <% if (element.isActive==true) { %>
-                                        <button id="couponBlock" onclick="blockCoupon('<%= element._id %>')"
-                                            class="btn btn-danger">
-                                            <%= (element.isActive===true)?'Block':'Unblock'%>
-                                        </button>
+                                    <% if (element.isActive) { %>
+                                        <td style="color: green;">Active</td>
                                         <% } else { %>
-                                            <button id="couponUnblock" onclick="blockCoupon('<%= element._id %>')"
-                                                class="btn btn-success">
-                                                <%= (element.isActive===true)?'Block':'Unblock'%>
-                                            </button>
+                                            <td style="color: red;">Inactive</td>
                                             <% } %>
-                                   </td>
+
+                                                <td>
+                                                    <% if (element.isActive==true) { %>
+                                                        <button id="couponBlock"
+                                                            onclick="blockCoupon('<%= element._id %>')"
+                                                            class="btn btn-danger">
+                                                            <%= (element.isActive===true)?'Block':'Unblock'%>
+                                                        </button>
+                                                        <% } else { %>
+                                                            <button id="couponUnblock"
+                                                                onclick="blockCoupon('<%= element._id %>')"
+                                                                class="btn btn-success">
+                                                                <%= (element.isActive===true)?'Block':'Unblock'%>
+                                                            </button>
+                                                            <% } %>
+                                                </td>
 
 
                                 </tr>
@@ -126,6 +134,3 @@
             })
         }
     </script>
-
-
-    

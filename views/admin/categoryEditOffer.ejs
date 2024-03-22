@@ -46,12 +46,12 @@
                 </div>
             </div>
             <div class="mb-50 text-center">
-               
-                <button class="custom-button2"   style="background-color: darkcyan;" onclick="validation()">Add</button>
+
+                <button class="custom-button2" style="background-color: darkcyan;" onclick="validation()">Add</button>
             </div>
         </div>
     </section>
- 
+
 
     <footer class="main-footer font-xs">
         <div class="row pb-30 pt-15">
@@ -77,7 +77,7 @@
     <!-- Main Script -->
     <script src="/asset/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-      
+
     <script>
         function validation() {
 
@@ -161,40 +161,40 @@
             }
 
             if (startError.textContent === "" && endError.textContent === "" && minmumError.textContent === "" && discounterror.textContent === "") {
-                
-fetch('/admin/editConfirm/', {
-    method: 'PATCH',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        name,
-        currentDate,
-        startingDate,
-        endingDate,
-        minimumAmount,
-        discountamount
-    })
-}).then(async (response) => {
-    if (response.ok) {
-        
-        const data = await response.json();
-        console.log(data);
-        if(data.status=='success'){
-            Swal.fire({
-                title : 'success',
-                text:'Offer Edit Successfull',
-                icon :'success',
-                confirmButtonText: 'OK'
-            })
-             
-        }
-    } else {
-        console.error('Response not okay:', response);
-    }
-}).catch((error) => {
-    console.error('Fetch error:', error);
-});
+
+                fetch('/admin/editConfirm/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        currentDate,
+                        startingDate,
+                        endingDate,
+                        minimumAmount,
+                        discountamount
+                    })
+                }).then(async (response) => {
+                    if (response.ok) {
+
+                        const data = await response.json();
+                        console.log(data);
+                        if (data.status == 'success') {
+                            Swal.fire({
+                                title: 'success',
+                                text: 'Offer Edit Successfull',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            })
+
+                        }
+                    } else {
+                        console.error('Response not okay:', response);
+                    }
+                }).catch((error) => {
+                    console.error('Fetch error:', error);
+                });
             }
 
         }

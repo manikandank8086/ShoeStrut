@@ -18,15 +18,6 @@ router.get("/yearChart", adminAuthentication, adminController.yearlychart);
 router.get("/monthlyChart", adminAuthentication, adminController.monthlyChart);
 
 
-
-
-
-
-
-//sales Report
-
-
-
 // Category
 
 router.get("/category", adminAuthentication,adminCategoryController.categoryGet);

@@ -43,29 +43,29 @@
             <p class="text-danger" id="otpError"></p>
             <div class="form-group">
                 <label for="otp">Enter OTP:</label>
-                <input type="text" class="form-control" id="otp" name="otp" >
+                <input type="text" class="form-control" id="otp" name="otp">
                 <span id="otpValidationError" class="text-danger"></span>
-            
-                    <span id="incorrectOtp" class="text-danger"></span>
 
-              
-               
-             
+                <span id="incorrectOtp" class="text-danger"></span>
+
+
+
+
             </div>
 
-            
+
             <button type="button" onclick="validateOTP()" class="btn btn-success btn-block">Verify OTP</button>
             <!-- Add a button for resending OTP -->
-<button id="resendOTPBtn"  onclick="resendOTP()" class="btn btn-secondary btn-block mt-3">Resend OTP</button>
+            <button id="resendOTPBtn" onclick="resendOTP()" class="btn btn-secondary btn-block mt-3">Resend OTP</button>
 
-<!-- Add a span for displaying the countdown timer -->
-<span id="countdown" class="text-muted"></span>
+            <!-- Add a span for displaying the countdown timer -->
+            <span id="countdown" class="text-muted"></span>
 
         </form>
     </div>
 
     <script>
-            document.getElementById('resendOTPBtn').disabled = true;
+        document.getElementById('resendOTPBtn').disabled = true;
         function validateOTP() {
             const otp = document.getElementById('otp').value;
             const otpValidationError = document.getElementById('otpValidationError');
@@ -85,82 +85,82 @@
         }
 
         function otpTobackend(otp) {
-            document.getElementById('resendOTPBtn').disabled =false;
-            console.log(otp);
-        fetch('/otp',{
-                    method:'POST',
-                    headers:{ 'Content-Type' : 'application/json',},
-                    body : JSON.stringify({otp})
-                  })
-                  .then(response =>{
-                    if(response.ok){
-                        window.location.href = '/'
-                    }else{
-                        console.log('else')
-                    document.getElementById('incorrectOtp').innerHTML='Incorrect Password'
-                    //    window.location.href='/otp'
-                    }
-                  }) 
-                  .catch(error =>{
-                    console.log('Error:',error)
-                  })
-                              
-        }
-                
-
-
-                let countdownInterval;
-let countdownTime = 20; 
-
-
-function startCountdown() {
-    let timerDisplay = document.getElementById('countdown');
-
-
-    countdownInterval = setInterval(function () {
-        if (countdownTime > 0) {
-            timerDisplay.textContent = `Resend OTP in ${countdownTime} seconds`;
-            countdownTime--;
-        } else {
-            clearInterval(countdownInterval);
-            timerDisplay.textContent = '';
             document.getElementById('resendOTPBtn').disabled = false;
+            console.log(otp);
+            fetch('/otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify({ otp })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/'
+                    } else {
+                        console.log('else')
+                        document.getElementById('incorrectOtp').innerHTML = 'Incorrect Password'
+                        //    window.location.href='/otp'
+                    }
+                })
+                .catch(error => {
+                    console.log('Error:', error)
+                })
+
         }
-    }, 1000);
-}
 
 
-document.getElementById('resendOTPBtn').addEventListener('click', function () {
-    
-    resendOTP();
 
-    
-    this.disabled = true;
-    countdownTime = 20;
-    
-});
+        let countdownInterval;
+        let countdownTime = 20;
 
-// Function to resend OTP (you need to implement this logic)
-function resendOTP() {
-    fetch('/resendOTP', {
-        method: 'GET',
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('OTP Resent Successfully');
-            // Start countdown after OTP is resent
+
+        function startCountdown() {
+            let timerDisplay = document.getElementById('countdown');
+
+
+            countdownInterval = setInterval(function () {
+                if (countdownTime > 0) {
+                    timerDisplay.textContent = `Resend OTP in ${countdownTime} seconds`;
+                    countdownTime--;
+                } else {
+                    clearInterval(countdownInterval);
+                    timerDisplay.textContent = '';
+                    document.getElementById('resendOTPBtn').disabled = false;
+                }
+            }, 1000);
+        }
+
+
+        document.getElementById('resendOTPBtn').addEventListener('click', function () {
+
+            resendOTP();
+
+
+            this.disabled = true;
             countdownTime = 20;
-            startCountdown();
-        } else {
-            console.log('Failed to resend OTP');
-        }
-    })
-    .catch(error => {
-        console.log('Error:', error);
-    });
-}
 
-          
+        });
+
+        // Function to resend OTP (you need to implement this logic)
+        function resendOTP() {
+            fetch('/resendOTP', {
+                method: 'GET',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('OTP Resent Successfully');
+                        // Start countdown after OTP is resent
+                        countdownTime = 20;
+                        startCountdown();
+                    } else {
+                        console.log('Failed to resend OTP');
+                    }
+                })
+                .catch(error => {
+                    console.log('Error:', error);
+                });
+        }
+
+
     </script>
 
     <!-- Bootstrap JS and Popper.js (required for Bootstrap) -->

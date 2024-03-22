@@ -73,12 +73,15 @@
                                             </a>
                                             <div id="returnActions_<%= element.orderId %>" style="display: none;">
                                                 <div style="text-align: center;">
-                                                    <a href="#" style="max-width: 100px; max-height: 30px; display: inline-block; margin-right: 5px;"
-                                                        onclick='confirmReturn("<%= element.orderId %>")' class="btn btn-success">Accept </a>
+                                                    <a href="#"
+                                                        style="max-width: 100px; max-height: 30px; display: inline-block; margin-right: 5px;"
+                                                        onclick='confirmReturn("<%= element.orderId %>")'
+                                                        class="btn btn-success">Accept </a>
                                                     <a href="#" style="max-width: 100px; max-height: 30px; "
-                                                        onclick='cancelReturn("<%= element.orderId %>")' class="btn btn-danger">Reject</a>
+                                                        onclick='cancelReturn("<%= element.orderId %>")'
+                                                        class="btn btn-danger">Reject</a>
                                                 </div>
-                                                
+
 
                                             </div>
                                             <% } %>
@@ -137,7 +140,7 @@
     <script src="/asset/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    </body>1    
+    </body>1
 
     </html>
 
@@ -153,57 +156,57 @@
 
 
 
-  function confirmReturn(orderId){
-    
-      fetch('/admin/product/confirmReturn/'+orderId,{
-        method: 'post',
-        headers :{
-            'Content-Type':'application/json',
-        },
-      }).then(async(response)=>{
-         if(response.status=== 200){
-            const data = await response.json()
-            Swal.fire({
-                title: 'success',
-                text: data.message,
-                icon: 'success',
-                confirmButtonText: 'OK'
+        function confirmReturn(orderId) {
+
+            fetch('/admin/product/confirmReturn/' + orderId, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(async (response) => {
+                if (response.status === 200) {
+                    const data = await response.json()
+                    Swal.fire({
+                        title: 'success',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    location.reload()
+
+                }
+
+
+            }).catch((error) => {
+                console.log(error)
             })
-            location.reload()
-           
-         }
-         
-         
-      }).catch((error)=>{
-        console.log(error)
-      })
-  }
+        }
 
 
 
 
-  function cancelReturn (orderId){
-    
-      fetch('/admin/product/reject/'+orderId,{
-        method: 'get',
-        headers :{
-            'Content-Type':'application/json',
-        },
-      }).then(async(response)=>{
-         if(response.status=== 200){
-            const data = await response.json()
-            Swal.fire({
-                title: 'success',
-                text: data.message,
-                icon: 'success',
-                confirmButtonText: 'OK'
+        function cancelReturn(orderId) {
+
+            fetch('/admin/product/reject/' + orderId, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(async (response) => {
+                if (response.status === 200) {
+                    const data = await response.json()
+                    Swal.fire({
+                        title: 'success',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    })
+                    location.reload()
+                }
+            }).catch((error) => {
+                console.log(error)
             })
-            location.reload()
-         }
-      }).catch((error)=>{
-        console.log(error)
-      })
-  }
+        }
 
 
 

@@ -226,31 +226,30 @@ const homeGet = async (req, res) => {
         },
       ]);
 
-//       const today = moment(); 
-// const sevenDaysAgo = moment().subtract(7, 'days'); 
-//     const revenuePerDate = await Orders.aggregate([
-//       {
-//         $match: {
-//           orderStatus: 'Downloaded',
-//           orderDate: { $gte: new Date(sevenDaysAgo), $lte: new Date(today) }, 
-//         },
-//       },
-//       {
-//         $group: {
-//           _id: { $dateToString: { format: '%Y-%m-%d', date: '$orderDate' } },
-//           totalRevenue: { $sum: '$totalAmount' },
-//         },
-//       },
-//       {
-//         $sort: { _id: 1 },
-//       },
-//     ]);
+      //       const today = moment();
+      // const sevenDaysAgo = moment().subtract(7, 'days');
+      //     const revenuePerDate = await Orders.aggregate([
+      //       {
+      //         $match: {
+      //           orderStatus: 'Downloaded',
+      //           orderDate: { $gte: new Date(sevenDaysAgo), $lte: new Date(today) },
+      //         },
+      //       },
+      //       {
+      //         $group: {
+      //           _id: { $dateToString: { format: '%Y-%m-%d', date: '$orderDate' } },
+      //           totalRevenue: { $sum: '$totalAmount' },
+      //         },
+      //       },
+      //       {
+      //         $sort: { _id: 1 },
+      //       },
+      //     ]);
 
-//     const dates = revenuePerDate.map((item) => item._id);
-//     const revenueValues = revenuePerDate.map((item) => item.totalRevenue);
-    
-//     return { dates, revenueValues };
-     
+      //     const dates = revenuePerDate.map((item) => item._id);
+      //     const revenueValues = revenuePerDate.map((item) => item.totalRevenue);
+
+      //     return { dates, revenueValues };
 
       res.render("admin/adminHome", {
         latestOrders,
@@ -264,7 +263,6 @@ const homeGet = async (req, res) => {
         populatedProducts,
         bestSellingCategories,
         bestSellingBrand,
-        
       });
     } else {
       res.redirect("/admin/");
@@ -274,55 +272,58 @@ const homeGet = async (req, res) => {
   }
 };
 
-const yearlychart = async (req,res)=>{
-  try{
+const yearlychart = async (req, res) => {
+  try {
     try {
       const startYear = 2019; // Set the start year
       const endYear = 2024; // Set the end year
-  
+
       const productCountPerYear = await Order.aggregate([
         {
           $match: {
-            createdAt: { $gte: new Date(`${startYear}-01-01`), $lte: new Date(`${endYear}-12-31`) },
+            createdAt: {
+              $gte: new Date(`${startYear}-01-01`),
+              $lte: new Date(`${endYear}-12-31`),
+            },
           },
         },
         {
           $group: {
-            _id: { $year: '$createdAt' }, // Grouping by year of orderDate
-            count: { $sum: { $size: '$items' } }, // Counting the number of gameItems (games ordered)
+            _id: { $year: "$createdAt" }, // Grouping by year of orderDate
+            count: { $sum: { $size: "$items" } }, // Counting the number of gameItems (games ordered)
           },
         },
       ]);
-  
+
       const productCount = {};
       for (let year = startYear; year <= endYear; year++) {
         productCount[year.toString()] = 0;
       }
-  
-      productCountPerYear.forEach(item => {
+
+      productCountPerYear.forEach((item) => {
         const year = item._id;
         productCount[year.toString()] = item.count;
       });
-      console.log('product count' + productCount)
+      console.log("product count" + productCount);
       res.status(200).json({ productCount });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: "Internal server error" });
     }
-  }catch(error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
-const monthlyChart = async(req,res)=>{
+const monthlyChart = async (req, res) => {
   try {
     const { year } = req.query;
-    console.log(year)
+    console.log(year);
 
     const startDate = new Date(`${year}-01-01`);
     const endDate = new Date(`${year}-12-31`);
-    console.log(startDate)
-    console.log(endDate)
+    console.log(startDate);
+    console.log(endDate);
     const orderDates = await Order.aggregate([
       {
         $match: {
@@ -330,12 +331,12 @@ const monthlyChart = async(req,res)=>{
             $gte: startDate,
             $lte: endDate,
           },
-          status: 'Delivered', 
+          status: "Delivered",
         },
       },
       {
         $group: {
-          _id: { $month: '$createdAt' },
+          _id: { $month: "$createdAt" },
           count: { $sum: 1 },
         },
       },
@@ -358,21 +359,30 @@ const monthlyChart = async(req,res)=>{
 
     orderDates.forEach((monthData) => {
       const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
       ];
       const monthName = monthNames[monthData._id - 1];
 
       // Populate the monthly order counts
       monthlyOrderCounts[monthName] = monthData.count;
     });
-    console.log(monthlyOrderCounts)
+    console.log(monthlyOrderCounts);
     res.status(200).json({ monthlyOrderCounts });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: "Internal server error" });
   }
-}
- 
+};
 
 const categoryLisGet = async (req, res) => {
   try {

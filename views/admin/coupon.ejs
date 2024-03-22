@@ -152,10 +152,10 @@
                 } else if (discount < 1 || discount > 99) {
                     errorMessage += "Please enter discount percentage between 0 and 100.<br>";
                     document.getElementById("discount-error").innerHTML = "Please enter  discount percentage between 1 and 99.";
-                } else if(typeof discount ==='float') {
+                } else if (typeof discount === 'float') {
                     document.getElementById("discount-error").innerHTML = "can't add float value.";
 
-                }else{
+                } else {
                     document.getElementById("discount-error").innerHTML = "";
 
                 }
@@ -184,9 +184,9 @@
                 if (isNaN(minimumAmount) || minimumAmount < 1 || minimumAmount === "") {
                     errorMessage += "";
                     document.getElementById("minimum-error").innerHTML = "Please enter a valid minimum amount value.";
-                } else if(minimumAmount>100000) {
+                } else if (minimumAmount > 100000) {
                     document.getElementById("minimum-error").innerHTML = "minimum amout can't add greaterthan 100000.";
-                }else{
+                } else {
                     document.getElementById("minimum-error").innerHTML = "";
 
                 }
@@ -198,9 +198,9 @@
                     alert('maximum ' + maximumAmout + " < minimum " + minimumAmount);
                     errorMessage += '';
                     document.getElementById("maximum-error").innerHTML = "Maximum amount should be greater than minimum value.";
-                } else  if(maximumAmout>100000){
+                } else if (maximumAmout > 100000) {
                     document.getElementById("maximum-error").innerHTML = "Maximum amount can't add greater than 100000 value.";
-                }else{
+                } else {
                     document.getElementById("minimum-error").innerHTML = "";
 
                 }

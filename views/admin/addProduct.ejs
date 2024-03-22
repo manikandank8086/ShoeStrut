@@ -8,13 +8,13 @@
                     <div class="content-header">
                         <h2 class="content-title">Add New Product</h2>
                         <div>
-                           
+
                             <button class="btn btn-md rounded font-sm hover-up" type="submit"> Publish</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">   
-                    <div class="card mb-4">  
+                <div class="col-lg-6">
+                    <div class="card mb-4">
                         <div class="card-body">
                             <div class="mb-4">
                                 <label for="product_title" class="form-label">Product title</label>
@@ -82,8 +82,7 @@
 
                             <div class="mb-4">
                                 <label class="form-label">Stock Limit</label>
-                                <input type="text" placeholder="Type here" class="form-control"
-                                   id="stock" name="stock">
+                                <input type="text" placeholder="Type here" class="form-control" id="stock" name="stock">
                                 <span id="stockValueError" class="text-danger"></span>
                             </div>
                             <div class="container mt-4">
@@ -100,10 +99,10 @@
                                             <% }); %>
                                     </select>
                                 </div>
-                                 
+
                                 <h1></h1>
 
-                                <div  style="margin-bottom: 10px;" class="mb-6">
+                                <div style="margin-bottom: 10px;" class="mb-6">
                                     <label class=""> Offer Price</label>
                                     <input type="text" placeholder="Type here" class="form-control"
                                         onkeyup="OfferPriceValidation()" id="OfferPrice" name="OfferPrice">
@@ -159,7 +158,7 @@
             const brandValue = document.getElementById('brand')
             const descriptionValue = document.getElementById('description')
             const priceValue = document.getElementById('Price')
-            const stockValue=document.getElementById('stock')
+            const stockValue = document.getElementById('stock')
             const OfferPriceValue = document.getElementById('OfferPrice')
 
 
@@ -170,7 +169,7 @@
             const brandValueError = document.getElementById('brandValueError')
             const descriptionValueError = document.getElementById('descriptionValueError')
             const priceValueError = document.getElementById('priceValueError')
-            const stockValueError=document.getElementById('stockValueError')
+            const stockValueError = document.getElementById('stockValueError')
             const OfferPriceValueError = document.getElementById('OfferPriceValueError')
 
 
@@ -182,8 +181,8 @@
             brandValueError.innerText = ''
             descriptionValueError.innerText = ''
             priceValueError.innerText = ''
-            stockValueError.innerText=''
-            OfferPriceValueError.innerHTML =''
+            stockValueError.innerText = ''
+            OfferPriceValueError.innerHTML = ''
 
 
 
@@ -285,7 +284,7 @@
             }
 
 
-            function stockValidation(){
+            function stockValidation() {
                 const stock = stockValue.value.trim()
                 console.log("working");
                 if (stock.length == 0) {
@@ -297,7 +296,7 @@
                     return false
                 }
 
-                const stockRegex= /^[1-9]\d*$/
+                const stockRegex = /^[1-9]\d*$/
 
 
 
@@ -306,27 +305,27 @@
                     return false;
                 }
 
-                  
+
 
                 stockValueError.innerText = ''
                 return true
             }
 
-              function OfferPriceValidation(){
-                  const offerPrice = OfferPriceValue.value.trim()
-                  let price = priceValue.value.trim()
-                  console.log(price)
-                  if(offerPrice > price){
+            function OfferPriceValidation() {
+                const offerPrice = OfferPriceValue.value.trim()
+                let price = priceValue.value.trim()
+                console.log(price)
+                if (offerPrice > price) {
                     OfferPriceValueError.innerText = 'cannot add offer price greaterthan product price'
                     return false
-                  }
-                   
-                  if(offerPrice<0){
+                }
+
+                if (offerPrice < 0) {
                     OfferPriceValueError.innerText = ' offer price cannot add lessthan 0'
                     return false
-                  }
+                }
 
-                  if (offerPrice === '' || isNaN(offerPrice)) {
+                if (offerPrice === '' || isNaN(offerPrice)) {
                     OfferPriceValueError.innerText = 'Please enter a valid Offer price.'
                     return false
                 }
@@ -338,13 +337,13 @@
                     return false;
                 }
 
-                if(offerPrice>100000){
+                if (offerPrice > 100000) {
                     OfferPriceValueError.innerText = 'Offer Price Cannot add above 100000'
                     return false
                 }
-                OfferPriceValueError.innerText =''
+                OfferPriceValueError.innerText = ''
                 return true
-              }
+            }
 
 
             // all check
@@ -353,7 +352,7 @@
 
 
                 if (!titleValidation() || !typeValidation() || !colorValidation() || !sizeValidation() || !brandValidation() || !priceValidation() ||
-                    !descriptionValidation() || !stockValidation() ||  !OfferPriceValidation) {
+                    !descriptionValidation() || !stockValidation() || !OfferPriceValidation) {
                     return false
                 } else {
                     form.submit()
@@ -370,8 +369,8 @@
             colorValue.addEventListener('keyup', colorValidation)
             brandValue.addEventListener('keyup', brandValidation)
             priceValue.addEventListener('keyup', priceValidation)
-            stockValue.addEventListener('keyup',stockValidation)
-            OfferPriceValue.addEventListener('keyup',OfferPriceValidation)
+            stockValue.addEventListener('keyup', stockValidation)
+            OfferPriceValue.addEventListener('keyup', OfferPriceValidation)
 
 
         })

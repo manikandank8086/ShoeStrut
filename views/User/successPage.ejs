@@ -113,7 +113,7 @@
 
                                         </td>
                                         <td>
-                                           Rs. <%= item.price %>
+                                            Rs. <%= item.price %>
                                         </td>
                                         <td>
                                             <%= item.quantity %>
@@ -121,20 +121,20 @@
                                         <td style="color: #28a745;"> <strong>
                                                 <%= items.discount? '%' +items.discount : '%' +0 %>
                                             </strong> </td>
-                                            <% if (items.netAmount > 0) { %>
+                                        <% if (items.netAmount> 0) { %>
+                                            <td class="text-end">
+                                                <strong>
+                                                    Rs.<%= items.netAmount %> %>
+                                                </strong>
+                                            </td>
+                                            <% } else { %>
                                                 <td class="text-end">
                                                     <strong>
-                                                       Rs.<%= items.netAmount %> %>
+                                                        Rs.<%= items.billTotal %> %>
                                                     </strong>
                                                 </td>
-                                                <% } else { %>
-                                                    <td class="text-end">
-                                                        <strong>
-                                                           Rs.<%= items.billTotal %> %>
-                                                        </strong>
-                                                    </td>
-                                            <% } %>
-                                       
+                                                <% } %>
+
                                     </tr>
                                     <% }) %>
                             </tbody>
