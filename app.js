@@ -15,13 +15,13 @@ const app = express();
 
 app.use(nocache());
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect('mongodb+srv://manikandan:Manu8086@cluster0.dut93mh.mongodb.net/ShoeStrut');
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MOngodb error"));
 db.once("open", () => {
   console.log("connected");
-});
+});     
  
 app.use(express.json());
 // session created
