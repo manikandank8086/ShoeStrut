@@ -939,7 +939,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function addWallet() {
     const addAmount = document.getElementById('amount').value;
-    alert(addAmount);
+    
     
     fetch('/addWallet', {
         method: 'POST',
@@ -962,7 +962,7 @@ function addWallet() {
                 icon: 'success',
                 confirmButtonText: 'OK',
             });
-           alert(data.amount)
+           
            document.getElementById('wallet').innerText = '₹ ' + data.amount;
             document.getElementById('amount').value = ''
 
